@@ -10,7 +10,19 @@ Use the commands in the [root README](../README.md) to run the browser demo loca
 
 The scenarios in [src/samples.mjs](../src/samples.mjs), identified by `workshop`, `library`, and `photos`, contain fictional source material and illustrative pre-authored responses. They are not live AI output. Field edits and JSON/Word downloads are real local browser operations. The demo is not a general document reader or a deployed Copilot Studio client.
 
-Inspect the displayed fields, make a local edit, review the revised worksheet, and confirm it before downloading. Do not interpret the offline walkthrough as evidence that a connected platform prompt or flow passed acceptance.
+Use these paired public fixtures when inspecting the demo or preparing optional platform tests:
+
+| Fixture | Full source text | Expected flat worksheet JSON |
+| --- | --- | --- |
+| `workshop` | [samples/workshop.txt](../samples/workshop.txt) | [samples/workshop.json](../samples/workshop.json) |
+| `library` | [samples/library.txt](../samples/library.txt) | [samples/library.json](../samples/library.json) |
+| `photos` | [samples/photos.txt](../samples/photos.txt) | [samples/photos.json](../samples/photos.json) |
+
+Each source file is the complete fictional guide; each expected JSON file is the worksheet object itself, without a sample wrapper. The browser imports those expected JSON objects and bundles matching source-text copies. It does not fetch the `.txt` files or extract new worksheets at runtime.
+
+Inspect the displayed fields, make a local edit, review the revised worksheet, and confirm it before downloading JSON or Word. Edits and source changes clear approval, so the revised worksheet needs a new confirmation. If the demo reports a source failure, use its retry path; the failed attempt must not be treated as a completed draft.
+
+The browser does not upload entered content or persist drafts in browser storage. Downloaded files are saved locally through the browser; they are not cloud deliveries. Do not rely on a page reload to restore an unfinished draft. Do not interpret the offline walkthrough as evidence that a connected platform prompt or flow passed acceptance.
 
 ## Path B: manually build the optional platform design
 
@@ -19,6 +31,8 @@ Inspect the displayed fields, make a local edit, review the revised worksheet, a
 Use your own Power Platform development environment and confirm that you are permitted to create an agent, prompts, and a solution-aware flow. Availability, licensing, capacity, connector policies, and charges depend on that environment. The local demo does not include or grant these entitlements.
 
 Start with pasted fictional workshop text. If you want stored document output, create a new sample SharePoint site and empty output library in your own tenant. If you later want library retrieval, create a separate sample content location containing only newly authored fictional material.
+
+For prompt tests, pass a fixture's full `.txt` body as source content, not its expected JSON. Use the `.json` for field and grounding expectations, allowing supported wording differences from a real extraction. Document-fidelity tests instead require preservation of the exact approved input values. Never return an expected fixture as a substitute for a failed platform retrieval, prompt, or flow.
 
 Do not enable a source route until its reader is configured and its complete-text behavior is verified. No source reader, storage connection, or sharing policy is prebound in this repository.
 

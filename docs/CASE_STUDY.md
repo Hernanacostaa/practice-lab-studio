@@ -12,6 +12,8 @@ The design question is therefore not simply "Can a model write a worksheet?" It 
 
 The scenarios are deliberately ordinary and fictional. The `workshop`, `library`, and `photos` fixture identifiers in [src/samples.mjs](../src/samples.mjs) provide a bounded evaluation surface without needing a connected content library.
 
+The paired artifacts are [workshop source](../samples/workshop.txt) and [worksheet](../samples/workshop.json), [library source](../samples/library.txt) and [worksheet](../samples/library.json), and [photos source](../samples/photos.txt) and [worksheet](../samples/photos.json). Each text file is a complete original fictional guide. Each JSON file is the expected flat 17-field worksheet, not a sample wrapper or evidence of an AI run.
+
 ## Illustrative personas
 
 | Persona | Need | Design response |
@@ -25,6 +27,8 @@ These personas frame design choices. They are not claims about interviews, parti
 ## The solution
 
 The local demo makes the workflow inspectable without a tenant. It replays clearly labeled, pre-authored sample responses rather than pretending to call an AI service. Users can make real local field edits and download JSON or Word after review. That separation allows a reviewer to evaluate interaction design and artifact structure without mistaking fixture playback for model performance.
+
+The browser does not upload entered content or persist drafts in browser storage. Changes to fields or sources invalidate export approval, and a visible source failure offers retry rather than a substitute draft. Downloads are deliberately local files, not cloud delivery. Keeping drafts in memory also means an unfinished session is not restored after a reload.
 
 The optional platform design assigns control to one topic. Source intake precedes extraction; extraction precedes schema validation; review precedes generation. Four logical prompts have separate responsibilities: `ExtractPA` extracts, `EditPA` changes selected fields using full source grounding, `FormatPreview` formats the draft for display, and `GeneratePA` fills a Word layout without authoring new content.
 

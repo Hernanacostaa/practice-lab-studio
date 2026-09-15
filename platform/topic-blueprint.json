@@ -40,6 +40,31 @@
   "configuration": {
     "topic_name": "Create Worksheet",
     "topic_count": 1,
+    "sample_fixtures": {
+      "path_base": "repository_root",
+      "source_contract": "Each .txt file is the complete original fictional guide.",
+      "expected_contract": "Each .json file is the expected flat 17-field worksheet, with string values and no sample wrapper. These are authored expectations, not recorded model responses.",
+      "browser_module": "src/samples.mjs",
+      "browser_behavior": "SAMPLES uses the stable fixture ids, imports expected JSON directly, and includes an identical copy of each source text for a bundled runtime without source-file fetches. It replays fixtures; it does not perform arbitrary extraction or call an LLM.",
+      "platform_usage": "Use the full .txt as source input and the .json for review expectations. Never substitute an expected fixture for a failed retrieval or prompt result.",
+      "cases": [
+        {
+          "id": "workshop",
+          "source_text": "samples/workshop.txt",
+          "expected_worksheet": "samples/workshop.json"
+        },
+        {
+          "id": "library",
+          "source_text": "samples/library.txt",
+          "expected_worksheet": "samples/library.json"
+        },
+        {
+          "id": "photos",
+          "source_text": "samples/photos.txt",
+          "expected_worksheet": "samples/photos.json"
+        }
+      ]
+    },
     "topic_inputs": {
       "SearchQuery": {
         "type": "string",

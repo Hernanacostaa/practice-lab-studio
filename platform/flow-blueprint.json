@@ -41,6 +41,29 @@
     "flow_name": "GenerateDoc",
     "availability": "Only when referenced by topics or agents",
     "caller": "Create Worksheet topic after explicit approval of the exact current payload",
+    "sample_fixtures": {
+      "path_base": "repository_root",
+      "source_contract": "Each .txt file is the complete original fictional guide.",
+      "expected_contract": "Each .json file is a flat expected worksheet with exactly 17 string fields, not an object containing a sample or worksheet wrapper.",
+      "usage": "For development document-fidelity checks, review the expected worksheet before using its serialized object as ApprovedJSON. Compare the generated document against those exact approved values. Do not treat fixture replay as a successful platform run or return a fixture after a flow failure.",
+      "cases": [
+        {
+          "id": "workshop",
+          "source_text": "samples/workshop.txt",
+          "expected_worksheet": "samples/workshop.json"
+        },
+        {
+          "id": "library",
+          "source_text": "samples/library.txt",
+          "expected_worksheet": "samples/library.json"
+        },
+        {
+          "id": "photos",
+          "source_text": "samples/photos.txt",
+          "expected_worksheet": "samples/photos.json"
+        }
+      ]
+    },
     "trigger": {
       "label": "When an agent calls the flow",
       "inputs": {

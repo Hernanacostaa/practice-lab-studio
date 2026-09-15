@@ -13,6 +13,16 @@ Practice Lab Studio separates an inspectable, offline portfolio demonstration fr
 
 The fictional scenarios are identified by `workshop`, `library`, and `photos` in [the sample module](../src/samples.mjs). Selecting a scenario replays authored material. It does not ask a model to interpret arbitrary new content. The local demo requires no Power Platform tenant; see the root README for its actual run instructions.
 
+| Stable fixture id | Complete fictional source | Expected worksheet |
+| --- | --- | --- |
+| `workshop` | [samples/workshop.txt](../samples/workshop.txt) | [samples/workshop.json](../samples/workshop.json) |
+| `library` | [samples/library.txt](../samples/library.txt) | [samples/library.json](../samples/library.json) |
+| `photos` | [samples/photos.txt](../samples/photos.txt) | [samples/photos.json](../samples/photos.json) |
+
+Each `.txt` is the full authored guide. Each `.json` is the flat 17-field worksheet itself, not a sample wrapper or a recorded model response. `SAMPLES` in `src/samples.mjs` imports the expected JSON directly and includes matching copies of the complete source text. Those copies must remain identical to the `.txt` files; bundling them avoids runtime source-file fetches.
+
+The browser keeps worksheet state in memory, does not upload entered content, and does not persist drafts in browser storage. Explicit downloads create local files. Both JSON and Word exports require reviewer approval; edits and source changes invalidate that approval. A source failure remains a visible failure with a retry path, not a successful draft or evidence of connected retrieval.
+
 The platform path is optional. It requires the builder's own development environment, supported prompt features, and explicitly configured resources. Start with pasted fictional text. A newly created sample library or source reader can be added only after its behavior is verified.
 
 ## Stable worksheet boundary
