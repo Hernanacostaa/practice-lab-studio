@@ -54,6 +54,23 @@ test("page declares local-only demo and blocks network connections", async () =>
   assert.doesNotMatch(source, /\.innerHTML\s*=/);
 });
 
+test("product story separates scope facts, proposed metrics and fictional business assumptions", async () => {
+  const html = await readFile(path.join(root, "case-study.html"), "utf8");
+  assert.match(html, /Scope facts, not impact claims/);
+  assert.match(html, new RegExp(`<strong>${FIELD_KEYS.length}</strong><span>shared worksheet fields`));
+  assert.match(html, new RegExp(`<strong>${SAMPLES.length}</strong><span>fictional source scenarios`));
+  assert.match(html, /Proposed pilot criteria&mdash;not measured results/);
+  assert.match(html, /Illustrative assumptions only/);
+  assert.match(html, /not revenue, profit, a staffing reduction, or cash saved/);
+  assert.match(html, /No such analytics or pilot is running on this site/);
+  assert.match(html, /connect-src 'none'/);
+  for (const name of ["story.mjs", "business-case.mjs", "theme.mjs"]) {
+    const source = await readFile(path.join(root, "src", name), "utf8");
+    assert.doesNotMatch(source, /\b(?:fetch|XMLHttpRequest|WebSocket|localStorage|sessionStorage)\s*[.(]/);
+    assert.doesNotMatch(source, /\.innerHTML\s*=/);
+  }
+});
+
 test("platform blueprints are unbound specifications with the same 17-field contract", async () => {
   const load = async (name) => JSON.parse(await readFile(path.join(root, "platform", name), "utf8"));
   const topic = await load("topic-blueprint.json");

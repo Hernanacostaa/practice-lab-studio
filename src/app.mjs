@@ -1,6 +1,7 @@
 import { FIELD_KEYS, FIELD_LABELS, assertWorksheet, createSampleDraft, updateField } from "./core.mjs";
 import { SAMPLES } from "./samples.mjs";
 import { createWorksheetDocx } from "./document.mjs";
+import { initializeThemeControls } from "./theme.mjs";
 
 const byId = (id) => document.getElementById(id);
 const controls = Object.fromEntries([
@@ -8,7 +9,7 @@ const controls = Object.fromEntries([
   "retrieval-failure", "status", "error", "empty-state", "draft-content", "fields",
   "worksheet-title", "worksheet-subtitle", "field-count", "draft-state", "edit-mode",
   "edit-help", "revision-count", "approve", "review-note", "export-docx", "export-json",
-  "trace", "trace-count", "theme-toggle",
+  "trace", "trace-count",
 ].map((id) => [id, byId(id)]));
 
 let worksheet = null;
@@ -309,9 +310,5 @@ controls.approve.addEventListener("change", () => {
 });
 controls["export-docx"].addEventListener("click", () => void exportDocument("docx"));
 controls["export-json"].addEventListener("click", () => void exportDocument("json"));
-controls["theme-toggle"].addEventListener("click", () => {
-  const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-  document.documentElement.dataset.theme = next;
-  controls["theme-toggle"].setAttribute("aria-label", `Switch to ${next === "dark" ? "light" : "dark"} theme`);
-});
+initializeThemeControls();
 selectSample();

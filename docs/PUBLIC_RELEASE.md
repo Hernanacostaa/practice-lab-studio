@@ -21,11 +21,13 @@ No original operational source document was used as a sample with a few names ch
 
 ## Data behavior
 
-The demo downloads one self-contained HTML document. It makes no API calls, retrieves no remote documents, and does not send source or edited worksheet content to a server. There is no analytics, local storage, session storage, or cookie-based application state.
+Each site page is a self-contained HTML document. The demo and the product-story calculator make no API calls, retrieve no remote documents, and do not send entered contents to a server. There is no analytics, local storage, session storage, or cookie-based application state. Navigation between pages is a normal document request; only the selected color theme is passed in the URL.
 
 Field content remains in the current page's memory until the page is reset or closed. A user-requested download creates a local file. GitHub Pages receives normal web-hosting requests, and clicking a GitHub documentation link navigates to GitHub; this is not a promise that the hosting provider has no access logs.
 
 Source extraction is a replay of authored fixtures, not an AI service. Word generation uses a bundled open-source library locally. The unavailable-source control exercises a simulated failure path, not a connection to a real document service.
+
+The product story uses fictionalized personas and newly invented planning assumptions. Its proposed pilot thresholds are not measured achievements. The interactive model reports potential reusable labor capacity, charges for unsuccessful attempts and manual fallback, and includes adjustable operating/setup costs; it does not establish cash savings, financial ROI, or actual platform pricing. Calculator values are neither persisted nor placed in navigation URLs.
 
 ## Release checks
 

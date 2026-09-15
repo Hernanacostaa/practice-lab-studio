@@ -29,32 +29,46 @@ async function runtimeLicenses() {
   }
   return `Bundled runtime dependency notices\n\nJSZip is used under its MIT option.\n\n${notices.join("\n\n---\n\n")}\n`;
 }
-const [html, css, bundle] = await Promise.all([
-  readFile(path.join(root, "index.html"), "utf8"),
+const [css, storyCss, licenses] = await Promise.all([
   readFile(path.join(root, "src", "style.css"), "utf8"),
-  build({
-    absWorkingDir: root,
-    entryPoints: ["src/app.mjs"],
-    bundle: true,
-    write: false,
-    minify: true,
-    sourcemap: false,
-    format: "iife",
-    platform: "browser",
-    target: ["es2022"],
-    legalComments: "inline",
-  }),
+  readFile(path.join(root, "src", "story.css"), "utf8"),
+  runtimeLicenses(),
 ]);
-const licenses = await runtimeLicenses();
-for (const marker of ["/* INLINE_STYLES */", "/* INLINE_APP */"]) {
-  if (!html.includes(marker)) throw new Error(`Missing build marker: ${marker}`);
-}
-const result = html
-  .replace("/* INLINE_STYLES */", () => css)
-  .replace("/* INLINE_APP */", () => bundle.outputFiles[0].text.replace(/<\/script/gi, "<\\/script"))
-  .replace("</body>", () => `<template id="third-party-licenses">${licenses.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")}</template>\n</body>`);
+const pages = [
+  { filename: "index.html", entry: "src/app.mjs", styles: css, includeLicenses: true },
+  { filename: "case-study.html", entry: "src/story.mjs", styles: `${css}\n${storyCss}`, includeLicenses: false },
+];
+const results = await Promise.all(pages.map(async (page) => {
+  const [html, bundle] = await Promise.all([
+    readFile(path.join(root, page.filename), "utf8"),
+    build({
+      absWorkingDir: root,
+      entryPoints: [page.entry],
+      bundle: true,
+      write: false,
+      minify: true,
+      sourcemap: false,
+      format: "iife",
+      platform: "browser",
+      target: ["es2022"],
+      legalComments: "inline",
+    }),
+  ]);
+  for (const marker of ["/* INLINE_STYLES */", "/* INLINE_APP */"]) {
+    if (!html.includes(marker)) throw new Error(`Missing build marker in ${page.filename}: ${marker}`);
+  }
+  let content = html
+    .replace("/* INLINE_STYLES */", () => page.styles)
+    .replace("/* INLINE_APP */", () => bundle.outputFiles[0].text.replace(/<\/script/gi, "<\\/script"));
+  if (page.includeLicenses) {
+    content = content.replace("</body>", () => `<template id="third-party-licenses">${licenses.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")}</template>\n</body>`);
+  }
+  return { filename: page.filename, content: content.replaceAll("\r\n", "\n") };
+}));
 await mkdir(output, { recursive: true });
-await writeFile(path.join(output, "index.html"), result);
+for (const { filename, content } of results) {
+  await writeFile(path.join(output, filename), content);
+  console.log(`Built self-contained dist/${filename} (${Buffer.byteLength(content).toLocaleString()} bytes).`);
+}
 await writeFile(path.join(output, ".nojekyll"), "");
-await writeFile(path.join(output, "third-party-licenses.txt"), licenses);
-console.log(`Built self-contained dist/index.html (${Buffer.byteLength(result).toLocaleString()} bytes).`);
+await writeFile(path.join(output, "third-party-licenses.txt"), licenses.replaceAll("\r\n", "\n"));

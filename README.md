@@ -2,7 +2,7 @@
 
 **From workshop guides to practical activity worksheets, with a human in control.**
 
-[Try the live demo](https://hernanacostaa.github.io/practice-lab-studio/) · [Product case study](docs/CASE_STUDY.md) · [Architecture](docs/ARCHITECTURE.md) · [Build it in Power Platform](docs/DEPLOYMENT.md)
+[Try the live demo](https://hernanacostaa.github.io/practice-lab-studio/) · [Why I built this](https://hernanacostaa.github.io/practice-lab-studio/case-study.html) · [Architecture](docs/ARCHITECTURE.md) · [Build it in Power Platform](docs/DEPLOYMENT.md)
 
 ![Practice Lab Studio showing a fictional source beside its reviewable worksheet](docs/demo-preview.png)
 
@@ -50,7 +50,9 @@ The public browser layer is a demonstration adapter. The reusable platform desig
 - **Formatting is not generation.** Document assembly places the reviewed content without adding technical claims.
 - **Cloud dependencies are optional.** Public examples do not require an organization's tenant, documents, or connectors.
 
-Read the [case study](docs/CASE_STUDY.md) for the problem, tradeoffs, evidence, and measurement plan, and the [architecture](docs/ARCHITECTURE.md) for the two distinct runtime paths.
+Read the [in-site product story](https://hernanacostaa.github.io/practice-lab-studio/case-study.html) for the problem, my role, prioritization, proposed success metrics, lessons, and an interactive business-case model. Its planning defaults and pilot thresholds are explicitly illustrative, not original project metrics or measured outcomes. The model includes unsuccessful attempts, manual fallback, running costs, and setup cost; capacity value is not cash savings.
+
+The [repository case study](docs/CASE_STUDY.md) and [architecture](docs/ARCHITECTURE.md) provide additional design and implementation context.
 
 ## Run locally
 
@@ -62,7 +64,7 @@ npm run build
 npm run dev
 ```
 
-Open `http://127.0.0.1:4173`. The generated `dist/index.html` is also a self-contained file that can be opened directly, including Word export, without a server or network connection. Rebuild after changing source files.
+Open `http://127.0.0.1:4173`; the product story is at `/case-study.html`. Both generated pages in `dist/` are self-contained and can be opened directly without a server or network connection. Keep `index.html` and `case-study.html` together for navigation between them. The demo still works independently, including Word export. Story links from the demo open a new tab so an in-progress worksheet is not lost. Rebuild after changing source files.
 
 ```sh
 npm test
@@ -80,6 +82,9 @@ npm run test:e2e
 | `src/core.mjs` | Worksheet contract and deterministic demo domain logic |
 | `src/samples.mjs` | Newly authored fictional sources and illustrative responses |
 | `src/app.mjs` | Browser state, review, editing, and local downloads |
+| `case-study.html` | Anonymized product-manager story, decisions, metrics, and evidence limits |
+| `src/business-case.mjs` | Tested illustrative capacity/cost model; no real business data |
+| `src/story.mjs` | Local-only calculator interaction |
 | `src/document.mjs` | Original Word document layout |
 | `schemas/worksheet.schema.json` | Exact 17-field JSON contract |
 | `samples/` | Source text, example JSON, generated Word examples, and a blank template |

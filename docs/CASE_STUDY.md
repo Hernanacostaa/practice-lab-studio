@@ -2,6 +2,8 @@
 
 [Try the local demo](../README.md) | [Architecture](ARCHITECTURE.md) | [Optional platform build](DEPLOYMENT.md)
 
+For the recruiter-facing narrative, role, prioritization, proposed success measures, and interactive economics, read [Why I built this on the demo site](https://hernanacostaa.github.io/practice-lab-studio/case-study.html). Its numeric pilot thresholds and calculator defaults are newly invented planning assumptions, not historical results, private business figures, or forecasts.
+
 **Practice Lab Studio is a fictional portfolio project about converting workshop notes into a structured, human-reviewed activity worksheet.** It pairs an offline browser demonstration with original Copilot Studio and Power Automate configuration blueprints. It is not presented as a customer deployment or evidence of production use.
 
 ## The problem

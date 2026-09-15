@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Why I built Practice Lab Studio: a product manager's case study in problem framing, human-reviewed AI, prioritization, success metrics, and illustrative business economics.">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Why I built this | Practice Lab Studio</title>
+  <style>/* INLINE_STYLES */</style>
+</head>
+<body id="top">
+  <a href="#problem" class="skip-link">Skip to the product story</a>
+  <header class="site-header">
+    <a class="brand" href="index.html" data-site-link aria-label="Practice Lab Studio home"><span class="brand-mark" aria-hidden="true">PL</span><span>Practice Lab <strong>Studio</strong></span></a>
+    <nav aria-label="Main navigation">
+      <a href="index.html#demo" data-site-link>Try the workflow</a>
+      <a href="#top" aria-current="page">Why I built this</a>
+      <a href="https://github.com/Hernanacostaa/practice-lab-studio" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">&#8599;</span></a>
+      <button id="theme-toggle" class="button-icon" type="button" aria-label="Switch color theme">Theme</button>
+    </nav>
+  </header>
+  <main>
+    <section class="story-hero" aria-labelledby="story-title">
+      <div>
+        <p class="eyebrow">The product story / Hernan Acosta</p>
+        <h1 id="story-title">I built a workflow.<br><span>Not just a prompt.</span></h1>
+        <p class="story-lede">The opportunity was not to generate more training content. It was to make existing source material easier to turn into <strong>reviewable, usable practice</strong>&mdash;without hiding what still needed a human decision.</p>
+        <div class="hero-actions"><a class="button primary" href="index.html#demo" data-site-link>Try what I built <span aria-hidden="true">&#8594;</span></a><a class="text-link" href="#metrics">See the success measures</a></div>
+        <p class="story-boundary">Fictionalized portfolio case study. Scenarios and business assumptions are illustrative; no employer, customer, operational, or financial data is disclosed.</p>
+      </div>
+      <aside class="story-brief" aria-label="Project at a glance">
+        <p class="eyebrow">At a glance</p>
+        <dl>
+          <div><dt>My role</dt><dd>Product framing, workflow design, prompt requirements, and AI-assisted prototyping.</dd></div>
+          <div><dt>Primary user</dt><dd>A facilitator adapting a guide into a practical exercise.</dd></div>
+          <div><dt>Product bet</dt><dd>Save assembly effort without increasing factual errors or reviewer rework.</dd></div>
+          <div><dt>Public deliverable</dt><dd>A working offline demonstration and reusable low-code blueprints&mdash;not a deployed cloud service.</dd></div>
+        </dl>
+      </aside>
+    </section>
+    <div class="scope-strip" aria-label="Demonstrated scope, not business outcomes">
+      <div><strong>17</strong><span>shared worksheet fields</span></div>
+      <div><strong>3</strong><span>fictional source scenarios</span></div>
+      <div><strong>2</strong><span>working export formats</span></div>
+      <p><b>Scope facts, not impact claims.</b><br>Time savings, adoption, and business value have not been measured in this public project.</p>
+    </div>
+    <div class="story-layout">
+      <aside class="story-sidebar">
+        <p class="eyebrow">In this case study</p>
+        <nav class="story-toc" aria-label="Case study sections">
+          <a href="#problem">01 / Why this problem</a>
+          <a href="#approach">02 / How I approached it</a>
+          <a href="#decisions">03 / What I prioritized</a>
+          <a href="#metrics">04 / Success metrics</a>
+          <a href="#business-case">05 / Illustrative business case</a>
+          <a href="#evidence">06 / Evidence and lessons</a>
+          <a href="#next">07 / What comes next</a>
+        </nav>
+        <p class="sidebar-note">A public explanation of product judgment. Implementation detail lives in the repository; private systems and deployment details are intentionally absent.</p>
+      </aside>
+      <div class="story-content">
+        <section id="problem" class="story-section" aria-labelledby="problem-title">
+          <p class="eyebrow">01 / Problem and opportunity</p>
+          <h2 id="problem-title">The bottleneck is the handoff from information to practice.</h2>
+          <p>A source guide can explain a topic without giving a facilitator a ready-to-use exercise. Someone still needs to identify the audience, materials, activities, learning objectives, and review criteria, then assemble them into a consistent worksheet.</p>
+          <p>My problem framing focused on three possible costs: repeated assembly work, inconsistent artifacts, and review effort spent finding omissions. A faster draft is only valuable if it does not move that work downstream.</p>
+          <blockquote class="job-statement"><span class="tiny-label">The job to be done</span>“When I have a useful source guide, help me create an activity I can review and run, so I spend less effort assembling a document and more effort facilitating learning.”</blockquote>
+          <div class="persona-grid">
+            <article><h3>Facilitator</h3><p>Needs an editable starting point, not another long chat response.</p></article>
+            <article><h3>Reviewer</h3><p>Needs to see missing facts and judge whether the draft reflects its source.</p></article>
+            <article><h3>Program owner</h3><p>Needs repeatable quality and a credible cost-per-accepted-artifact story.</p></article>
+          </div>
+          <p class="story-caption">These are illustrative personas and problem hypotheses, not claims of completed interviews, customer research, or measured demand.</p>
+        </section>
+        <section id="approach" class="story-section" aria-labelledby="approach-title">
+          <p class="eyebrow">02 / My contribution and process</p>
+          <h2 id="approach-title">I worked backward from a useful deliverable.</h2>
+          <p>I translated the desired worksheet into product requirements, separated what the system could draft from what a person must approve, and used AI-assisted implementation to make the public workflow inspectable.</p>
+          <ol class="approach-list">
+            <li><span class="step-number">01</span><div><h3>Define the output before choosing the interaction</h3><p>I made the worksheet's 17 fields a shared contract. That gave prompts, revisions, previews, and exports the same definition of a complete artifact.</p><span class="artifact-note">Product artifact: a field schema and section-level requirements.</span></div></li>
+            <li><span class="step-number">02</span><div><h3>Set the boundaries of automation</h3><p>I separated content drafting, editing, presentation, and delivery. Unknown facts stay visible; source text is evidence, not authority to bypass the review process.</p><span class="artifact-note">Product artifact: prompt responsibilities and acceptance rules.</span></div></li>
+            <li><span class="step-number">03</span><div><h3>Design the exception path alongside the happy path</h3><p>I treated missing source material, invalid output, and stale approval as product states. The public demo makes a failed source visible and requires new approval after an edit.</p><span class="artifact-note">Product artifact: a controlled review loop with explicit failure behavior.</span></div></li>
+            <li><span class="step-number">04</span><div><h3>Inspect the artifact, not just the chat response</h3><p>I used source/output comparisons and focused checks to evaluate field preservation, readable activity outlines, and usable downloads. A polished response is not the same as a correct document.</p><span class="artifact-note">Product artifact: fictional examples and repeatable acceptance checks.</span></div></li>
+            <li><span class="step-number">05</span><div><h3>Package the work for independent evaluation</h3><p>I kept the reusable low-code design and built a disconnected browser demo with original fictional content. Visitors can inspect the review and export experience without access to private systems.</p><span class="artifact-note">Product artifact: this site, a product case study, and configurable blueprints.</span></div></li>
+          </ol>
+        </section>
+        <section id="decisions" class="story-section" aria-labelledby="decisions-title">
+          <p class="eyebrow">03 / Strategy and prioritization</p>
+          <h2 id="decisions-title">A narrow, trustworthy loop before a broad platform.</h2>
+          <div class="scope-grid">
+            <article class="scope-card"><span class="pill">In the public MVP</span><h3>Prove one complete journey</h3><p>Fictional source selection, a structured draft, manual revisions, review, and Word/JSON export. Make uncertainty and blocked actions visible.</p></article>
+            <article class="scope-card"><span class="pill neutral">Deliberately deferred</span><h3>Avoid unproven breadth</h3><p>Arbitrary document ingestion, live cloud connections, multi-user permissions, organizational analytics, and claims about learning outcomes.</p></article>
+          </div>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Alternatives and tradeoffs">
+            <table class="story-table">
+              <caption>The alternatives I considered in the product design</caption>
+              <thead><tr><th scope="col">Approach</th><th scope="col">Why it is attractive</th><th scope="col">Tradeoff</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">A template alone</th><td>Simple, familiar, and easy to start.</td><td>The author still does the synthesis and repeated assembly.</td></tr>
+                <tr><th scope="row">Free-form chat</th><td>Flexible drafting with little setup.</td><td>Structure, missing facts, revision scope, and review can drift.</td></tr>
+                <tr class="chosen-row"><th scope="row">A controlled assistant</th><td>One artifact contract and a visible review boundary.</td><td>More deliberate interaction and validation work. <strong>This is the design I chose.</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>I prioritized decisions that reduce downstream uncertainty over extra features. The optional cloud design stays low-code to support iteration; the browser layer is a separate public demonstration, not a replacement production platform.</p>
+        </section>
+        <section id="metrics" class="story-section" aria-labelledby="metrics-title">
+          <p class="eyebrow">04 / Product and business metrics</p>
+          <h2 id="metrics-title">Measure accepted work, not generated words.</h2>
+          <div class="north-star"><span class="tiny-label">Proposed north-star metric</span><h3>Reviewer-accepted worksheets per active facilitator-week</h3><p>Count a worksheet only after content review and a usable export. An active facilitator has started at least one worksheet that week. Count each worksheet once, not each revision.</p></div>
+          <p class="metric-disclosure"><strong>Proposed pilot criteria&mdash;not measured results.</strong> The example thresholds below are planning choices, not historical performance or commitments. They would be agreed with pilot participants after establishing a comparable baseline.</p>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Product success metrics and proposed targets">
+            <table class="story-table metric-table">
+              <thead><tr><th scope="col">Measure</th><th scope="col">Definition</th><th scope="col">Example decision rule</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Time to accepted worksheet</th><td>Median active authoring + review + correction time on matched tasks. Track elapsed lead time separately.</td><td>Target at least <strong>30% less active time</strong> than the manual baseline, without worse quality.</td></tr>
+                <tr><th scope="row">First-pass acceptance</th><td>First drafts accepted without substantive corrections / all first drafts reviewed.</td><td>Proposed target <strong>80% or higher</strong>; inspect rejection reasons by field.</td></tr>
+                <tr><th scope="row">Unsupported-content rate</th><td>Reviewed drafts with at least one unsupported material claim / all drafts audited.</td><td><strong>Any critical unsupported instruction pauses the pilot.</strong> Define severity before evaluation.</td></tr>
+                <tr><th scope="row">Usable export reliability</th><td>Attempts producing a readable, content-faithful artifact within the agreed time / all generation attempts, including failures.</td><td>Proposed target <strong>95% or higher</strong>; a file existing alone is not success.</td></tr>
+                <tr><th scope="row">Repeat use</th><td>Activated facilitators producing an accepted worksheet in the following week / activated facilitators observed for two full weeks. Activation means a first accepted worksheet.</td><td>Measure first; segment by task frequency rather than invent an adoption claim.</td></tr>
+                <tr><th scope="row">Cost per accepted worksheet</th><td>Authoring and review labor, failed attempts, platform usage, support, and allocated setup cost / accepted worksheets.</td><td>Improve against the manual baseline at the same quality bar; do not count labor capacity as cash savings.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="story-caption">A fast model response is not end-to-end time saved. A successful export is not proof of learning. None of these pilot metrics is collected by this public site.</p>
+        </section>
+        <section id="business-case" class="story-section" aria-labelledby="business-title">
+          <p class="eyebrow">05 / Business judgment</p>
+          <h2 id="business-title">Make the assumptions inspectable.</h2>
+          <p>This planning model asks whether reduced assembly effort could justify implementation and running costs. It charges for <em>every</em> assisted attempt and includes a full manual fallback when the assisted workflow is unsuccessful.</p>
+          <div class="model-disclosure"><strong>Illustrative assumptions only.</strong> These defaults are fictional planning numbers, not original project data, actual platform prices, measured savings, or a forecast. Change them to see how the argument holds up. Inputs remain local to this page.</div>
+          <p id="calculator-unavailable" class="alert">The calculator requires JavaScript. The formulas and all product-story content remain readable below.</p>
+          <div id="interactive-model" class="business-model" hidden>
+            <form id="business-form" class="model-input-panel" novalidate aria-label="Illustrative business assumptions">
+              <h3>Set the planning assumptions</h3>
+              <div id="business-inputs" class="model-input-grid"></div>
+              <div class="model-actions"><button class="button primary" type="submit">Calculate scenario</button><button id="model-reset" class="button secondary" type="button">Reset fictional assumptions</button></div>
+            </form>
+            <section class="model-result-panel" aria-labelledby="model-results-title">
+              <p class="eyebrow">Modeled, not realized</p>
+              <h3 id="model-results-title">Illustrative monthly case</h3>
+              <p id="model-error" class="alert" role="alert" hidden></p>
+              <div id="model-results" hidden aria-live="polite" aria-atomic="true">
+                <dl class="model-metrics">
+                  <div><dt>Capacity freed</dt><dd id="result-hours"></dd></div>
+                  <div><dt>Labor-capacity value</dt><dd id="result-gross"></dd></div>
+                  <div><dt>Modeled running cost</dt><dd id="result-cost"></dd></div>
+                  <div class="model-net"><dt>Net capacity value after running cost</dt><dd id="result-net"></dd></div>
+                </dl>
+                <dl class="model-details">
+                  <div><dt>Time reduction per attempt, including fallback</dt><dd id="result-reduction"></dd></div>
+                  <div><dt>Fixed-cost break-even volume</dt><dd id="result-break-even"></dd></div>
+                  <div><dt>Capacity-equivalent setup payback</dt><dd id="result-payback"></dd></div>
+                </dl>
+                <p id="model-interpretation" class="model-interpretation"></p>
+              </div>
+              <p class="model-caveat">Capacity value is the value of potentially reusable time, <strong>not revenue, profit, a staffing reduction, or cash saved</strong>. The payback figure is capacity-equivalent, not financial payback. Real decisions require observed quality, demand, costs, and a plan to reuse the time.</p>
+            </section>
+          </div>
+          <details class="model-method"><summary>See the formulas and limits</summary>
+            <p>Let <code>V</code> = monthly attempts, <code>M</code> = manual minutes, <code>A</code> = assisted minutes including review, <code>s</code> = assisted completion share, <code>R</code> = hourly labor value, <code>C</code> = usage cost per attempt, <code>F</code> = fixed monthly cost, and <code>I</code> = one-time setup cost.</p>
+            <ul>
+              <li>Minutes with the workflow = <code>A + (1 - s) &times; M</code>. An unsuccessful attempt consumes the assisted time and then restarts manually.</li>
+              <li>Monthly hours freed = <code>V &times; (s &times; M - A) / 60</code>.</li>
+              <li>Net modeled capacity value = <code>(hours freed &times; R) - (V &times; C + F)</code>.</li>
+              <li>Fixed-cost break-even volume = <code>ceil(F / ((s &times; M - A) &times; R / 60 - C))</code>, only when per-attempt contribution is positive.</li>
+              <li>Capacity-equivalent setup payback = <code>I / net monthly capacity value</code>, only when that monthly value is positive.</li>
+            </ul>
+            <p>The model assumes comparable tasks, unchanged quality, stable costs and demand, and a reusable value for freed time. It does not model cash realization, taxes, discounting, ramp-up, retention, or learning outcomes. Put review and normal corrections into assisted time; put recurring support and licensing into fixed costs. Do not double-count them. Results are rounded for display; calculations use unrounded values.</p>
+          </details>
+        </section>
+        <section id="evidence" class="story-section" aria-labelledby="evidence-title">
+          <p class="eyebrow">06 / Evidence and reflection</p>
+          <h2 id="evidence-title">Be precise about what the work proves.</h2>
+          <div class="evidence-grid">
+            <article><span class="pill">Demonstrated</span><h3>A complete local experience</h3><p>Three fictional scenarios, a consistent 17-field worksheet, real edits, review-gated downloads, and a visible source-failure path.</p><a href="index.html#demo" data-site-link>Inspect the demo</a></article>
+            <article><span class="pill neutral">Specified</span><h3>A reusable platform design</h3><p>Prompt responsibilities, review rules, and low-code configuration blueprints. A new connected deployment is not claimed.</p><a href="https://github.com/Hernanacostaa/practice-lab-studio/tree/main/platform" target="_blank" rel="noopener noreferrer">Read the public blueprints</a></article>
+            <article><span class="pill neutral">Not yet measured</span><h3>Organizational impact</h3><p>No measured adoption, cycle-time improvement, savings, production scale, or learning gains are presented. The calculator is not evidence of them.</p><a href="#next">See the evaluation plan</a></article>
+          </div>
+          <h3 class="lessons-title">What I learned from the product work</h3>
+          <ul class="lesson-list">
+            <li><strong>Start with the artifact.</strong> A concrete output contract makes scope, quality, and ownership easier to reason about.</li>
+            <li><strong>More prose is not more value.</strong> A short, task-specific outline can be more useful than an impressive-looking wall of text.</li>
+            <li><strong>Treat source availability as a product dependency.</strong> Better wording cannot repair missing evidence.</li>
+            <li><strong>Trust includes saying “not ready.”</strong> Visible missing facts and blocked exports are useful behavior, not merely error handling.</li>
+          </ul>
+        </section>
+        <section id="next" class="story-section" aria-labelledby="next-title">
+          <p class="eyebrow">07 / Validation and rollout plan</p>
+          <h2 id="next-title">Earn the next stage with evidence.</h2>
+          <ol class="rollout-list">
+            <li><strong>Validate the need.</strong> Speak with prospective facilitators and reviewers; observe comparable manual tasks, agree what “accepted” means, and establish the baseline. This research is proposed, not completed.</li>
+            <li><strong>Run a bounded pilot.</strong> Use consented, non-sensitive examples, matched tasks, counterbalanced task order, and the same review rubric. Include failures and manual restarts. Report sample size and uncertainty; a small pilot is not a production claim.</li>
+            <li><strong>Expand only if quality and economics hold.</strong> Verify any optional connected build, access controls, support ownership, and per-accepted-artifact cost. Pause on critical unsupported content or a broken review boundary before adding sources or users.</li>
+          </ol>
+          <p>A future evaluation would record timestamps, revision counts, outcome categories, and reviewed quality scores with appropriate consent and retention rules&mdash;not raw source bodies by default. <strong>No such analytics or pilot is running on this site.</strong></p>
+          <div class="story-closing"><h3>The product-management principle</h3><p>Make the value hypothesis explicit, constrain what can go wrong, and distinguish a working demonstration from a proven business outcome.</p><a class="button primary" href="index.html#demo" data-site-link>Explore the workflow <span aria-hidden="true">&#8594;</span></a></div>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer><span>Practice Lab Studio &middot; Hernan Acosta</span><span>Independent portfolio project. Not an official Microsoft product.</span><a href="https://github.com/Hernanacostaa/practice-lab-studio/blob/main/docs/PUBLIC_RELEASE.md" target="_blank" rel="noopener noreferrer">Public-release boundaries</a></footer>
+  <script>/* INLINE_APP */</script>
+</body>
+</html>
