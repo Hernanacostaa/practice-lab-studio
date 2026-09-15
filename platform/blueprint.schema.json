@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Practice Lab Studio descriptive blueprint envelope",
+  "description": "Validates repository blueprint metadata, not a native Power Platform package, executable state machine, Power Fx expression, connector, or deployment.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "kind",
+    "blueprint_version",
+    "product",
+    "requires_manual_configuration",
+    "native_import_package",
+    "description",
+    "bindings",
+    "runtime_contract",
+    "configuration"
+  ],
+  "properties": {
+    "$schema": { "const": "./blueprint.schema.json" },
+    "kind": { "enum": ["topic", "flow"] },
+    "blueprint_version": { "const": "1.0.0" },
+    "product": { "const": "Practice Lab Studio" },
+    "requires_manual_configuration": { "const": true },
+    "native_import_package": { "const": false },
+    "description": { "type": "string", "minLength": 1 },
+    "bindings": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^\\$\\{[A-Z][A-Z0-9_]*\\}$"
+      }
+    },
+    "runtime_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_path", "key_count", "value_type", "field_keys"],
+      "properties": {
+        "schema_path": { "const": "../schemas/worksheet.schema.json" },
+        "key_count": { "const": 17 },
+        "value_type": { "const": "string" },
+        "field_keys": {
+          "type": "array",
+          "minItems": 17,
+          "maxItems": 17,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "PATitle",
+              "PASubtitle",
+              "CourseReference",
+              "Authors",
+              "Contributors",
+              "LastUpdated",
+              "TargetAudience",
+              "Duration",
+              "ActivityDescription",
+              "TrainerGuidelines",
+              "DesiredLearningOutcome",
+              "WhatIsNeeded",
+              "SkillsBasedLearningObjectives",
+              "DocumentationAndReferences",
+              "ActivitySteps",
+              "Validation",
+              "Notes"
+            ]
+          }
+        }
+      }
+    },
+    "configuration": {
+      "type": "object",
+      "minProperties": 1,
+      "description": "Descriptive implementation requirements. Nested notation is not a platform import format and requires manual design, binding, and verification."
+    }
+  }
+}

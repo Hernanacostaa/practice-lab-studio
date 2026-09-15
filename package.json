@@ -1,0 +1,26 @@
+{
+  "name": "practice-lab-studio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "An offline portfolio demo and reusable low-code blueprints for practical activity worksheets.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/serve.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:e2e": "playwright test",
+    "check:public": "node scripts/check-public.mjs",
+    "verify": "npm test && npm run build && npm run check:public"
+  },
+  "dependencies": {
+    "docx": "^9.5.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "esbuild": "^0.25.0",
+    "fflate": "^0.8.2"
+  }
+}

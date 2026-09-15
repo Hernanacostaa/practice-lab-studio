@@ -1,0 +1,19 @@
+{
+  "PATitle": "Organize a fictional public-domain photo catalogue",
+  "PASubtitle": "Practise folder choices, captions, and provenance checks with placeholders.",
+  "CourseReference": "TBD",
+  "Authors": "TBD",
+  "Contributors": "TBD",
+  "LastUpdated": "TBD",
+  "TargetAudience": "Beginner community archive volunteers",
+  "Duration": "25 minutes",
+  "ActivityDescription": "Plan the organization of three placeholder photo filenames into a practice catalogue. The fictional rights notes say public domain only for this exercise; no actual images are supplied and no real licence or provenance claim has been verified.",
+  "TrainerGuidelines": "Explain the difference between a fictional rights note and verified provenance for a real image.\nDemonstrate one catalogue row without renaming or deleting an original.\nLeave any unsupported caption or provenance detail as TBD and flag it for review.",
+  "DesiredLearningOutcome": "The learner can organize placeholder photo records while preserving original names and making unverified provenance visible.",
+  "WhatIsNeeded": "Placeholder filename cards: cloud-study.jpg, garden-path.jpg, and paper-sail.jpg\nFictional rights-note cards marked public domain for the exercise only\nPractice folder labels: Sky, Garden, and Objects\nBlank index with original filename, folder, caption, and provenance-status columns",
+  "SkillsBasedLearningObjectives": "Assign a descriptive folder to each placeholder filename.\nPreserve original filenames in a catalogue index.\nDistinguish an exercise-only rights note from verified real-image provenance.",
+  "DocumentationAndReferences": "Fictional photo catalogue guide and exercise-only rights-note cards supplied with this demo. No image collection, external licence evidence, or course identifier is supplied.",
+  "ActivitySteps": "List the three placeholder filenames and keep their original spellings.\nRead each fictional rights note and mark real-image provenance as TBD; do not infer a verified licence.\nAssign cloud-study.jpg to Sky, garden-path.jpg to Garden, and paper-sail.jpg to Objects.\nPlan a working copy in each chosen folder without renaming or deleting an original.\nRecord the original filename, folder, a filename-based practice caption, and TBD provenance status in the index.\nCheck that every placeholder has one index row and flag all provenance entries for review before any real-image use.",
+  "Validation": "All three placeholder filenames appear once in the index with the specified folder choices.\nOriginal filenames are preserved and no original is renamed or deleted.\nEvery provenance-status entry is TBD and visibly flagged for real-image verification.",
+  "Notes": "Fictional fixture replay, not live AI generation. No actual photos or verified public-domain assets are supplied. Exercise-only rights notes are not licence evidence. Unspecified metadata remains TBD; review before use."
+}

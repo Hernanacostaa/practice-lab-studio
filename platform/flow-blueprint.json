@@ -1,0 +1,193 @@
+{
+  "$schema": "./blueprint.schema.json",
+  "kind": "flow",
+  "blueprint_version": "1.0.0",
+  "product": "Practice Lab Studio",
+  "requires_manual_configuration": true,
+  "native_import_package": false,
+  "description": "Original descriptive GenerateDoc design, not an executable cloud-flow export. Configure actions, connections, response fields, run-after failure branches, file layout, and destination in the builder's own development environment.",
+  "bindings": {
+    "generate_prompt": "${GENERATE_PROMPT_ID}",
+    "sharepoint_site": "${YOUR_SHAREPOINT_SITE_URL}",
+    "output_library": "${YOUR_OUTPUT_LIBRARY}",
+    "output_folder": "${YOUR_OUTPUT_FOLDER}",
+    "storage_connection": "${YOUR_STORAGE_CONNECTION}"
+  },
+  "runtime_contract": {
+    "schema_path": "../schemas/worksheet.schema.json",
+    "key_count": 17,
+    "value_type": "string",
+    "field_keys": [
+      "PATitle",
+      "PASubtitle",
+      "CourseReference",
+      "Authors",
+      "Contributors",
+      "LastUpdated",
+      "TargetAudience",
+      "Duration",
+      "ActivityDescription",
+      "TrainerGuidelines",
+      "DesiredLearningOutcome",
+      "WhatIsNeeded",
+      "SkillsBasedLearningObjectives",
+      "DocumentationAndReferences",
+      "ActivitySteps",
+      "Validation",
+      "Notes"
+    ]
+  },
+  "configuration": {
+    "flow_name": "GenerateDoc",
+    "availability": "Only when referenced by topics or agents",
+    "caller": "Create Worksheet topic after explicit approval of the exact current payload",
+    "trigger": {
+      "label": "When an agent calls the flow",
+      "inputs": {
+        "ApprovedJSON": { "type": "string", "meaning": "Exact serialized approved worksheet snapshot" },
+        "ApprovalConfirmed": { "type": "boolean", "meaning": "True only after deliberate reviewer confirmation" },
+        "DraftRevision": { "type": "number", "meaning": "Current topic-owned integer revision" },
+        "ApprovedRevision": { "type": "number", "meaning": "Topic-owned integer revision that was approved" }
+      }
+    },
+    "security_and_delivery": {
+      "connections_prebound": false,
+      "destination": "A newly created sample output location in the builder's own development tenant; no existing organizational content is required.",
+      "permissions": "Use only an approved connection with the minimum required access. Test using the intended reviewer's identity; the connection owner's access is not proof the reviewer can open the file.",
+      "file_naming": "Generate a collision-resistant file name with the platform, not the model. Never accept a file path or destination from worksheet text.",
+      "link_policy": "Prefer an actual file web URL that uses existing access. If a sharing link is necessary, separately configure and review its permissions. Anonymous sharing is not the default.",
+      "email": "Not configured. Returning a document URL does not mean an email was sent.",
+      "retry_policy": "Do not blindly retry file creation. After a timeout or uncertain action result, inspect the actual run and destination before any new creation attempt. If a file exists, resume link resolution for that file instead.",
+      "logging": "Use the environment's approved operational run history and access controls. Review retention and secure-input/output settings before using any non-fictional data. Do not store approval or source-ledger metadata in the worksheet."
+    },
+    "actions": [
+      {
+        "id": "validate_approval",
+        "label": "Condition",
+        "requirements": [
+          "ApprovalConfirmed must be true.",
+          "DraftRevision and ApprovedRevision must be positive integers and equal.",
+          "The topic must already have checked that ApprovedJSON equals CurrentJSON; these inputs alone cannot prove that comparison.",
+          "A review flag is not authentication. Restrict invocation to the configured topic and permitted users."
+        ],
+        "on_failure": "Respond with Status failed, empty DocumentURL, and an approval error. Do not call the prompt or create a file."
+      },
+      {
+        "id": "parse_approved_json",
+        "label": "Parse JSON",
+        "input": "${Trigger.ApprovedJSON}",
+        "requirements": [
+          "Use the worksheet schema's required keys, string property types, additionalProperties false, and supported per-field constraints in the Parse JSON schema. Enforce any unsupported schema constraint with a separate explicit guard rather than silently dropping it.",
+          "Require a single worksheet object with exactly 17 keys. Do not use a sample-derived permissive schema without inspecting it.",
+          "Do not repair or re-extract an approved payload inside this flow. A schema failure requires return to review."
+        ],
+        "output": "ParsedWorksheet",
+        "on_failure": "Respond with Status failed and a schema error before any side effect."
+      },
+      {
+        "id": "run_generate_prompt",
+        "label": "Run a prompt",
+        "prompt": "${GENERATE_PROMPT_ID}",
+        "prompt_name": "GeneratePA",
+        "output_mode": "Document (preview)",
+        "template_path": "../samples/worksheet-template.docx",
+        "inputs": {
+          "PATitle": "${ParsedWorksheet.PATitle}",
+          "PASubtitle": "${ParsedWorksheet.PASubtitle}",
+          "CourseReference": "${ParsedWorksheet.CourseReference}",
+          "Authors": "${ParsedWorksheet.Authors}",
+          "Contributors": "${ParsedWorksheet.Contributors}",
+          "LastUpdated": "${ParsedWorksheet.LastUpdated}",
+          "TargetAudience": "${ParsedWorksheet.TargetAudience}",
+          "Duration": "${ParsedWorksheet.Duration}",
+          "ActivityDescription": "${ParsedWorksheet.ActivityDescription}",
+          "TrainerGuidelines": "${ParsedWorksheet.TrainerGuidelines}",
+          "DesiredLearningOutcome": "${ParsedWorksheet.DesiredLearningOutcome}",
+          "WhatIsNeeded": "${ParsedWorksheet.WhatIsNeeded}",
+          "SkillsBasedLearningObjectives": "${ParsedWorksheet.SkillsBasedLearningObjectives}",
+          "DocumentationAndReferences": "${ParsedWorksheet.DocumentationAndReferences}",
+          "ActivitySteps": "${ParsedWorksheet.ActivitySteps}",
+          "Validation": "${ParsedWorksheet.Validation}",
+          "Notes": "${ParsedWorksheet.Notes}"
+        },
+        "requirements": [
+          "Exactly 17 named Text inputs, mapped one to one from ParsedWorksheet; no AI-filled action inputs.",
+          "Upload the freshly authored unfilled layout with all 17 scalar placeholders. An empty document is not a layout.",
+          "Choose the actual Document Output Content Bytes dynamic output. Do not assume an undocumented nested response path.",
+          "The prompt must preserve supplied text. Model-based formatting is not a guarantee of exact fidelity; compare a generated Word file during acceptance."
+        ],
+        "on_failure": "Respond with Status failed and a document-generation error; no fake file URL."
+      },
+      {
+        "id": "check_document_output",
+        "label": "Condition",
+        "requirements": [
+          "Require a successful prompt action and a nonempty actual document payload.",
+          "Bind the documented Document Output Content Bytes output to file content. If the selected action exposes base64 text instead of a typed file value, inspect that run's schema and decode once; never double-decode.",
+          "A nonempty payload only proves bytes were returned, not that the worksheet text is correct."
+        ],
+        "on_failure": "Respond with Status failed and an empty-document error. Do not create a placeholder file."
+      },
+      {
+        "id": "create_file",
+        "label": "Create file",
+        "connector": "SharePoint, using the builder's separately configured storage connection",
+        "bindings": {
+          "site": "${YOUR_SHAREPOINT_SITE_URL}",
+          "library": "${YOUR_OUTPUT_LIBRARY}",
+          "folder": "${YOUR_OUTPUT_FOLDER}",
+          "content": "Actual Document Output Content Bytes from run_generate_prompt"
+        },
+        "requirements": [
+          "Use a newly created sample destination. Do not overwrite an existing file.",
+          "Capture the real created-file reference from this action's result.",
+          "Do not declare success before this action has succeeded."
+        ],
+        "on_failure": "Respond with Status failed for a known failure, or unknown if creation may have occurred. Return no invented URL."
+      },
+      {
+        "id": "resolve_file_link",
+        "label": "Configured file URL lookup; optional sharing-link action only after permission review",
+        "requirements": [
+          "Resolve a real web URL for the exact created-file reference using the selected connector's supported outputs/actions.",
+          "Do not build a URL by concatenating a guessed site path and worksheet title.",
+          "Keep existing access unless the builder deliberately configures a different approved sharing policy.",
+          "Do not treat the connection owner's ability to open a file as proof of recipient access."
+        ],
+        "on_failure": "Respond with Status created_link_unavailable, the actual ArtifactReference, and an empty DocumentURL. A file exists, but no downloadable link is confirmed."
+      },
+      {
+        "id": "respond",
+        "label": "Respond to the agent",
+        "requirements": [
+          "Use identical output names and types on every explicit response branch.",
+          "Set Asynchronous response to Off.",
+          "Complete document creation and link resolution before returning Status succeeded.",
+          "Do not put promised creation or delivery after the response action."
+        ]
+      }
+    ],
+    "response_contract": {
+      "all_response_values_are_strings": true,
+      "fields": {
+        "Status": "succeeded | failed | created_link_unavailable | unknown",
+        "DocumentURL": "Actual verified connector-returned file web URL on success; otherwise empty string",
+        "ArtifactReference": "Actual created-file reference when known; otherwise empty string",
+        "UserMessage": "Plain-language true outcome with no source text, raw connector diagnostics, or fabricated delivery claim"
+      },
+      "success_gate": "Only return succeeded when a nonempty document was stored successfully and its real URL was resolved. The reviewer must still inspect content and access.",
+      "failure_examples": {
+        "failed": "The document could not be created. Your worksheet draft is unchanged.",
+        "created_link_unavailable": "The file was created, but its link could not be resolved. Your draft is unchanged; an operator should recover the existing file.",
+        "unknown": "The request did not finish with a confirmed result. Your draft is unchanged. Check the run and destination before creating another file."
+      }
+    },
+    "timeouts_and_correction": {
+      "agent_action_limit_seconds": 100,
+      "source": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/flow-agent",
+      "behavior": "Design and measure the synchronous path within the documented limit. A connector or agent timeout can prevent a structured response; the topic must handle that error as an unknown outcome.",
+      "schema_correction": "No schema-correction model call in GenerateDoc. The topic owns its bounded correction before approval.",
+      "generation_retry": "No automatic whole-flow retry. Keep the approved draft and require deliberate, safe recovery from the actual recorded outcome."
+    }
+  }
+}

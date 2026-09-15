@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Practice Lab Studio practical activity worksheet",
+  "description": "Exactly 17 plain, nonblank string fields. Use TBD when the fictional source does not supply a value. Property and required-array order document the canonical presentation order.",
+  "$comment": "JSON objects are unordered. assertWorksheet additionally rejects accessors and enforces a total limit of 80000 UTF-16 code units. Its per-field limit is 20000 UTF-16 code units; standard JSON Schema maxLength counts Unicode code points. XML patterns must be interpreted with Unicode-aware ECMA-262 regular expressions.",
+  "type": "object",
+  "minProperties": 17,
+  "maxProperties": 17,
+  "additionalProperties": false,
+  "required": [
+    "PATitle",
+    "PASubtitle",
+    "CourseReference",
+    "Authors",
+    "Contributors",
+    "LastUpdated",
+    "TargetAudience",
+    "Duration",
+    "ActivityDescription",
+    "TrainerGuidelines",
+    "DesiredLearningOutcome",
+    "WhatIsNeeded",
+    "SkillsBasedLearningObjectives",
+    "DocumentationAndReferences",
+    "ActivitySteps",
+    "Validation",
+    "Notes"
+  ],
+  "$defs": {
+    "xmlText": {
+      "pattern": "^[\\u0009\\u000A\\u000D\\u0020-\\uD7FF\\uE000-\\uFFFD\\u{10000}-\\u{10FFFF}]+$"
+    }
+  },
+  "properties": {
+    "PATitle": { "type": "string", "minLength": 1, "maxLength": 20000, "pattern": "\\S", "$ref": "#/$defs/xmlText" },
+    "PASubtitle": { "type": "string", "minLength": 1, "maxLength": 20000, "pattern": "\\S", "$ref": "#/$defs/xmlText" },
+    "CourseReference": { "type": "string", "minLength": 1, "maxLength": 20000, "pattern": "\\S", "$ref": "#/$defs/xmlText" },
+    "Authors": { "type": "string", "minLength": 1, "maxLength": 20000, "pattern": "\\S", "$ref": "#/$defs/xmlText" },
+    "Contributors": { "type": "string", "minLength": 1, "maxLength": 20000, "pattern": "\\S", "$ref": "#/$defs/xmlText" },
+    "LastUpdated": { "type": "string", "minLength": 1, "maxLength": 20000, "pattern": "\\S", "$ref": "#/$defs/xmlText" },
+    "TargetAudience": { "type": "string", "minLength": 1, "maxLength": 20000, "pattern": "\\S", "$ref": "#/$defs/xmlText" },
+    "Duration": { "type": "string", "minLength": 1, "maxLength": 20000, "pattern": "\\S", "$ref": "#/$defs/xmlText" },
+    "ActivityDescription": { "type": "string", "minLength": 1, "maxLength": 20000, "pattern": "\\S", "$ref": "#/$defs/xmlText" },
+    "TrainerGuidelines": { "type": "string", "minLength": 1, "maxLength": 20000, "pattern": "\\S", "$ref": "#/$defs/xmlText" },
+    "DesiredLearningOutcome": { "type": "string", "minLength": 1, "maxLength": 20000, "pattern": "\\S", "$ref": "#/$defs/xmlText" },
+    "WhatIsNeeded": { "type": "string", "minLength": 1, "maxLength": 20000, "pattern": "\\S", "$ref": "#/$defs/xmlText" },
+    "SkillsBasedLearningObjectives": { "type": "string", "minLength": 1, "maxLength": 20000, "pattern": "\\S", "$ref": "#/$defs/xmlText" },
+    "DocumentationAndReferences": { "type": "string", "minLength": 1, "maxLength": 20000, "pattern": "\\S", "$ref": "#/$defs/xmlText" },
+    "ActivitySteps": { "type": "string", "minLength": 1, "maxLength": 20000, "pattern": "\\S", "$ref": "#/$defs/xmlText" },
+    "Validation": { "type": "string", "minLength": 1, "maxLength": 20000, "pattern": "\\S", "$ref": "#/$defs/xmlText" },
+    "Notes": { "type": "string", "minLength": 1, "maxLength": 20000, "pattern": "\\S", "$ref": "#/$defs/xmlText" }
+  }
+}

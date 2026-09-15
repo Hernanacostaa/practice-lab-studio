@@ -1,0 +1,19 @@
+{
+  "PATitle": "Lend a board game in a fictional library",
+  "PASubtitle": "Practise a paper loan record with a synthetic borrower alias.",
+  "CourseReference": "TBD",
+  "Authors": "TBD",
+  "Contributors": "TBD",
+  "LastUpdated": "TBD",
+  "TargetAudience": "New community library volunteers",
+  "Duration": "20 minutes",
+  "ActivityDescription": "Practise lending the invented board game Moon Orchard to the synthetic borrower alias River. Compare the pretend contents with a practice inventory card and complete a paper loan record without real borrower data.",
+  "TrainerGuidelines": "Explain that the library, game, borrower, and loan are fictional.\nDemonstrate comparing the contents with the practice inventory card.\nIf a piece is missing, pause the pretend loan and record the discrepancy for review rather than marking the game complete.",
+  "DesiredLearningOutcome": "The learner can check an invented game's contents, record a fictional loan, and explain the return check without inventing missing dates.",
+  "WhatIsNeeded": "Pretend Moon Orchard game with 12 route tiles and 4 star tokens\nPractice inventory card listing those contents\nSynthetic borrower card labelled River\nBlank paper loan record\nPencil",
+  "SkillsBasedLearningObjectives": "Compare game contents with a practice inventory card.\nComplete a loan record using a synthetic borrower alias.\nExplain how to flag a missing piece and an unspecified due date.",
+  "DocumentationAndReferences": "Fictional Moon Orchard lending guide supplied with this demo. No real library policy, external reference, or course identifier is supplied.",
+  "ActivitySteps": "Lay out the pretend game, practice inventory card, borrower card, and blank loan record.\nCount the 12 route tiles and 4 star tokens against the inventory card; pause and note any discrepancy.\nRecord Moon Orchard and the synthetic alias River on the practice loan record.\nWrite TBD in the loan-date and due-date boxes because the guide supplies neither dates nor a borrowing period.\nExplain the return count, compare the completed record with the cards, and reset the exercise materials.",
+  "Validation": "The contents match the inventory card, or a discrepancy is explicitly recorded and the loan is paused.\nThe practice record contains Moon Orchard, River, and TBD in both date boxes.\nThe learner explains that returned contents are compared with the same inventory card.",
+  "Notes": "Fictional fixture replay, not live AI generation. Moon Orchard is an invented game and River is a synthetic alias. No real loan is made. Unspecified metadata remains TBD; review before use."
+}

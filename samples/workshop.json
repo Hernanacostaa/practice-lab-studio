@@ -1,0 +1,19 @@
+{
+  "PATitle": "Run a fictional workshop check-in",
+  "PASubtitle": "Welcome synthetic attendee aliases to a paper-shape session.",
+  "CourseReference": "TBD",
+  "Authors": "TBD",
+  "Contributors": "TBD",
+  "LastUpdated": "TBD",
+  "TargetAudience": "New community workshop volunteers",
+  "Duration": "15 minutes",
+  "ActivityDescription": "Practise a welcome-desk check-in for an invented paper-shape workshop. Use only the synthetic aliases Maple, Cobalt, and Pebble; do not collect real attendee information.",
+  "TrainerGuidelines": "Explain that the roster and attendance are fictional.\nDemonstrate one alias lookup, then let the learner handle the remaining aliases.\nPause if an alias is absent or already checked in; ask for clarification instead of adding or duplicating a record.",
+  "DesiredLearningOutcome": "The learner can welcome an attendee alias, record one check-in, and reconcile the fictional roster without collecting personal information.",
+  "WhatIsNeeded": "Practice roster listing Maple, Cobalt, and Pebble with empty check-in boxes\nThree reusable alias cards\nPencil\nWelcome sign for the paper-shape session",
+  "SkillsBasedLearningObjectives": "Locate a synthetic alias on a practice roster.\nRecord one check-in without creating a duplicate.\nReconcile check-in marks against the three alias cards.",
+  "DocumentationAndReferences": "Fictional paper-shape workshop guide supplied with this demo. No external reference or course identifier is supplied.",
+  "ActivitySteps": "Arrange the welcome sign, blank practice roster, alias cards, and pencil.\nGreet the card holder and read the synthetic alias together.\nFind the matching roster entry and confirm that its check-in box is empty.\nMark one check-in and direct the card holder to the paper-shape session.\nRepeat for the remaining cards, then reconcile the three marks and reset the practice roster.",
+  "Validation": "All three synthetic aliases have exactly one check-in mark before the reset.\nThe learner explains how to handle a missing alias or a duplicate check-in.\nNo real names, contact details, or attendance records are collected.",
+  "Notes": "Fictional fixture replay, not live AI generation. All attendee aliases are synthetic. Unspecified metadata remains TBD; review the worksheet before use."
+}
