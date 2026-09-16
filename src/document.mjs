@@ -37,7 +37,7 @@ export async function createWorksheetDocx(worksheet) {
   assertWorksheet(worksheet);
   const children = [
     new Paragraph({ style: "PracticeBrand", text: "Practice Lab Studio" }),
-    new Paragraph({ text: "Workshop guides to practical activity worksheets" }),
+    new Paragraph({ text: "From source documents to training exercises" }),
     new Paragraph({
       style: "PracticeNotice",
       text: "FICTIONAL DEMO - Original portfolio fixtures, not live AI output or verified operating instructions. Human review is required. Manual edits must be checked against the source; export is not evidence of approval.",
@@ -65,10 +65,10 @@ export async function createWorksheetDocx(worksheet) {
   const document = new Document({
     creator: "Practice Lab Studio",
     lastModifiedBy: "Practice Lab Studio",
-    title: "Practice Lab Studio - fictional practical activity worksheet",
-    subject: "Fictional workshop guide worksheet for human review",
+    title: "Practice Lab Studio - fictional training worksheet",
+    subject: "Fictional training exercise worksheet for human review",
     description: "Original public portfolio demonstration. No review or provenance verification is implied.",
-    keywords: "fictional, demo, practical activity",
+    keywords: "fictional, demo, training exercise",
     revision: 1,
     styles: {
       default: {

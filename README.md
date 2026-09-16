@@ -1,6 +1,6 @@
 # Practice Lab Studio
 
-**From workshop guides to practical activity worksheets, with a human in control.**
+**From source documents to hands-on training exercises, with a human in control.**
 
 [Try the live demo](https://hernanacostaa.github.io/practice-lab-studio/) · [Why I built this](https://hernanacostaa.github.io/practice-lab-studio/case-study.html) · [Architecture](docs/ARCHITECTURE.md) · [Build it in Power Platform](docs/DEPLOYMENT.md)
 
@@ -8,13 +8,21 @@
 
 ## The problem
 
-A useful workshop guide is not automatically a useful practice exercise. Facilitators still have to identify the audience, outcomes, materials, activity outline, and validation criteria, then assemble a consistent document. An unrestricted chat assistant can miss requirements, invent missing facts, or jump straight to a finished artifact.
+At Microsoft, I identified a repeated authoring problem: reference documents existed, but training authors still had to manually turn them into exercises. That meant defining learning objectives, listing preparation and materials, writing learner instructions, adding completion checks, and assembling a reviewable worksheet.
 
-Practice Lab Studio turns that process into a controlled workflow:
+I built a working solution to assist that source-to-worksheet process, then shared it, presented and demoed it, and redesigned the workflow for production needs. Practice Lab Studio is its anonymized public adaptation:
 
 **Source text → 17-field draft → human review and revisions → Word document**
 
-This independent portfolio project by **Hernan Acosta** demonstrates product framing, prompt and data-contract design, low-code orchestration, failure handling, and document delivery. All public scenarios and assets were newly authored for this project.
+**Real project. Replacement examples.** This personal case study by **Hernan Acosta** describes work I actually created at Microsoft, not a fictional problem or an unbuilt concept. The public scenarios, assets, and infrastructure placeholders were newly authored; internal documents and systems are not included.
+
+## From working version to production-oriented design
+
+1. Identified the repeated work of turning reference material into training exercises.
+2. Defined the worksheet structure and built a working source-to-document version.
+3. Shared the solution, presented the approach, and demonstrated the workflow.
+4. Redesigned for clearer responsibilities, source checks, review, failure handling, and document delivery.
+5. Created this public walkthrough so others can explore the design without internal access.
 
 ## Try it in two minutes
 
@@ -27,7 +35,7 @@ Try **Simulate unavailable source** to see the workflow stop instead of manufact
 
 **Demo disclosure:** extraction is a replay of pre-authored sample responses, not a live AI call. Editing, validation, approval gates, and document exports are functional. There is no sign-in, API key, cloud connection, telemetry, browser storage, or upload of field contents. Use fictional material only.
 
-## What is real, and what is a blueprint?
+## What you can run in this public version
 
 | Component | Included | Status |
 |---|---|---|
@@ -37,9 +45,9 @@ Try **Simulate unavailable source** to see the workflow stop instead of manufact
 | Prompt contracts | ExtractPA, EditPA, FormatPreview, GeneratePA | Reusable text; configure in your own environment |
 | Controlled topic and delivery flow | Source gates, review loop, error paths, replaceable connections | Descriptive blueprints, **not importable solution exports** |
 | Copilot Studio + Power Automate deployment | Instructions and original sample template | Optional; **not deployed by this repository** |
-| Business impact | Measurement plan and acceptance criteria | No claimed time savings, adoption, or production scale |
+| Business impact | Proposed measurement plan and illustrative calculator | No internal business results published; planning figures are not reported outcomes |
 
-The public browser layer is a demonstration adapter. The reusable platform design preserves the same four prompt responsibilities and deterministic source-to-document sequence; it does not require the browser application in the platform runtime.
+These statuses describe the public repository, not whether the original project was built. The browser layer is a demonstration adapter. The reusable platform design preserves four prompt responsibilities and a controlled source-to-document sequence; it does not require the browser application in the platform runtime.
 
 ## Design decisions worth exploring
 
@@ -103,10 +111,10 @@ Optional package/XML verification of all four generated documents uses Python 3 
 
 ## Boundaries
 
-This is an independent, fictionalized portfolio adaptation, not an official Microsoft product or an endorsement. It contains no original organizational source documents, screenshots, recordings, solution exports, connection bindings, or inherited Git history. It makes no claim that replacing names alone makes proprietary material publishable.
+This is an independent public adaptation of real work I created at Microsoft, not an official Microsoft product or an endorsement. The replacement examples are fictional; the problem, working version, sharing, presentations, demos, and production-oriented redesign are part of the real project story. It contains no original organizational source documents, screenshots, recordings, solution exports, connection bindings, or inherited Git history. Replacing names alone does not make proprietary material publishable.
 
 The optional cloud build needs your own eligible Power Platform environment and approved connections. Do not add credentials or private source material to this repository. See [public-release boundaries](docs/PUBLIC_RELEASE.md) and [third-party notices](THIRD_PARTY_NOTICES.md).
 
 ## License
 
-Original public project code, documentation, and fictional examples are provided under the [MIT License](LICENSE). Third-party libraries retain their own licenses. Microsoft product names identify optional integration technologies; no Microsoft templates, branding, or organizational procedures are included.
+Original public project code, documentation, and fictional examples are provided under the [MIT License](LICENSE). Third-party libraries retain their own licenses. Microsoft is named as the context of the original work and provider of optional integration technologies; no Microsoft templates, branding, or organizational procedures are included.

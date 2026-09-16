@@ -2,7 +2,7 @@
 
 [Project overview and local demo](../README.md) | [Architecture](ARCHITECTURE.md) | [Case study](CASE_STUDY.md)
 
-**The platform JSON files are blueprints, not import packages.** Nothing in this guide implies that an agent, prompt, connection, or flow has already been deployed. Follow the local path to try the portfolio without a tenant. Follow the optional platform path only in your own development environment.
+**The platform JSON files are blueprints, not import packages.** This guide describes how to run or rebuild the public adaptation; it does not provision an agent, prompt, connection, or flow for you. The underlying case study concerns a real solution the author built at Microsoft, separate from these unbound public artifacts. Follow the local path to try the portfolio without a tenant. Follow the optional platform path only in your own development environment.
 
 ## Path A: try the public demo
 

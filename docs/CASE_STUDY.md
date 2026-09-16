@@ -1,34 +1,49 @@
-# Practice Lab Studio: a review-first worksheet workflow
+# Practice Lab Studio: from source documents to training exercises
 
 [Try the local demo](../README.md) | [Architecture](ARCHITECTURE.md) | [Optional platform build](DEPLOYMENT.md)
 
 For the recruiter-facing narrative, role, prioritization, proposed success measures, and interactive economics, read [Why I built this on the demo site](https://hernanacostaa.github.io/practice-lab-studio/case-study.html). Its numeric pilot thresholds and calculator defaults are newly invented planning assumptions, not historical results, private business figures, or forecasts.
 
-**Practice Lab Studio is a fictional portfolio project about converting workshop notes into a structured, human-reviewed activity worksheet.** It pairs an offline browser demonstration with original Copilot Studio and Power Automate configuration blueprints. It is not presented as a customer deployment or evidence of production use.
+**This case study is based on a real solution I created at Microsoft.** I identified a manual training-authoring problem, built a working version, shared it, presented and demoed the solution, and redesigned the workflow for production needs.
+
+Practice Lab Studio is the public adaptation of that work. Its examples, infrastructure placeholders, browser implementation, and published configuration blueprints are replacements, not original organizational assets. The project history is real; the public scenarios are fictional. This is my personal case study, not an official Microsoft product or endorsement.
 
 ## The problem
 
-A community-workshop facilitator may start with an informal outline: what participants will make, materials available, and a few discussion prompts. A reusable worksheet needs more structure, but the missing structure should not become invented facts. A polished output can hide an unsupported duration, a guessed author, or an assessment method nobody approved.
+The source documents already existed, but a training author still had to turn them into an exercise someone could teach or complete. That meant identifying the relevant tasks, defining learning objectives, listing prerequisites and materials, writing step-by-step learner instructions, adding completion checks, and formatting a consistent worksheet.
 
-The design question is therefore not simply "Can a model write a worksheet?" It is: **How can a facilitator see what is supported, correct the draft without losing context, and export only the revision they reviewed?**
+I identified that repeated translation and assembly work as the problem to solve. My solution was to assist the author with a structured draft while keeping source accuracy, missing information, review, and editable delivery visible.
+
+The design question was: **How can I turn reference material into a usable training exercise without replacing the author's judgment or creating more reviewer rework?**
+
+## What I did
+
+1. **Identified the authoring gap.** Focused on the repeated work between having a reference document and having a training exercise.
+2. **Defined the output.** Made the worksheet's 17 fields a shared contract for drafting, revision, preview, and document generation.
+3. **Built a working version.** Iterated on AI-assisted drafting, field mapping, and document output so supplied source content could become an editable training worksheet.
+4. **Shared, presented, and demoed it.** Put the working solution and its approach in front of others after creating the first working version.
+5. **Redesigned for production needs.** Focused on clearer responsibilities, consistent structure, source checks, review, failure handling, and document delivery.
+6. **Created the public adaptation.** Replaced internal content and infrastructure with original examples and a disconnected browser walkthrough.
+
+## Public examples
 
 The scenarios are deliberately ordinary and fictional. The `workshop`, `library`, and `photos` fixture identifiers in [src/samples.mjs](../src/samples.mjs) provide a bounded evaluation surface without needing a connected content library.
 
 The paired artifacts are [workshop source](../samples/workshop.txt) and [worksheet](../samples/workshop.json), [library source](../samples/library.txt) and [worksheet](../samples/library.json), and [photos source](../samples/photos.txt) and [worksheet](../samples/photos.json). Each text file is a complete original fictional guide. Each JSON file is the expected flat 17-field worksheet, not a sample wrapper or evidence of an AI run.
 
-## Illustrative personas
+## People the workflow serves
 
-| Persona | Need | Design response |
+| Role | Need | Design response |
 | --- | --- | --- |
-| Workshop facilitator | Turn a rough outline into something editable without silently supplying missing facts | Visible 17-field draft, `TBD` values, short supported activity steps, and local field editing |
+| Training author | Turn source material into an editable exercise rather than manually assembling every section | Visible 17-field draft, `TBD` values, supported activity steps, and field editing |
 | Peer reviewer | See whether the draft reflects the supplied material and which revision is being exported | Source-aware review, explicit confirmation, and approval invalidation when a change starts |
-| Platform builder | Recreate the workflow in their own development environment and understand its failure paths | Explicit prompt contracts, a single topic specification, configurable flow bindings, and acceptance criteria |
+| Training lead | Maintain consistent exercise quality and understand the cost and reliability of producing accepted worksheets | Shared structure, clear review responsibilities, and a proposed measurement framework |
 
-These personas frame design choices. They are not claims about interviews, participant counts, or observed adoption.
+These role descriptions are generalized for the public case study. The underlying authoring problem and working solution came from my work at Microsoft; internal team identities, documents, and operational details are not published.
 
-## The solution
+## How the public adaptation works
 
-The local demo makes the workflow inspectable without a tenant. It replays clearly labeled, pre-authored sample responses rather than pretending to call an AI service. Users can make real local field edits and download JSON or Word after review. That separation allows a reviewer to evaluate interaction design and artifact structure without mistaking fixture playback for model performance.
+The local demo makes the workflow inspectable without access to the original environment. It replays clearly labeled, pre-authored sample responses rather than calling an AI service. Users can make real local field edits and download JSON or Word after review. This browser implementation is a separate, offline adaptation of work built with Copilot Studio and Power Automate.
 
 The browser does not upload entered content or persist drafts in browser storage. Changes to fields or sources invalidate export approval, and a visible source failure offers retry rather than a substitute draft. Downloads are deliberately local files, not cloud delivery. Keeping drafts in memory also means an unfinished session is not restored after a reload.
 
@@ -62,7 +77,9 @@ Starting a change clears approval before the operation runs. A failed edit there
 
 Document failure likewise does not erase the draft. A created file with no resolved link is a partial outcome. A timeout is an unknown outcome that requires checking the run and destination before retrying. Returning a link is not evidence of email delivery or participant learning.
 
-## What counts as evidence
+## What the public artifacts let you inspect
+
+Use these artifacts to inspect the design decisions and behavior of the public adaptation.
 
 | Claim area | Evidence available to inspect | Boundary |
 | --- | --- | --- |
@@ -70,7 +87,7 @@ Document failure likewise does not erase the draft. A created file with no resol
 | Data contract | Shared schema and explicit prompt/flow field mappings | Static agreement does not prove a model will always follow it |
 | Orchestration design | Topic states, guards, scoped edit rules, and failure outcomes | Descriptive blueprints, not a deployed or importable solution |
 | Reproducibility | Original prompt text, template requirements, public documentation links, and manual build guide | The builder must configure resources and verify actual bindings |
-| Connected platform behavior | Acceptance checklist for source handoff, prompts, review, document fidelity, and permissions | No tenant execution results are claimed by this case study |
+| Connected platform behavior | Acceptance checklist for source handoff, prompts, review, document fidelity, and permissions | Internal execution records are not published; a new builder must verify their own environment |
 
 Repository tests, where provided, should be read for the behavior they actually exercise. A passing local download test is not a passing Power Automate document-generation test. A valid 17-key JSON object is not a factual-accuracy score.
 
@@ -89,10 +106,10 @@ These criteria deliberately test the requirement itself: field preservation, com
 
 ## Impact and roadmap
 
-The intended benefit is less repetitive formatting and a clearer review boundary. This project does not claim measured time savings, return on investment, adoption, learning gains, factual-accuracy rates, or production readiness.
+The product goal is less repetitive drafting and formatting, a consistent training worksheet, and a clearer review process. This portfolio describes the actual build and design work without publishing internal adoption, financial results, or operational data. The proposed targets and calculator assumptions on the site are planning aids, not reported outcomes.
 
 A useful next evaluation would measure reviewer corrections by field, unchanged-field preservation during edits, time to an approved worksheet, model and connector latency, and document fidelity using a versioned fictional test set. Results would need a defined baseline, sample size, and failure accounting before supporting an impact claim.
 
-The roadmap is to validate the optional tenant build, evaluate models against the same grounded cases, confirm a full-content retrieval method before enabling connected source routes, and assess whether deterministic formatting should replace model-based formatting. Any future importable solution package would need to be created from an actual configured development solution and validated separately; the current descriptive JSON must not be relabeled as one.
+For someone rebuilding the public design, the next steps are to validate their optional tenant build, evaluate models against the same grounded cases, confirm a full-content retrieval method before enabling connected source routes, and assess whether deterministic formatting should replace model-based formatting. Any future importable solution package would need to be created from an actual configured development solution and validated separately; the current descriptive JSON must not be relabeled as one.
 
-For a hiring reviewer, the project is evidence of requirements decomposition, explicit AI boundaries, data-contract design, human-review controls, and honest treatment of failure and uncertainty. It is not evidence of an unmeasured business outcome.
+For a hiring reviewer, the story demonstrates identifying a real problem, building a working solution, communicating it through sharing and demonstrations, and redesigning for reliable use. The public artifacts make the requirements, AI boundaries, data contract, review controls, and document experience inspectable.

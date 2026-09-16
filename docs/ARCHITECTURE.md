@@ -4,6 +4,8 @@
 
 Practice Lab Studio separates an inspectable, offline portfolio demonstration from a reusable Copilot Studio and Power Automate design. They share a worksheet contract and review principles, not a running backend.
 
+The case study is based on a real working solution the author created at Microsoft and subsequently shared, presented, demoed, and redesigned for production needs. This document describes the replacement public artifacts, not the original environment or its deployment status.
+
 ## Two distinct evaluation surfaces
 
 | Surface | What it demonstrates | What it does not establish |

@@ -54,9 +54,15 @@ test("page declares local-only demo and blocks network connections", async () =>
   assert.doesNotMatch(source, /\.innerHTML\s*=/);
 });
 
-test("product story separates scope facts, proposed metrics and fictional business assumptions", async () => {
+test("product story distinguishes real work, public examples, and proposed business measures", async () => {
   const html = await readFile(path.join(root, "case-study.html"), "utf8");
-  assert.match(html, /Scope facts, not impact claims/);
+  assert.match(html, /Real project\. Anonymized public version\./);
+  assert.match(html, /I created the underlying solution at Microsoft/);
+  assert.match(html, /Inside the public demo/);
+  assert.match(html, /Built a working version/);
+  assert.match(html, /Shared, presented, and demoed it/);
+  assert.match(html, /Redesigned for production needs/);
+  assert.doesNotMatch(html, /These are illustrative personas and problem hypotheses/);
   assert.match(html, new RegExp(`<strong>${FIELD_KEYS.length}</strong><span>shared worksheet fields`));
   assert.match(html, new RegExp(`<strong>${SAMPLES.length}</strong><span>fictional source scenarios`));
   assert.match(html, /Proposed pilot criteria&mdash;not measured results/);
@@ -69,6 +75,21 @@ test("product story separates scope facts, proposed metrics and fictional busine
     assert.doesNotMatch(source, /\b(?:fetch|XMLHttpRequest|WebSocket|localStorage|sessionStorage)\s*[.(]/);
     assert.doesNotMatch(source, /\.innerHTML\s*=/);
   }
+});
+
+test("public entry points describe a real project without reclassifying its examples as real data", async () => {
+  for (const filename of ["README.md", path.join("docs", "CASE_STUDY.md"), path.join("docs", "PUBLIC_RELEASE.md")]) {
+    const content = await readFile(path.join(root, filename), "utf8");
+    assert.match(content, /Microsoft/);
+    assert.match(content, /real (?:work|solution|project|authoring)/i);
+    assert.match(content, /fictional/i);
+    assert.doesNotMatch(content, /is a fictional portfolio project|fictionalized personas/);
+  }
+  const html = await readFile(path.join(root, "index.html"), "utf8");
+  assert.match(html, /Training exercises out/);
+  assert.match(html, /real solution Hernan Acosta built at Microsoft/);
+  assert.match(html, /selected fictional source/);
+  assert.doesNotMatch(html, /Ready-to-run practice|practical activity worksheet/);
 });
 
 test("platform blueprints are unbound specifications with the same 17-field contract", async () => {

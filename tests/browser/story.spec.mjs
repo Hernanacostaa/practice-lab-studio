@@ -16,7 +16,7 @@ test("the in-site story opens without losing an edited worksheet and preserves t
   ]);
   await expect(story).toHaveURL(/\/case-study\.html\?scoutTheme=dark$/);
   await expect(story.locator("html")).toHaveAttribute("data-theme", "dark");
-  await expect(story.getByRole("heading", { level: 1 })).toHaveText("I built a workflow.Not just a prompt.");
+  await expect(story.getByRole("heading", { level: 1 })).toHaveText("From source documentsto training exercises.");
   await expect(page.locator("#approve")).toBeChecked();
   await expect(field.locator("textarea")).toHaveValue("A revised fictional workshop for portfolio review.");
   await story.locator("#theme-toggle").click();
@@ -24,6 +24,23 @@ test("the in-site story opens without losing an edited worksheet and preserves t
   await story.getByRole("navigation", { name: "Main navigation", exact: true }).getByRole("link", { name: "Try the workflow" }).click();
   await expect(story).toHaveURL(/\/index\.html\?scoutTheme=light#demo$/);
   await expect(story.locator("html")).toHaveAttribute("data-theme", "light");
+});
+
+test("the real project progression stays distinct from replacement examples and modeled impact", async ({ page }) => {
+  await page.goto("/case-study.html");
+  await expect(page.locator(".story-boundary")).toContainText("Real project. Anonymized public version.");
+  await expect(page.locator("#problem .story-caption")).toContainText("a real example from my work at Microsoft");
+  await expect(page.locator("#problem-title")).toHaveText("Training authors were manually rebuilding source material into exercises.");
+  await expect(page.locator(".approach-list h3")).toHaveText([
+    "Identified the repeated authoring work",
+    "Defined a consistent worksheet",
+    "Built a working version",
+    "Shared, presented, and demoed it",
+    "Redesigned for production needs",
+    "Created a public version people can explore",
+  ]);
+  await expect(page.locator(".model-disclosure")).toContainText("fictional planning numbers");
+  await expect(page.locator(".metric-disclosure")).toContainText("not measured results");
 });
 
 test("calculator shows labeled illustrative economics and honestly handles negative scenarios", async ({ page }) => {

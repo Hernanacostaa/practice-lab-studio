@@ -11,7 +11,7 @@
     })();
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Why I built Practice Lab Studio: a product manager's case study in problem framing, human-reviewed AI, prioritization, success metrics, and illustrative business economics.">
+  <meta name="description" content="How Hernan Acosta identified a real training-authoring problem at Microsoft, built a working solution, shared and demonstrated it, and redesigned the workflow for production needs.">
   <meta name="referrer" content="no-referrer">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <title>Why I built this | Practice Lab Studio</title>
@@ -32,26 +32,27 @@
     <section class="story-hero" aria-labelledby="story-title">
       <div>
         <p class="eyebrow">The product story / Hernan Acosta</p>
-        <h1 id="story-title">I built a workflow.<br><span>Not just a prompt.</span></h1>
-        <p class="story-lede">The opportunity was not to generate more training content. It was to make existing source material easier to turn into <strong>reviewable, usable practice</strong>&mdash;without hiding what still needed a human decision.</p>
+        <h1 id="story-title">From source documents<br><span>to training exercises.</span></h1>
+        <p class="story-lede">At Microsoft, I identified a manual authoring problem: training authors had reference material, but still had to turn it into <strong>step-by-step exercises people could actually complete</strong>. I built a working solution, shared and demonstrated it, then redesigned the workflow for production needs.</p>
         <div class="hero-actions"><a class="button primary" href="index.html#demo" data-site-link>Try what I built <span aria-hidden="true">&#8594;</span></a><a class="text-link" href="#metrics">See the success measures</a></div>
-        <p class="story-boundary">Fictionalized portfolio case study. Scenarios and business assumptions are illustrative; no employer, customer, operational, or financial data is disclosed.</p>
+        <p class="story-boundary"><strong>Real project. Anonymized public version.</strong> I created the underlying solution at Microsoft. This site replaces internal content and infrastructure with public examples; the project history is real, while sample scenarios and business-model assumptions are illustrative.</p>
       </div>
       <aside class="story-brief" aria-label="Project at a glance">
         <p class="eyebrow">At a glance</p>
         <dl>
-          <div><dt>My role</dt><dd>Product framing, workflow design, prompt requirements, and AI-assisted prototyping.</dd></div>
-          <div><dt>Primary user</dt><dd>A facilitator adapting a guide into a practical exercise.</dd></div>
-          <div><dt>Product bet</dt><dd>Save assembly effort without increasing factual errors or reviewer rework.</dd></div>
-          <div><dt>Public deliverable</dt><dd>A working offline demonstration and reusable low-code blueprints&mdash;not a deployed cloud service.</dd></div>
+          <div><dt>My role</dt><dd>Problem definition, workflow and prompt design, hands-on building, presentations, demos, and production-oriented redesign.</dd></div>
+          <div><dt>Primary users</dt><dd>Training authors and reviewers, with facilitators using the finished exercises.</dd></div>
+          <div><dt>Product goal</dt><dd>Reduce repeated drafting and formatting while preserving source accuracy and human review.</dd></div>
+          <div><dt>Project progression</dt><dd>Identified the problem &rarr; built a working version &rarr; shared and demoed it &rarr; redesigned for production needs.</dd></div>
+          <div><dt>What you can explore here</dt><dd>A disconnected public walkthrough and reusable low-code blueprints, with replacement sample content.</dd></div>
         </dl>
       </aside>
     </section>
-    <div class="scope-strip" aria-label="Demonstrated scope, not business outcomes">
+    <div class="scope-strip" aria-label="Public demo scope">
       <div><strong>17</strong><span>shared worksheet fields</span></div>
       <div><strong>3</strong><span>fictional source scenarios</span></div>
       <div><strong>2</strong><span>working export formats</span></div>
-      <p><b>Scope facts, not impact claims.</b><br>Time savings, adoption, and business value have not been measured in this public project.</p>
+      <p><b>Inside the public demo.</b><br>These examples let you explore the real workflow concepts without access to internal systems.</p>
     </div>
     <div class="story-layout">
       <aside class="story-sidebar">
@@ -70,39 +71,41 @@
       <div class="story-content">
         <section id="problem" class="story-section" aria-labelledby="problem-title">
           <p class="eyebrow">01 / Problem and opportunity</p>
-          <h2 id="problem-title">The bottleneck is the handoff from information to practice.</h2>
-          <p>A source guide can explain a topic without giving a facilitator a ready-to-use exercise. Someone still needs to identify the audience, materials, activities, learning objectives, and review criteria, then assemble them into a consistent worksheet.</p>
-          <p>My problem framing focused on three possible costs: repeated assembly work, inconsistent artifacts, and review effort spent finding omissions. A faster draft is only valuable if it does not move that work downstream.</p>
-          <blockquote class="job-statement"><span class="tiny-label">The job to be done</span>“When I have a useful source guide, help me create an activity I can review and run, so I spend less effort assembling a document and more effort facilitating learning.”</blockquote>
+          <h2 id="problem-title">Training authors were manually rebuilding source material into exercises.</h2>
+          <p>The reference documents already existed. The remaining work was to read them, pull out the relevant tasks, define learning objectives, list materials and prerequisites, write learner instructions, add completion checks, and format everything into a reviewable worksheet.</p>
+          <p>I identified that repeated translation and assembly work as the problem to solve. Authors needed a structured starting point, and reviewers needed to see whether it accurately reflected the source&mdash;not spend their time reconstructing the document or finding hidden assumptions.</p>
+          <p><strong>My solution:</strong> a source-to-worksheet workflow that drafts the required sections, keeps missing information visible, supports review and revision, and produces an editable training document. The goal was to assist the author, not remove their judgment.</p>
+          <blockquote class="job-statement"><span class="tiny-label">The job to be done</span>“When I have a reference document, help me turn it into a training exercise with clear steps and completion checks, so I can focus on the learning experience instead of rebuilding the worksheet.”</blockquote>
           <div class="persona-grid">
-            <article><h3>Facilitator</h3><p>Needs an editable starting point, not another long chat response.</p></article>
+            <article><h3>Training author</h3><p>Needs a usable first draft of the exercise, not another long summary of the source.</p></article>
             <article><h3>Reviewer</h3><p>Needs to see missing facts and judge whether the draft reflects its source.</p></article>
-            <article><h3>Program owner</h3><p>Needs repeatable quality and a credible cost-per-accepted-artifact story.</p></article>
+            <article><h3>Training lead</h3><p>Needs consistent exercises, a workable review process, and a clear way to evaluate time and quality.</p></article>
           </div>
-          <p class="story-caption">These are illustrative personas and problem hypotheses, not claims of completed interviews, customer research, or measured demand.</p>
+          <p class="story-caption">This is a real example from my work at Microsoft: I identified the authoring problem and created a working solution. Role descriptions are generalized here; internal documents, systems, and operational details are not published.</p>
         </section>
         <section id="approach" class="story-section" aria-labelledby="approach-title">
           <p class="eyebrow">02 / My contribution and process</p>
-          <h2 id="approach-title">I worked backward from a useful deliverable.</h2>
-          <p>I translated the desired worksheet into product requirements, separated what the system could draft from what a person must approve, and used AI-assisted implementation to make the public workflow inspectable.</p>
+          <h2 id="approach-title">I built it, put it in front of others, and redesigned it for real use.</h2>
+          <p>I defined the problem, built a working version, shared it, and presented and demoed the solution. I then redesigned the workflow for production needs. This public adaptation came afterward.</p>
           <ol class="approach-list">
-            <li><span class="step-number">01</span><div><h3>Define the output before choosing the interaction</h3><p>I made the worksheet's 17 fields a shared contract. That gave prompts, revisions, previews, and exports the same definition of a complete artifact.</p><span class="artifact-note">Product artifact: a field schema and section-level requirements.</span></div></li>
-            <li><span class="step-number">02</span><div><h3>Set the boundaries of automation</h3><p>I separated content drafting, editing, presentation, and delivery. Unknown facts stay visible; source text is evidence, not authority to bypass the review process.</p><span class="artifact-note">Product artifact: prompt responsibilities and acceptance rules.</span></div></li>
-            <li><span class="step-number">03</span><div><h3>Design the exception path alongside the happy path</h3><p>I treated missing source material, invalid output, and stale approval as product states. The public demo makes a failed source visible and requires new approval after an edit.</p><span class="artifact-note">Product artifact: a controlled review loop with explicit failure behavior.</span></div></li>
-            <li><span class="step-number">04</span><div><h3>Inspect the artifact, not just the chat response</h3><p>I used source/output comparisons and focused checks to evaluate field preservation, readable activity outlines, and usable downloads. A polished response is not the same as a correct document.</p><span class="artifact-note">Product artifact: fictional examples and repeatable acceptance checks.</span></div></li>
-            <li><span class="step-number">05</span><div><h3>Package the work for independent evaluation</h3><p>I kept the reusable low-code design and built a disconnected browser demo with original fictional content. Visitors can inspect the review and export experience without access to private systems.</p><span class="artifact-note">Product artifact: this site, a product case study, and configurable blueprints.</span></div></li>
+            <li><span class="step-number">01</span><div><h3>Identified the repeated authoring work</h3><p>I focused on the gap between an existing reference document and an exercise someone could teach or complete. The opportunity was to assist the translation into objectives, preparation, instructions, and completion checks.</p><span class="artifact-note">Output: a concrete problem and a defined training-author workflow.</span></div></li>
+            <li><span class="step-number">02</span><div><h3>Defined a consistent worksheet</h3><p>I made the worksheet's 17 fields a shared contract. Prompts, revisions, previews, and document generation could then work with the same structure instead of a different free-form response each time.</p><span class="artifact-note">Output: a field schema, section requirements, and prompt responsibilities.</span></div></li>
+            <li><span class="step-number">03</span><div><h3>Built a working version</h3><p>I built a source-to-worksheet flow and iterated on AI-assisted drafting, field mapping, and document output. Supplied source content could become an editable training worksheet&mdash;something I could demonstrate, not just describe.</p><span class="artifact-note">Output: a working solution and generated documents to inspect.</span></div></li>
+            <li><span class="step-number">04</span><div><h3>Shared, presented, and demoed it</h3><p>After creating the working version, I shared the solution, presented the approach, and demonstrated the workflow. That put both the output and the product decisions in front of others.</p><span class="artifact-note">Output: a shared working version, presentations, and demos.</span></div></li>
+            <li><span class="step-number">05</span><div><h3>Redesigned for production needs</h3><p>I moved beyond making a single run work and redesigned around clearer responsibilities, consistent fields, source checks, review, failure handling, and document delivery. The focus shifted to a workflow that could be operated predictably.</p><span class="artifact-note">Output: production-oriented workflow design and clearer operating requirements.</span></div></li>
+            <li><span class="step-number">06</span><div><h3>Created a public version people can explore</h3><p>I preserved the reusable concepts and created new sample content, placeholder infrastructure, and this local browser walkthrough. Visitors can explore the review and export experience without internal access.</p><span class="artifact-note">Output: an anonymized case study, interactive demo, and reusable blueprints.</span></div></li>
           </ol>
         </section>
         <section id="decisions" class="story-section" aria-labelledby="decisions-title">
           <p class="eyebrow">03 / Strategy and prioritization</p>
-          <h2 id="decisions-title">A narrow, trustworthy loop before a broad platform.</h2>
+          <h2 id="decisions-title">A useful worksheet first. A repeatable workflow next.</h2>
           <div class="scope-grid">
-            <article class="scope-card"><span class="pill">In the public MVP</span><h3>Prove one complete journey</h3><p>Fictional source selection, a structured draft, manual revisions, review, and Word/JSON export. Make uncertainty and blocked actions visible.</p></article>
-            <article class="scope-card"><span class="pill neutral">Deliberately deferred</span><h3>Avoid unproven breadth</h3><p>Arbitrary document ingestion, live cloud connections, multi-user permissions, organizational analytics, and claims about learning outcomes.</p></article>
+            <article class="scope-card"><span class="pill">First priority</span><h3>Make the output useful</h3><p>Turn source content into the sections a training author actually needs. Preserve the source meaning, expose missing facts, and produce something editable.</p></article>
+            <article class="scope-card"><span class="pill neutral">Production focus</span><h3>Make the process repeatable</h3><p>The redesign prioritized consistent structure, explicit review, source availability, failure handling, and a reliable document handoff over adding more features.</p></article>
           </div>
           <div class="table-scroll" tabindex="0" role="region" aria-label="Alternatives and tradeoffs">
             <table class="story-table">
-              <caption>The alternatives I considered in the product design</caption>
+              <caption>The tradeoffs behind the design</caption>
               <thead><tr><th scope="col">Approach</th><th scope="col">Why it is attractive</th><th scope="col">Tradeoff</th></tr></thead>
               <tbody>
                 <tr><th scope="row">A template alone</th><td>Simple, familiar, and easy to start.</td><td>The author still does the synthesis and repeated assembly.</td></tr>
@@ -111,12 +114,12 @@
               </tbody>
             </table>
           </div>
-          <p>I prioritized decisions that reduce downstream uncertainty over extra features. The optional cloud design stays low-code to support iteration; the browser layer is a separate public demonstration, not a replacement production platform.</p>
+          <p>I prioritized a controlled source-to-document sequence over an unrestricted chat experience. Copilot Studio and Power Automate supported the low-code design; the browser layer is a separate public adaptation that lets visitors explore it without internal access.</p>
         </section>
         <section id="metrics" class="story-section" aria-labelledby="metrics-title">
           <p class="eyebrow">04 / Product and business metrics</p>
           <h2 id="metrics-title">Measure accepted work, not generated words.</h2>
-          <div class="north-star"><span class="tiny-label">Proposed north-star metric</span><h3>Reviewer-accepted worksheets per active facilitator-week</h3><p>Count a worksheet only after content review and a usable export. An active facilitator has started at least one worksheet that week. Count each worksheet once, not each revision.</p></div>
+          <div class="north-star"><span class="tiny-label">Proposed north-star metric</span><h3>Reviewer-accepted training worksheets per active author-week</h3><p>Count a worksheet only after content review and a usable export. An active author has started at least one worksheet that week. Count each worksheet once, not each revision.</p></div>
           <p class="metric-disclosure"><strong>Proposed pilot criteria&mdash;not measured results.</strong> The example thresholds below are planning choices, not historical performance or commitments. They would be agreed with pilot participants after establishing a comparable baseline.</p>
           <div class="table-scroll" tabindex="0" role="region" aria-label="Product success metrics and proposed targets">
             <table class="story-table metric-table">
@@ -126,7 +129,7 @@
                 <tr><th scope="row">First-pass acceptance</th><td>First drafts accepted without substantive corrections / all first drafts reviewed.</td><td>Proposed target <strong>80% or higher</strong>; inspect rejection reasons by field.</td></tr>
                 <tr><th scope="row">Unsupported-content rate</th><td>Reviewed drafts with at least one unsupported material claim / all drafts audited.</td><td><strong>Any critical unsupported instruction pauses the pilot.</strong> Define severity before evaluation.</td></tr>
                 <tr><th scope="row">Usable export reliability</th><td>Attempts producing a readable, content-faithful artifact within the agreed time / all generation attempts, including failures.</td><td>Proposed target <strong>95% or higher</strong>; a file existing alone is not success.</td></tr>
-                <tr><th scope="row">Repeat use</th><td>Activated facilitators producing an accepted worksheet in the following week / activated facilitators observed for two full weeks. Activation means a first accepted worksheet.</td><td>Measure first; segment by task frequency rather than invent an adoption claim.</td></tr>
+                <tr><th scope="row">Repeat use</th><td>Activated authors producing an accepted worksheet in the following week / activated authors observed for two full weeks. Activation means a first accepted worksheet.</td><td>Measure first; segment by task frequency rather than invent an adoption claim.</td></tr>
                 <tr><th scope="row">Cost per accepted worksheet</th><td>Authoring and review labor, failed attempts, platform usage, support, and allocated setup cost / accepted worksheets.</td><td>Improve against the manual baseline at the same quality bar; do not count labor capacity as cash savings.</td></tr>
               </tbody>
             </table>
@@ -180,11 +183,11 @@
         </section>
         <section id="evidence" class="story-section" aria-labelledby="evidence-title">
           <p class="eyebrow">06 / Evidence and reflection</p>
-          <h2 id="evidence-title">Be precise about what the work proves.</h2>
+          <h2 id="evidence-title">A real build, a public walkthrough, and a clear measurement plan.</h2>
           <div class="evidence-grid">
-            <article><span class="pill">Demonstrated</span><h3>A complete local experience</h3><p>Three fictional scenarios, a consistent 17-field worksheet, real edits, review-gated downloads, and a visible source-failure path.</p><a href="index.html#demo" data-site-link>Inspect the demo</a></article>
-            <article><span class="pill neutral">Specified</span><h3>A reusable platform design</h3><p>Prompt responsibilities, review rules, and low-code configuration blueprints. A new connected deployment is not claimed.</p><a href="https://github.com/Hernanacostaa/practice-lab-studio/tree/main/platform" target="_blank" rel="noopener noreferrer">Read the public blueprints</a></article>
-            <article><span class="pill neutral">Not yet measured</span><h3>Organizational impact</h3><p>No measured adoption, cycle-time improvement, savings, production scale, or learning gains are presented. The calculator is not evidence of them.</p><a href="#next">See the evaluation plan</a></article>
+            <article><span class="pill">Built and shared</span><h3>A working solution</h3><p>I built the working version at Microsoft, shared it, presented and demoed it, and redesigned the workflow for production needs.</p><a href="#approach">Read the project progression</a></article>
+            <article><span class="pill neutral">Explore it here</span><h3>An anonymized walkthrough</h3><p>Three replacement scenarios, real edits, review-gated downloads, and a visible source-failure path. Sample drafting is replayed locally; no internal service is exposed.</p><a href="index.html#demo" data-site-link>Inspect the demo</a></article>
+            <article><span class="pill neutral">Not published here</span><h3>Internal business results</h3><p>This portfolio reports the build and design work, not internal adoption or financial data. Proposed targets and the calculator are planning aids, not reported results.</p><a href="#next">See the evaluation plan</a></article>
           </div>
           <h3 class="lessons-title">What I learned from the product work</h3>
           <ul class="lesson-list">
@@ -195,20 +198,21 @@
           </ul>
         </section>
         <section id="next" class="story-section" aria-labelledby="next-title">
-          <p class="eyebrow">07 / Validation and rollout plan</p>
-          <h2 id="next-title">Earn the next stage with evidence.</h2>
+          <p class="eyebrow">07 / Measuring broader use</p>
+          <h2 id="next-title">Measure the next stage, not just the first successful run.</h2>
+          <p>Building, sharing, and demoing the solution came first; production-oriented redesign followed. For broader use, the evaluation plan below would measure whether the workflow consistently delivers accepted training exercises at a sustainable cost.</p>
           <ol class="rollout-list">
-            <li><strong>Validate the need.</strong> Speak with prospective facilitators and reviewers; observe comparable manual tasks, agree what “accepted” means, and establish the baseline. This research is proposed, not completed.</li>
+            <li><strong>Baseline the authoring work.</strong> Measure comparable manual tasks, agree what “accepted” means with authors and reviewers, and separate authoring time from review and correction time.</li>
             <li><strong>Run a bounded pilot.</strong> Use consented, non-sensitive examples, matched tasks, counterbalanced task order, and the same review rubric. Include failures and manual restarts. Report sample size and uncertainty; a small pilot is not a production claim.</li>
             <li><strong>Expand only if quality and economics hold.</strong> Verify any optional connected build, access controls, support ownership, and per-accepted-artifact cost. Pause on critical unsupported content or a broken review boundary before adding sources or users.</li>
           </ol>
           <p>A future evaluation would record timestamps, revision counts, outcome categories, and reviewed quality scores with appropriate consent and retention rules&mdash;not raw source bodies by default. <strong>No such analytics or pilot is running on this site.</strong></p>
-          <div class="story-closing"><h3>The product-management principle</h3><p>Make the value hypothesis explicit, constrain what can go wrong, and distinguish a working demonstration from a proven business outcome.</p><a class="button primary" href="index.html#demo" data-site-link>Explore the workflow <span aria-hidden="true">&#8594;</span></a></div>
+          <div class="story-closing"><h3>The product-management principle</h3><p>Identify a real problem, build something useful, put it in front of others, and redesign it for reliable use.</p><a class="button primary" href="index.html#demo" data-site-link>Explore the workflow <span aria-hidden="true">&#8594;</span></a></div>
         </section>
       </div>
     </div>
   </main>
-  <footer><span>Practice Lab Studio &middot; Hernan Acosta</span><span>Independent portfolio project. Not an official Microsoft product.</span><a href="https://github.com/Hernanacostaa/practice-lab-studio/blob/main/docs/PUBLIC_RELEASE.md" target="_blank" rel="noopener noreferrer">Public-release boundaries</a></footer>
+  <footer><span>Practice Lab Studio &middot; Hernan Acosta</span><span>Personal case study. Not an official Microsoft product.</span><a href="https://github.com/Hernanacostaa/practice-lab-studio/blob/main/docs/PUBLIC_RELEASE.md" target="_blank" rel="noopener noreferrer">Public-release boundaries</a></footer>
   <script>/* INLINE_APP */</script>
 </body>
 </html>

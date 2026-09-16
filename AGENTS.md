@@ -1,6 +1,7 @@
 # Project rules
 
-- This is a fictional, independent public portfolio project.
+- This is an independent public portfolio adaptation of a real project the author built at Microsoft. Fictional labels apply to the replacement examples and infrastructure, not the underlying problem or project history.
+- Distinguish the working project, its production-oriented redesign, the offline public demo, and proposed business metrics. Do not invent research, deployment, adoption, or impact results.
 - Never add private content, credentials, tenant bindings, original organizational assets, or inherited Git history.
 - Keep the 17 exact worksheet keys synchronized across schema, prompts, fixtures, UI, Word, and tests.
 - The browser uses illustrative fixture replay, not a live model. Keep that distinction explicit.

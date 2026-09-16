@@ -2,7 +2,9 @@
 
 ## What is included
 
-Practice Lab Studio is a newly authored portfolio adaptation of a source-to-training-worksheet workflow. It preserves the reusable design: source grounding, a 17-field contract, four distinct prompt responsibilities, deterministic orchestration, human revision, and document delivery.
+Practice Lab Studio is a newly authored public adaptation of a real solution Hernan Acosta created at Microsoft. The problem identification, working version, sharing, presentations, demos, and production-oriented redesign are real project history. The sample content and infrastructure are replacements, not the original organizational assets.
+
+The adaptation preserves reusable concepts: source grounding, a 17-field contract, four distinct prompt responsibilities, controlled orchestration, human revision, and document delivery. The public browser runtime is separate from the original implementation.
 
 The public release uses:
 
@@ -15,7 +17,7 @@ The public release uses:
 
 ## What is deliberately absent
 
-Original organizational procedures, names, operational details, course catalogs, staff and customer information, tenant and environment identifiers, internal URLs, support cases, telemetry, credentials, solution archives, videos, private document metadata, and screenshots of organizational systems are not part of this release.
+Beyond the author's name and Microsoft as the context of the work, internal project and team names, organizational procedures, operational details, course catalogs, staff and customer information, tenant and environment identifiers, internal URLs, support cases, telemetry, credentials, solution archives, videos, private document metadata, and screenshots of organizational systems are not part of this release.
 
 No original operational source document was used as a sample with a few names changed. The sample material was authored from scratch for low-risk, fictional learning scenarios.
 
@@ -27,7 +29,7 @@ Field content remains in the current page's memory until the page is reset or cl
 
 Source extraction is a replay of authored fixtures, not an AI service. Word generation uses a bundled open-source library locally. The unavailable-source control exercises a simulated failure path, not a connection to a real document service.
 
-The product story uses fictionalized personas and newly invented planning assumptions. Its proposed pilot thresholds are not measured achievements. The interactive model reports potential reusable labor capacity, charges for unsuccessful attempts and manual fallback, and includes adjustable operating/setup costs; it does not establish cash savings, financial ROI, or actual platform pricing. Calculator values are neither persisted nor placed in navigation URLs.
+The product story describes a real authoring problem and working solution; public role descriptions are generalized. The calculator assumptions are newly invented, and proposed pilot thresholds are not reported achievements. The interactive model reports potential reusable labor capacity, charges for unsuccessful attempts and manual fallback, and includes adjustable operating/setup costs; it does not establish cash savings, financial ROI, or actual platform pricing. Calculator values are neither persisted nor placed in navigation URLs.
 
 ## Release checks
 
@@ -45,6 +47,6 @@ Do not publish original exports to make these blueprints look more complete. If 
 
 ## Rights and claims
 
-The release does not assert ownership of any employer's work or materials. It presents original public artifacts and a generic workflow pattern. Publishing a sanitized repository does not erase prior disclosures or copies elsewhere, and it is not a substitute for any applicable organizational approval.
+This is the author's personal case study, not an official Microsoft product or endorsement. Describing the author's contribution does not assert ownership of employer materials or permission to redistribute them. The release presents newly authored public artifacts rather than original organizational assets. Publishing a sanitized repository does not erase prior disclosures or copies elsewhere, and it is not a substitute for any applicable organizational approval.
 
-No business-impact numbers, customer adoption, independent audits, production certifications, or live cloud deployment are claimed.
+The repository does not publish internal business results, customer adoption, independent audits, or production certifications. Its offline demo and unbound blueprints do not deploy a live cloud service. That public-runtime boundary does not mean the original solution was never built; production-oriented redesign is distinct from a claim of production rollout.
