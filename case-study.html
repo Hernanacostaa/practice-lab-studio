@@ -5,8 +5,7 @@
   <script>
     (() => {
       const param = new URLSearchParams(window.location.search).get("scoutTheme");
-      const theme =
-        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      const theme = param === "light" || param === "dark" ? param : "dark";
       document.documentElement.setAttribute("data-theme", theme);
     })();
   </script>
@@ -20,10 +19,11 @@
 <body id="top">
   <a href="#problem" class="skip-link">Skip to the product story</a>
   <header class="site-header">
-    <a class="brand" href="index.html" data-site-link aria-label="Practice Lab Studio home"><span class="brand-mark" aria-hidden="true">PL</span><span>Practice Lab <strong>Studio</strong></span></a>
+    <a class="brand" href="lab.html" data-site-link aria-label="Practice Lab Studio home"><span class="brand-mark" aria-hidden="true">PL</span><span>Practice Lab <strong>Studio</strong></span></a>
     <nav aria-label="Main navigation">
-      <a href="index.html#demo" data-site-link>Try the workflow</a>
+      <a href="lab.html#demo" data-site-link>Try the workflow</a>
       <a href="#top" aria-current="page">Why I built this</a>
+      <a href="index.html" data-site-link>About Hernan</a>
       <a href="https://github.com/Hernanacostaa/practice-lab-studio" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">&#8599;</span></a>
       <button id="theme-toggle" class="button-icon" type="button" aria-label="Switch color theme">Theme</button>
     </nav>
@@ -34,7 +34,7 @@
         <p class="eyebrow">The product story / Hernan Acosta</p>
         <h1 id="story-title">From source documents<br><span>to training exercises.</span></h1>
         <p class="story-lede">At Microsoft, I identified a manual authoring problem: training authors had reference material, but still had to turn it into <strong>step-by-step exercises people could actually complete</strong>. I built a working solution, shared and demonstrated it, then redesigned the workflow for production needs.</p>
-        <div class="hero-actions"><a class="button primary" href="index.html#demo" data-site-link>Try what I built <span aria-hidden="true">&#8594;</span></a><a class="text-link" href="#metrics">See the success measures</a></div>
+        <div class="hero-actions"><a class="button primary" href="lab.html#demo" data-site-link>Try what I built <span aria-hidden="true">&#8594;</span></a><a class="text-link" href="#metrics">See the success measures</a></div>
         <p class="story-boundary"><strong>Real project. Anonymized public version.</strong> I created the underlying solution at Microsoft. This site replaces internal content and infrastructure with public examples; the project history is real, while sample scenarios and business-model assumptions are illustrative.</p>
       </div>
       <aside class="story-brief" aria-label="Project at a glance">
@@ -186,7 +186,7 @@
           <h2 id="evidence-title">A real build, a public walkthrough, and a clear measurement plan.</h2>
           <div class="evidence-grid">
             <article><span class="pill">Built and shared</span><h3>A working solution</h3><p>I built the working version at Microsoft, shared it, presented and demoed it, and redesigned the workflow for production needs.</p><a href="#approach">Read the project progression</a></article>
-            <article><span class="pill neutral">Explore it here</span><h3>An anonymized walkthrough</h3><p>Three replacement scenarios, real edits, review-gated downloads, and a visible source-failure path. Sample drafting is replayed locally; no internal service is exposed.</p><a href="index.html#demo" data-site-link>Inspect the demo</a></article>
+            <article><span class="pill neutral">Explore it here</span><h3>An anonymized walkthrough</h3><p>Three replacement scenarios, real edits, review-gated downloads, and a visible source-failure path. Sample drafting is replayed locally; no internal service is exposed.</p><a href="lab.html#demo" data-site-link>Inspect the demo</a></article>
             <article><span class="pill neutral">Not published here</span><h3>Internal business results</h3><p>This portfolio reports the build and design work, not internal adoption or financial data. Proposed targets and the calculator are planning aids, not reported results.</p><a href="#next">See the evaluation plan</a></article>
           </div>
           <h3 class="lessons-title">What I learned from the product work</h3>
@@ -207,7 +207,7 @@
             <li><strong>Expand only if quality and economics hold.</strong> Verify any optional connected build, access controls, support ownership, and per-accepted-artifact cost. Pause on critical unsupported content or a broken review boundary before adding sources or users.</li>
           </ol>
           <p>A future evaluation would record timestamps, revision counts, outcome categories, and reviewed quality scores with appropriate consent and retention rules&mdash;not raw source bodies by default. <strong>No such analytics or pilot is running on this site.</strong></p>
-          <div class="story-closing"><h3>The product-management principle</h3><p>Identify a real problem, build something useful, put it in front of others, and redesign it for reliable use.</p><a class="button primary" href="index.html#demo" data-site-link>Explore the workflow <span aria-hidden="true">&#8594;</span></a></div>
+          <div class="story-closing"><h3>The product-management principle</h3><p>Identify a real problem, build something useful, put it in front of others, and redesign it for reliable use.</p><a class="button primary" href="lab.html#demo" data-site-link>Explore the workflow <span aria-hidden="true">&#8594;</span></a></div>
         </section>
       </div>
     </div>

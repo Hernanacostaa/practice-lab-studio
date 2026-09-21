@@ -1,8 +1,10 @@
 # Practice Lab Studio: from source documents to training exercises
 
-[Try the local demo](../README.md) | [Architecture](ARCHITECTURE.md) | [Optional platform build](DEPLOYMENT.md)
+This is an optional technical-evidence deep dive into Practice Lab Studio. The recruiter-facing narrative, role, prioritization, proposed success measures, and interactive economics remain in [Why I built this](https://hernanacostaa.github.io/practice-lab-studio/case-study.html).
 
-For the recruiter-facing narrative, role, prioritization, proposed success measures, and interactive economics, read [Why I built this on the demo site](https://hernanacostaa.github.io/practice-lab-studio/case-study.html). Its numeric pilot thresholds and calculator defaults are newly invented planning assumptions, not historical results, private business figures, or forecasts.
+[Personal portfolio](https://hernanacostaa.github.io/practice-lab-studio/) | [Interactive lab](https://hernanacostaa.github.io/practice-lab-studio/lab.html#demo) | [Local setup](../README.md) | [Architecture](ARCHITECTURE.md) | [Optional platform build](DEPLOYMENT.md)
+
+The project story's numeric pilot thresholds and calculator defaults are newly invented planning assumptions, not historical results, private business figures, or forecasts.
 
 **This case study is based on a real solution I created at Microsoft.** I identified a manual training-authoring problem, built a working version, shared it, presented and demoed the solution, and redesigned the workflow for production needs.
 

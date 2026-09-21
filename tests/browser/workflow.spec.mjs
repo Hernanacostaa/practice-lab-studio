@@ -7,9 +7,9 @@ test("fixture workflow produces 17 fields, requires review, and exports valid Wo
   const requests = [];
   page.on("pageerror", (error) => failures.push(error.message));
   page.on("request", (request) => requests.push(request.url()));
-  await page.goto("/");
+  await page.goto("/lab.html");
   expect(await page.locator("#third-party-licenses").evaluate((element) => element.content.textContent)).toContain("Permission is hereby granted");
-  await page.getByRole("button", { name: "Create sample draft" }).click();
+  await page.getByRole("button", { name: "Create example worksheet" }).click();
   await expect(page.locator(".field")).toHaveCount(17);
   await expect(page.getByRole("button", { name: "Download Word" })).toBeDisabled();
   await page.locator("#approve").check();
@@ -28,20 +28,21 @@ test("fixture workflow produces 17 fields, requires review, and exports valid Wo
 });
 
 test("source failure never produces a draft and can recover", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/lab.html");
+  await page.locator(".safety-tools > summary").click();
   await page.locator("#retrieval-failure").check();
-  await page.getByRole("button", { name: "Create sample draft" }).click();
+  await page.getByRole("button", { name: "Create example worksheet" }).click();
   await expect(page.locator("#error")).toBeVisible();
   await expect(page.locator("#draft-content")).toBeHidden();
   await expect(page.locator(".field")).toHaveCount(0);
   await page.locator("#retrieval-failure").uncheck();
-  await page.getByRole("button", { name: "Create sample draft" }).click();
+  await page.getByRole("button", { name: "Create example worksheet" }).click();
   await expect(page.locator(".field")).toHaveCount(17);
 });
 
 test("pending and applied edits invalidate approval; literal markup is not executed", async ({ page }) => {
-  await page.goto("/");
-  await page.getByRole("button", { name: "Create sample draft" }).click();
+  await page.goto("/lab.html");
+  await page.getByRole("button", { name: "Create example worksheet" }).click();
   await page.locator("#approve").check();
   await page.locator("#edit-mode").check();
   const field = page.locator('[data-key="ActivityDescription"]');
@@ -63,8 +64,8 @@ test("pending and applied edits invalidate approval; literal markup is not execu
 });
 
 test("invalid edits are explicit and do not overwrite the valid draft", async ({ page }) => {
-  await page.goto("/");
-  await page.getByRole("button", { name: "Create sample draft" }).click();
+  await page.goto("/lab.html");
+  await page.getByRole("button", { name: "Create example worksheet" }).click();
   await page.locator("#edit-mode").check();
   const field = page.locator('[data-key="ActivityDescription"]');
   const original = await field.locator("textarea").inputValue();
@@ -78,11 +79,11 @@ test("invalid edits are explicit and do not overwrite the valid draft", async ({
 });
 
 test("all scenarios work and switching or resetting removes previous content", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/lab.html");
   for (const id of ["workshop", "library", "photos"]) {
     await page.locator("#sample-select").selectOption(id);
     await expect(page.locator("#draft-content")).toBeHidden();
-    await page.getByRole("button", { name: "Create sample draft" }).click();
+    await page.getByRole("button", { name: "Create example worksheet" }).click();
     await expect(page.locator(".field")).toHaveCount(17);
     await page.locator("#approve").check();
   }
@@ -95,9 +96,9 @@ test("all scenarios work and switching or resetting removes previous content", a
 test("responsive layouts and theme have no horizontal overflow", async ({ page }) => {
   for (const [width, height, theme] of [[390, 844, "light"], [1440, 1000, "dark"]]) {
     await page.setViewportSize({ width, height });
-    await page.goto(`/?scoutTheme=${theme}`);
+    await page.goto(`/lab.html?scoutTheme=${theme}`);
     await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
-    await page.getByRole("button", { name: "Create sample draft" }).click();
+    await page.getByRole("button", { name: "Create example worksheet" }).click();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
     await page.locator("#theme-toggle").click();
     await expect(page.locator("html")).toHaveAttribute("data-theme", theme === "dark" ? "light" : "dark");
@@ -105,8 +106,8 @@ test("responsive layouts and theme have no horizontal overflow", async ({ page }
 });
 
 test("multiple pending edits remain visible and cannot bypass review by leaving edit mode", async ({ page }) => {
-  await page.goto("/");
-  await page.getByRole("button", { name: "Create sample draft" }).click();
+  await page.goto("/lab.html");
+  await page.getByRole("button", { name: "Create example worksheet" }).click();
   await page.locator("#edit-mode").check();
   const description = page.locator('[data-key="ActivityDescription"]');
   const steps = page.locator('[data-key="ActivitySteps"]');
@@ -124,13 +125,14 @@ test("multiple pending edits remain visible and cannot bypass review by leaving 
 });
 
 test("a new source failure clears a previously approved draft", async ({ page }) => {
-  await page.goto("/");
-  await page.getByRole("button", { name: "Create sample draft" }).click();
+  await page.goto("/lab.html");
+  await page.getByRole("button", { name: "Create example worksheet" }).click();
   await page.locator("#approve").check();
+  await page.locator(".safety-tools > summary").click();
   await page.locator("#retrieval-failure").check();
   await expect(page.locator("#approve")).not.toBeChecked();
   await expect(page.locator("#export-docx")).toBeDisabled();
-  await page.getByRole("button", { name: "Create sample draft" }).click();
+  await page.getByRole("button", { name: "Create example worksheet" }).click();
   await expect(page.locator("#error")).toBeVisible();
   await expect(page.locator(".field")).toHaveCount(0);
 });
@@ -141,8 +143,8 @@ test("standalone HTML works with network access disabled", async ({ browser }) =
     const page = await context.newPage();
     const { pathToFileURL } = await import("node:url");
     const { resolve } = await import("node:path");
-    await page.goto(pathToFileURL(resolve("dist", "index.html")).href);
-    await page.getByRole("button", { name: "Create sample draft" }).click();
+    await page.goto(pathToFileURL(resolve("dist", "lab.html")).href);
+    await page.getByRole("button", { name: "Create example worksheet" }).click();
     await page.locator("#approve").check();
     const [download] = await Promise.all([page.waitForEvent("download"), page.locator("#export-docx").click()]);
     const parts = unzipSync(await readFile(await download.path()));

@@ -3,8 +3,8 @@ import { pathToFileURL } from "node:url";
 import { resolve } from "node:path";
 
 test("the in-site story opens without losing an edited worksheet and preserves the theme", async ({ page }) => {
-  await page.goto("/?scoutTheme=dark");
-  await page.getByRole("button", { name: "Create sample draft" }).click();
+  await page.goto("/lab.html?scoutTheme=dark");
+  await page.getByRole("button", { name: "Create example worksheet" }).click();
   await page.locator("#edit-mode").check();
   const field = page.locator('[data-key="ActivityDescription"]');
   await field.locator("textarea").fill("A revised fictional workshop for portfolio review.");
@@ -22,8 +22,16 @@ test("the in-site story opens without losing an edited worksheet and preserves t
   await story.locator("#theme-toggle").click();
   await expect(story.locator("html")).toHaveAttribute("data-theme", "light");
   await story.getByRole("navigation", { name: "Main navigation", exact: true }).getByRole("link", { name: "Try the workflow" }).click();
-  await expect(story).toHaveURL(/\/index\.html\?scoutTheme=light#demo$/);
+  await expect(story).toHaveURL(/\/lab\.html\?scoutTheme=light#demo$/);
   await expect(story.locator("html")).toHaveAttribute("data-theme", "light");
+  const [portfolio] = await Promise.all([
+    page.waitForEvent("popup"),
+    page.getByRole("link", { name: "About Hernan (opens in a new tab)", exact: true }).click(),
+  ]);
+  await expect(portfolio).toHaveURL(/\/index\.html\?scoutTheme=dark$/);
+  await expect(portfolio.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(page.locator("#approve")).toBeChecked();
+  await expect(field.locator("textarea")).toHaveValue("A revised fictional workshop for portfolio review.");
 });
 
 test("the real project progression stays distinct from replacement examples and modeled impact", async ({ page }) => {
@@ -124,7 +132,7 @@ test("the standalone story and its link back to the demo work offline", async ({
     await page.goto(pathToFileURL(resolve("dist", "case-study.html")).href);
     await expect(page.locator("#result-hours")).toHaveText("27.3 hours");
     await page.getByRole("link", { name: "Try what I built" }).click();
-    await page.getByRole("button", { name: "Create sample draft" }).click();
+    await page.getByRole("button", { name: "Create example worksheet" }).click();
     await expect(page.locator(".field")).toHaveCount(17);
   } finally {
     await context.close();

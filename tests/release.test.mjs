@@ -3,8 +3,10 @@ import assert from "node:assert/strict";
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { runInNewContext } from "node:vm";
 import { FIELD_KEYS } from "../src/core.mjs";
 import { SAMPLES } from "../src/samples.mjs";
+import { inspectImageMetadata } from "../scripts/check-public.mjs";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 
@@ -43,8 +45,8 @@ test("documentation relative links point to actual public files", async () => {
   assert.deepEqual(failures, []);
 });
 
-test("page declares local-only demo and blocks network connections", async () => {
-  const html = await readFile(path.join(root, "index.html"), "utf8");
+test("lab page declares local-only demo and blocks network connections", async () => {
+  const html = await readFile(path.join(root, "lab.html"), "utf8");
   assert.match(html, /No live AI is running here/);
   assert.match(html, /connect-src 'none'/);
   assert.match(html, /form-action 'none'/);
@@ -85,11 +87,128 @@ test("public entry points describe a real project without reclassifying its exam
     assert.match(content, /fictional/i);
     assert.doesNotMatch(content, /is a fictional portfolio project|fictionalized personas/);
   }
-  const html = await readFile(path.join(root, "index.html"), "utf8");
-  assert.match(html, /Training exercises out/);
+  const html = await readFile(path.join(root, "lab.html"), "utf8");
+  assert.match(html, /Turn a how-to guide into a training worksheet/);
   assert.match(html, /real solution Hernan Acosta built at Microsoft/);
-  assert.match(html, /selected fictional source/);
+  assert.match(html, /Creating a worksheet loads a prepared example for that guide, not a new AI response/);
   assert.doesNotMatch(html, /Ready-to-run practice|practical activity worksheet/);
+});
+
+test("all pages default to dark before first paint and honor only valid explicit theme overrides", async () => {
+  for (const filename of ["index.html", "lab.html", "case-study.html"]) {
+    const html = await readFile(path.join(root, filename), "utf8");
+    const script = html.match(/<script>([\s\S]*?)<\/script>/);
+    assert.ok(script, `${filename} needs an initial theme script`);
+    for (const system of ["light", "dark"]) {
+      for (const override of [null, "", "light", "dark", "invalid", "DARK"]) {
+        let actual;
+        runInNewContext(script[1], {
+          URLSearchParams,
+          window: {
+            location: { search: override === null ? "" : `?scoutTheme=${override}` },
+            matchMedia: () => ({ matches: system === "dark" }),
+          },
+          document: {
+            documentElement: { setAttribute: (name, value) => { assert.equal(name, "data-theme"); actual = value; } },
+          },
+        });
+        assert.equal(actual, override === "light" || override === "dark" ? override : "dark",
+          `${filename}: system ${system}, override ${override}`);
+      }
+    }
+  }
+});
+
+test("shared screen colors live in one palette while project components use semantic aliases", async () => {
+  const palette = await readFile(path.join(root, "src", "palette.css"), "utf8");
+  assert.match(palette, /:root\s*\{/);
+  assert.match(palette, /html\[data-theme="dark"\]\s*\{/);
+  assert.match(palette, /--cp-secondary:\s*var\(--cp-text-muted\)/);
+  assert.match(palette, /--cp-secondary:\s*var\(--cp-text-soft\)/);
+  assert.doesNotMatch(palette, /@import/i);
+  for (const filename of ["portfolio.css", "style.css", "lab.css", "story.css"]) {
+    const css = await readFile(path.join(root, "src", filename), "utf8");
+    const screen = css.split("@media print")[0];
+    assert.doesNotMatch(screen, /#[0-9a-f]{3,8}\b|(?:rgba?|hsla?)\(/i, `${filename} must use the shared screen palette`);
+    assert.doesNotMatch(css, /@import/i);
+    for (const [, token, value] of screen.matchAll(/(--cp-[a-z-]+)\s*:\s*([^;]+);/g)) {
+      assert.match(value.trim(), /^var\(--cp-[a-z-]+\)$/, `${filename}: ${token} must reference a shared token`);
+    }
+    if (filename === "style.css") {
+      assert.match(css, /--cp-accent-fill:\s*var\(--cp-accent\)/);
+      assert.match(css, /--cp-accent-fill-hover:\s*var\(--cp-accent-hover\)/);
+      assert.match(css, /--cp-control-border:\s*var\(--cp-border-strong\)/);
+      assert.match(css, /h1, h2 \{ font-family: Georgia, "Times New Roman", serif;/);
+    }
+  }
+});
+
+test("project navigation keeps the lab separate from the portfolio and protects in-memory drafts", async () => {
+  const [lab, story] = await Promise.all(["lab.html", "case-study.html"].map((filename) => readFile(path.join(root, filename), "utf8")));
+  const outgoing = [...lab.matchAll(/<a\b[^>]*href="(?:index|case-study)\.html"[^>]*>/g)];
+  assert.equal(outgoing.length, 4);
+  for (const [link] of outgoing) {
+    assert.match(link, /\bdata-site-link\b/);
+    assert.match(link, /\btarget="_blank"/);
+    assert.match(link, /\brel="noopener noreferrer"/);
+  }
+  assert.match(lab, /About Hernan/);
+  assert.match(story, /class="brand" href="lab\.html" data-site-link/);
+  assert.match(story, /href="index\.html" data-site-link>About Hernan/);
+  assert.equal([...story.matchAll(/href="lab\.html#demo" data-site-link/g)].length, 4);
+  assert.doesNotMatch(story, /href="index\.html#demo"/);
+});
+
+test("image release checks reject PNG EXIF, XMP and text metadata without weakening container checks", async () => {
+  const png = await readFile(path.join(root, "docs", "demo-preview.png"));
+  assert.deepEqual(inspectImageMetadata(png, ".png"), []);
+  for (const type of ["eXIf", "tEXt", "zTXt", "iTXt", "tIME"]) {
+    const data = Buffer.from("public test metadata");
+    const chunk = Buffer.alloc(12 + data.length);
+    chunk.writeUInt32BE(data.length);
+    chunk.write(type, 4, 4, "ascii");
+    data.copy(chunk, 8);
+    const modified = Buffer.concat([png.subarray(0, -12), chunk, png.subarray(-12)]);
+    assert.ok(inspectImageMetadata(modified, ".png").includes(`PNG ${type} metadata must be removed`));
+  }
+  assert.ok(inspectImageMetadata(Buffer.from("not an image"), ".png").includes("invalid PNG signature"));
+  assert.ok(inspectImageMetadata(png.subarray(0, -1), ".png").includes("truncated PNG chunk"));
+  assert.ok(inspectImageMetadata(Buffer.concat([png, Buffer.from([0])]), ".png").includes("invalid PNG end chunk or trailing data"));
+});
+
+test("image release checks reject WebP EXIF/XMP chunks and flags, including after padded chunks", () => {
+  const chunk = (type, data = Buffer.alloc(0)) => {
+    const bytes = Buffer.alloc(8 + data.length + (data.length % 2));
+    bytes.write(type, 0, 4, "ascii");
+    bytes.writeUInt32LE(data.length, 4);
+    data.copy(bytes, 8);
+    return bytes;
+  };
+  const container = (...chunks) => {
+    const data = Buffer.concat([Buffer.from("WEBP"), ...chunks]);
+    const header = Buffer.alloc(8);
+    header.write("RIFF");
+    header.writeUInt32LE(data.length, 4);
+    return Buffer.concat([header, data]);
+  };
+  const image = chunk("VP8L", Buffer.from([0]));
+  assert.deepEqual(inspectImageMetadata(container(image), ".webp"), []);
+  for (const type of ["EXIF", "XMP "]) {
+    assert.ok(inspectImageMetadata(container(image, chunk(type, Buffer.from([1]))), ".webp")
+      .includes(`WebP ${type.trim()} metadata must be removed`));
+  }
+  for (const flag of [0x04, 0x08]) {
+    const header = Buffer.alloc(10);
+    header[0] = flag;
+    assert.ok(inspectImageMetadata(container(chunk("VP8X", header), image), ".webp")
+      .includes("WebP EXIF/XMP metadata flags must be removed"));
+  }
+  const malformed = container(image);
+  malformed.writeUInt32LE(100, 16);
+  assert.ok(inspectImageMetadata(malformed, ".webp").includes("truncated WebP chunk"));
+  assert.ok(inspectImageMetadata(Buffer.from("not an image"), ".webp").includes("invalid WebP RIFF container"));
+  assert.ok(inspectImageMetadata(container(image).subarray(0, -1), ".webp").includes("invalid WebP RIFF container"));
+  assert.throws(() => inspectImageMetadata(Buffer.alloc(0), ".jpg"), /Unsupported image format/);
 });
 
 test("platform blueprints are unbound specifications with the same 17-field contract", async () => {

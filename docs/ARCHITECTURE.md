@@ -1,16 +1,34 @@
 # Practice Lab Studio architecture
 
-[Project overview and local demo](../README.md) | [Deployment guide](DEPLOYMENT.md) | [Case study](CASE_STUDY.md)
+[Portfolio and local setup](../README.md) | [Interactive lab](../lab.html) | [Deployment guide](DEPLOYMENT.md) | [Technical evidence](CASE_STUDY.md)
 
-Practice Lab Studio separates an inspectable, offline portfolio demonstration from a reusable Copilot Studio and Power Automate design. They share a worksheet contract and review principles, not a running backend.
+The repository's `index.html` is Hernan Acosta's personal portfolio. Practice Lab Studio remains a separate interactive project at `lab.html`, with its recruiter-facing narrative and illustrative calculator at `case-study.html`.
+
+Practice Lab Studio separates an inspectable, offline demonstration from a reusable Copilot Studio and Power Automate design. They share a worksheet contract and review principles, not a running backend.
 
 The case study is based on a real working solution the author created at Microsoft and subsequently shared, presented, demoed, and redesigned for production needs. This document describes the replacement public artifacts, not the original environment or its deployment status.
+
+## Site packaging and navigation
+
+The build creates three independent HTML documents in `dist/`:
+
+| Page | Bundled presentation and behavior |
+| --- | --- |
+| `index.html` | `src/palette.css`, then `src/portfolio.css`, with `src/portfolio.mjs`; curated portfolio PNG/WebP derivatives embedded as data URIs |
+| `lab.html` | `src/palette.css`, then `src/style.css` and `src/lab.css`, with `src/app.mjs`; bundled Word-export dependencies and runtime license notices |
+| `case-study.html` | `src/palette.css`, then `src/style.css` and `src/story.css`, with `src/story.mjs`; the unchanged illustrative business-case model |
+
+`src/palette.css` is the single source of concrete on-screen theme colors for all three pages. It preserves the approved homepage's Mexican-architecture-inspired light/dark values. Project component styles reference those tokens through semantic aliases instead of defining a divergent app palette. Primary controls share the accent fill and foreground; outlined controls use the strong border token. Display headings use local Georgia / Times New Roman serif fonts. The build concatenates these styles locally, with the palette first and no CSS imports. The homepage's scoped compositions and print-profile treatment remain separate from the project layout.
+
+No page needs external runtime assets, a network connection, or browser storage. Keep the three HTML siblings together for offline navigation. The lab's **About Hernan** and case-study links open new tabs so its in-memory draft survives. Each initial theme script defaults to dark regardless of system preference and accepts only explicit `scoutTheme=light` or `scoutTheme=dark` overrides. Shared theme controls propagate the selected theme through internal links without persisting it.
+
+The narrowly scoped image-inlining step accepts only lowercase, hyphen-separated `.webp` or `.png` names under `assets/portfolio/`. The build copies only `social-preview.png` out of that directory as a separate image, for Open Graph previews; it is not a runtime page dependency. The local server allowlists the three HTML pages and that preview image. GitHub Pages deploys the same `dist/` directory at the existing project URL.
 
 ## Two distinct evaluation surfaces
 
 | Surface | What it demonstrates | What it does not establish |
 | --- | --- | --- |
-| Root browser demo | Illustrative, pre-authored sample responses; real local field edits; reviewer approval; local JSON and Word downloads | Live extraction, live AI editing, connected retrieval, tenant deployment, or delivery through Power Automate |
+| `lab.html` browser demo | Illustrative, pre-authored sample responses; real local field edits; reviewer approval; local JSON and Word downloads | Live extraction, live AI editing, connected retrieval, tenant deployment, or delivery through Power Automate |
 | `platform/` blueprints | Prompt contracts, topic routing requirements, source guards, approval state, and configurable document creation | Importable solution packages, configured connectors, deployed topics, or passing tenant acceptance tests |
 
 The fictional scenarios are identified by `workshop`, `library`, and `photos` in [the sample module](../src/samples.mjs). Selecting a scenario replays authored material. It does not ask a model to interpret arbitrary new content. The local demo requires no Power Platform tenant; see the root README for its actual run instructions.
@@ -24,6 +42,16 @@ The fictional scenarios are identified by `workshop`, `library`, and `photos` in
 Each `.txt` is the full authored guide. Each `.json` is the flat 17-field worksheet itself, not a sample wrapper or a recorded model response. `SAMPLES` in `src/samples.mjs` imports the expected JSON directly and includes matching copies of the complete source text. Those copies must remain identical to the `.txt` files; bundling them avoids runtime source-file fetches.
 
 The browser keeps worksheet state in memory, does not upload entered content, and does not persist drafts in browser storage. Explicit downloads create local files. Both JSON and Word exports require reviewer approval; edits and source changes invalidate that approval. A source failure remains a visible failure with a retry path, not a successful draft or evidence of connected retrieval.
+
+### Browser walkthrough and applied-value preview
+
+The public demo follows **guide -> readable 17-field worksheet -> optional manual edit/apply -> compare and review -> editable Word or JSON**. **Create example worksheet** loads the selected guide's prepared fixture; it does not call a live AI model. The default draft view is a readable worksheet, not 17 editor panels.
+
+`#worksheet-preview` renders all 17 applied values, identified by `data-preview-key`, with title-page metadata in a secondary disclosure. Its paper/ink colors use the shared `--cp-paper` and `--cp-ink` tokens in both themes. The field editors remain attached under `#fields` but hidden until **Edit worksheet** is enabled.
+
+Typing stages a pending edit; only **Apply field** changes the validated worksheet and its preview. Pending or invalid edits never alter the applied-value preview or bypass review, including after leaving edit mode. Apply or discard pending changes before approval, and review again after an applied change. Changing the guide or resetting removes the previous preview, pending edits, and approval. Word and JSON export the reviewed, applied worksheet rather than editor buffers.
+
+The complete source text, unavailable-source simulation, and workflow/schema trace remain secondary inspection tools behind disclosures. Reviewers can expand **Read the original guide** to compare content; the failure checkbox is inside **What if the guide is missing?**. These tools explain the safety boundaries without making the technical panels the initial reading experience.
 
 The platform path is optional. It requires the builder's own development environment, supported prompt features, and explicitly configured resources. Start with pasted fictional text. A newly created sample library or source reader can be added only after its behavior is verified.
 

@@ -9,8 +9,9 @@ try {
   const page = await browser.newPage({ viewport: { width: 1440, height: 1100 }, deviceScaleFactor: 1 });
   const errors = [];
   page.on("pageerror", (error) => errors.push(error.message));
-  await page.goto(new URL("../dist/index.html?scoutTheme=light", import.meta.url).href);
-  await page.getByRole("button", { name: "Create sample draft" }).click();
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto(new URL("../dist/lab.html?scoutTheme=dark", import.meta.url).href);
+  await page.getByRole("button", { name: "Create example worksheet" }).click();
   await page.locator("#draft-content").waitFor({ state: "visible" });
   await page.evaluate(() => {
     const heading = document.getElementById("demo");

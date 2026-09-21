@@ -9,7 +9,7 @@ export const SAMPLES = Object.freeze([
   {
     id: "workshop",
     name: "Fictional workshop check-in",
-    summary: "A 15-minute welcome-desk practice using three synthetic attendee aliases. Fixture replay only.",
+    summary: "Teach new volunteers to welcome people and avoid duplicate check-ins, using a fictional roster and three made-up attendee aliases.",
     source: `FICTIONAL WORKSHOP GUIDE: PAPER-SHAPE WELCOME SESSION
 
 This original, invented guide is for a public portfolio fixture replay, not live AI generation. It describes a pretend welcome desk for a paper-shape workshop. All attendee aliases are synthetic. Never collect real names, contact details, or attendance records.
@@ -40,7 +40,7 @@ Reference this fictional paper-shape workshop guide only. Missing metadata stays
   {
     id: "library",
     name: "Fictional board-game lending",
-    summary: "A 20-minute paper-loan exercise for an invented game and borrower. Unspecified dates remain TBD.",
+    summary: "Help volunteers check an invented game's contents and complete a pretend loan record without guessing missing dates.",
     source: `FICTIONAL WORKSHOP GUIDE: MOON ORCHARD LENDING PRACTICE
 
 This original, invented guide is for a public portfolio fixture replay, not live AI generation. The community library, board game, borrower, and loan are fictional. Moon Orchard is an invented game; River is a synthetic borrower alias. Do not use real borrower information or make a real loan.
@@ -71,7 +71,7 @@ Reference this fictional Moon Orchard lending guide only. Missing metadata stays
   {
     id: "photos",
     name: "Fictional photo catalogue",
-    summary: "A 25-minute placeholder-file exercise. No actual photos or verified public-domain assets are supplied.",
+    summary: "Show archive volunteers how to organize placeholder photo records while keeping unverified image rights visible. No actual photos are supplied.",
     source: `FICTIONAL WORKSHOP GUIDE: PHOTO CATALOGUE PRACTICE
 
 This original, invented guide is for a public portfolio fixture replay, not live AI generation. This is a catalogue exercise, not a verified image collection. No actual photos are supplied. The fictional rights-note cards say public domain for the exercise only; no real licence or provenance claim has been checked. Confirm real provenance before using any real image.

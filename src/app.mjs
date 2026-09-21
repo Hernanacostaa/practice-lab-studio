@@ -9,7 +9,8 @@ const controls = Object.fromEntries([
   "retrieval-failure", "status", "error", "empty-state", "draft-content", "fields",
   "worksheet-title", "worksheet-subtitle", "field-count", "draft-state", "edit-mode",
   "edit-help", "revision-count", "approve", "review-note", "export-docx", "export-json",
-  "trace", "trace-count",
+  "trace", "trace-count", "source-audience", "source-duration", "worksheet-preview",
+  "worksheet-facts", "worksheet-sections", "worksheet-metadata", "pending-warning", "download-result",
 ].map((id) => [id, byId(id)]));
 
 let worksheet = null;
@@ -56,12 +57,23 @@ function syncReview() {
     : approved
       ? "Reviewed for this demo. Export is enabled; any edit will clear approval."
       : "Approval is required before exporting. Any content change requires a new review.";
-  controls["draft-state"].textContent = worksheet ? approved ? "Reviewed" : dirty ? "Unsaved edits" : "Needs review" : "Awaiting source";
+  controls["draft-state"].textContent = worksheet ? approved ? "Reviewed" : dirty ? "Unsaved edits" : "Needs review" : "Ready when you are";
   controls["draft-state"].classList.toggle("neutral", !worksheet);
+  controls["pending-warning"].hidden = !dirty;
+  controls["pending-warning"].textContent = controls["edit-mode"].checked
+    ? "Apply or discard your pending edits. Only applied changes appear in the preview and downloads."
+    : "Your preview shows the last applied version. Turn on Edit worksheet to apply or discard your pending edits before reviewing.";
+  controls["download-result"].hidden = !approved || exportedEpoch !== epoch;
+  const currentStep = !worksheet ? "progress-source" : dirty ? "progress-draft" : approved ? "progress-export" : "progress-review";
   for (const [id, active] of [
     ["progress-source", true], ["progress-draft", Boolean(worksheet)],
     ["progress-review", approved], ["progress-export", approved && exportedEpoch === epoch],
-  ]) byId(id).classList.toggle("active", active);
+  ]) {
+    const step = byId(id);
+    step.classList.toggle("active", active);
+    if (id === currentStep) step.setAttribute("aria-current", "step");
+    else step.removeAttribute("aria-current");
+  }
 }
 
 function clearDraft() {
@@ -79,7 +91,10 @@ function clearDraft() {
   controls["empty-state"].hidden = false;
   controls["draft-content"].hidden = true;
   controls.fields.replaceChildren();
-  syncReview();
+  for (const id of ["worksheet-facts", "worksheet-sections", "worksheet-metadata"]) controls[id].replaceChildren();
+  for (const id of ["worksheet-title", "worksheet-subtitle", "field-count", "download-result"]) controls[id].textContent = "";
+  controls["revision-count"].textContent = "No manual edits";
+  setEditing(false);
 }
 
 function selectSample() {
@@ -87,8 +102,10 @@ function selectSample() {
   const sample = currentSample();
   controls["source-text"].textContent = sample.source;
   controls["sample-summary"].textContent = sample.summary;
-  controls["source-length"].textContent = `${sample.source.length.toLocaleString()} characters`;
-  message("Source selected. Create a sample draft to begin the review.");
+  controls["source-length"].textContent = `${sample.source.trim().split(/\s+/u).length} words`;
+  controls["source-audience"].textContent = sample.fields.TargetAudience;
+  controls["source-duration"].textContent = sample.fields.Duration;
+  message("Ready when you are. Create the example worksheet to see what the learner gets.");
 }
 
 function showSummary() {
@@ -97,6 +114,60 @@ function showSummary() {
   const missing = FIELD_KEYS.filter((key) => worksheet[key].trim() === "TBD").length;
   controls["field-count"].textContent = `17 fields / ${missing} TBD`;
   controls["revision-count"].textContent = revision ? `${revision} applied edit${revision === 1 ? "" : "s"}` : "No manual edits";
+  renderPreview();
+}
+
+function previewText(tag, text) {
+  const element = document.createElement(tag);
+  element.textContent = text;
+  return element;
+}
+
+function previewDetails(keys) {
+  return keys.map((key) => {
+    const group = document.createElement("div");
+    const value = previewText("dd", worksheet[key]);
+    value.dataset.previewKey = key;
+    group.append(previewText("dt", FIELD_LABELS[key]), value);
+    return group;
+  });
+}
+
+function renderPreview() {
+  const facts = document.createElement("dl");
+  facts.append(...previewDetails(["TargetAudience", "Duration"]));
+  controls["worksheet-facts"].replaceChildren(facts);
+  controls["worksheet-metadata"].replaceChildren(...previewDetails(["CourseReference", "Authors", "Contributors", "LastUpdated"]));
+  controls["worksheet-sections"].replaceChildren(...[
+    ["ActivityDescription", "The exercise"],
+    ["DesiredLearningOutcome", "The learning goal"],
+    ["SkillsBasedLearningObjectives", "What learners will practise", "ul"],
+    ["WhatIsNeeded", "Before you start", "ul"],
+    ["TrainerGuidelines", "For the trainer", "ul"],
+    ["ActivitySteps", "Try it, step by step", "ol"],
+    ["Validation", "How to check it worked", "ul"],
+    ["DocumentationAndReferences", "Source & references"],
+    ["Notes", "Notes & limits"],
+  ].map(([key, label, list]) => {
+    const section = document.createElement("section");
+    section.className = "worksheet-section";
+    const value = list ? document.createElement(list) : previewText("p", worksheet[key]);
+    value.dataset.previewKey = key;
+    if (list) {
+      for (const line of worksheet[key].split(/\r\n|\r|\n/)) value.append(previewText("li", line));
+    }
+    section.append(previewText("h5", label), value);
+    return section;
+  }));
+}
+
+function focusResult(id) {
+  const element = byId(id);
+  element.focus({ preventScroll: true });
+  element.scrollIntoView({
+    block: "start",
+    behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+  });
 }
 
 function renderFields() {
@@ -210,8 +281,11 @@ function renderFields() {
 
 function setEditing(enabled) {
   controls["edit-help"].hidden = !enabled;
+  controls.fields.hidden = !enabled;
+  controls["worksheet-preview"].hidden = enabled;
   for (const el of controls.fields.querySelectorAll(".field-value")) el.hidden = enabled;
   for (const el of controls.fields.querySelectorAll(".field-editor")) el.hidden = !enabled;
+  syncReview();
 }
 
 function download(bytes, mime, filename) {
@@ -245,6 +319,9 @@ async function exportDocument(format) {
     }
     download(bytes, format === "docx" ? "application/vnd.openxmlformats-officedocument.wordprocessingml.document" : "application/json", `practice-lab-${currentSample().id}.${format}`);
     exportedEpoch = epoch;
+    controls["download-result"].textContent = format === "docx"
+      ? "Word download prepared. Open it to edit the training worksheet, or keep exploring another fictional guide."
+      : "JSON download prepared. It contains the same 17 plain-text fields as the reviewed worksheet.";
     log(`Local ${format.toUpperCase()} export prepared from the approved 17-field draft. No cloud delivery.`);
     message(`${format.toUpperCase()} download prepared. The worksheet remains available for another review.`);
   } catch (error) {
@@ -283,17 +360,19 @@ controls.generate.addEventListener("click", () => {
     log("Source gate passed: full fictional source text is available.");
     log("Illustrative extraction replayed: pre-authored sample output, not a model call.");
     log("Contract accepted: exactly 17 nonempty string fields. Human review required.");
-    message("Sample draft created. Inspect the fields, make any manual edits, then approve.");
+    message("Example worksheet ready. Read the preview, optionally edit it, then review and download.");
+    focusResult("draft-heading");
   } catch (error) {
     message(error.message, true);
     log("Source or contract gate failed. Extraction and export blocked; no substitute content generated.");
+    focusResult("error");
   }
 });
 controls["retrieval-failure"].addEventListener("change", () => {
   clearDraft();
   message(controls["retrieval-failure"].checked
-    ? "Unavailable-source simulation enabled. Create a sample draft to exercise the failure path."
-    : "Source simulation restored. Create a new sample draft.");
+    ? "Unavailable-source simulation enabled. Create the example to see why the workflow stops."
+    : "The source is available again. Create the example worksheet to continue.");
 });
 controls.reset.addEventListener("click", () => {
   controls["retrieval-failure"].checked = false;

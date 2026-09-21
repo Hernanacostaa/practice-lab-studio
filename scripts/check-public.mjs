@@ -6,7 +6,7 @@ import { unzipSync, strFromU8 } from "fflate";
 const root = fileURLToPath(new URL("..", import.meta.url));
 const excluded = new Set([".git", "node_modules", "test-results", "playwright-report"]);
 const textExtensions = new Set([".md", ".txt", ".json", ".mjs", ".py", ".css", ".html", ".yml", ".yaml", ".svg"]);
-const allowedBinary = new Set([".png", ".docx"]);
+const imageExtensions = new Set([".png", ".webp"]);
 const patterns = [
   ["corporate SharePoint hostname", /https?:\/\/(?!contoso\.sharepoint\.com)[a-z0-9-]+\.sharepoint\.com/gi],
   ["corporate email address", /[a-z0-9._%+-]+@microsoft\.com/gi],
@@ -24,6 +24,55 @@ function inspectText(text, name) {
     if (pattern.test(text)) findings.push(`${name}: ${label}`);
   }
 }
+
+export function inspectImageMetadata(bytes, extension) {
+  const issues = [];
+  if (extension === ".png") {
+    const signature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
+    if (!bytes.subarray(0, 8).equals(signature)) return ["invalid PNG signature"];
+    let offset = 8;
+    let ended = false;
+    while (offset < bytes.length) {
+      if (offset + 12 > bytes.length) return [...issues, "truncated PNG chunk"];
+      const length = bytes.readUInt32BE(offset);
+      const type = bytes.toString("ascii", offset + 4, offset + 8);
+      if (offset + 12 + length > bytes.length) return [...issues, "truncated PNG chunk"];
+      if (["eXIf", "tEXt", "zTXt", "iTXt", "tIME"].includes(type)) {
+        issues.push(`PNG ${type} metadata must be removed`);
+      }
+      offset += 12 + length;
+      if (type === "IEND") {
+        if (length !== 0 || offset !== bytes.length) issues.push("invalid PNG end chunk or trailing data");
+        ended = true;
+        break;
+      }
+    }
+    if (!ended) issues.push("PNG end chunk missing");
+    return issues;
+  }
+  if (extension === ".webp") {
+    if (bytes.length < 12 || bytes.toString("ascii", 0, 4) !== "RIFF"
+      || bytes.toString("ascii", 8, 12) !== "WEBP" || bytes.readUInt32LE(4) + 8 !== bytes.length) {
+      return ["invalid WebP RIFF container"];
+    }
+    let offset = 12;
+    while (offset < bytes.length) {
+      if (offset + 8 > bytes.length) return [...issues, "truncated WebP chunk"];
+      const type = bytes.toString("ascii", offset, offset + 4);
+      const length = bytes.readUInt32LE(offset + 4);
+      const end = offset + 8 + length + (length % 2);
+      if (end > bytes.length) return [...issues, "truncated WebP chunk"];
+      if (type === "EXIF" || type === "XMP ") issues.push(`WebP ${type.trim()} metadata must be removed`);
+      if (type === "VP8X" && length > 0 && (bytes[offset + 8] & 0x0c)) {
+        issues.push("WebP EXIF/XMP metadata flags must be removed");
+      }
+      offset = end;
+    }
+    return issues;
+  }
+  throw new Error(`Unsupported image format: ${extension}`);
+}
+
 async function walk(directory) {
   for (const entry of await readdir(directory, { withFileTypes: true })) {
     if (excluded.has(entry.name)) continue;
@@ -48,16 +97,26 @@ async function walk(directory) {
       }
       continue;
     }
+    if (imageExtensions.has(extension)) {
+      inspected++;
+      if (extension === ".webp" && !/^assets[\\/]portfolio[\\/][a-z]+(?:-[a-z]+)*\.webp$/.test(name)) {
+        findings.push(`${name}: WebP files are limited to approved portfolio images`);
+      }
+      for (const issue of inspectImageMetadata(await readFile(file), extension)) findings.push(`${name}: ${issue}`);
+      continue;
+    }
     if (textExtensions.has(extension) || [".gitignore", ".gitattributes", ".nojekyll", "LICENSE"].includes(entry.name)) {
       inspected++;
       inspectText(await readFile(file, "utf8"), name);
-    } else if (!allowedBinary.has(extension)) findings.push(`${name}: unexpected release file type`);
+    } else findings.push(`${name}: unexpected release file type`);
   }
 }
-await walk(root);
-if (findings.length) {
-  console.error(`Public-release check failed:\n${findings.join("\n")}`);
-  process.exitCode = 1;
-} else {
-  console.log(`Public-release pattern check passed across ${inspected} text/document files. Human provenance and image review are still required.`);
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  await walk(root);
+  if (findings.length) {
+    console.error(`Public-release check failed:\n${findings.join("\n")}`);
+    process.exitCode = 1;
+  } else {
+    console.log(`Public-release pattern check passed across ${inspected} text/document/image files. Human provenance and image review are still required.`);
+  }
 }

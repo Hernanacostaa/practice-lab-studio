@@ -68,6 +68,9 @@ export async function measureContrast(page, { kind = "text", selectors } = {}) {
         return [record(element, marker.borderBottomColor, inside, "checkmark")];
       }
       const outside = backgroundAt(element.parentElement);
+      if (kind === "surface") {
+        return [record(element, style.backgroundColor, outside, "filled surface / outside")];
+      }
       if (kind === "focus") {
         if (!element.matches(":focus-visible") || style.outlineStyle === "none" || parseFloat(style.outlineWidth) < 2) {
           throw new Error(`Missing keyboard focus indicator: ${identify(element)}`);
