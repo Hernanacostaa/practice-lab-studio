@@ -81,7 +81,6 @@ for (const width of [320, 390, 1440]) {
         await page.locator(".worksheet-meta > summary").click();
         await page.locator("#source-assessment > summary").click();
         await page.locator("#source-sop > summary").click();
-        await page.locator(".safety-tools > summary").click();
         await expectContrast(page, `demo ${width}px readable worksheet and expanded source tools`);
         await page.locator("#approve").check();
         await expect(page.locator("#export-docx")).toBeEnabled();
@@ -135,14 +134,14 @@ for (const theme of ["dark", "light"]) {
       await expectContrast(page, `${selector} hover boundary`, { kind, selectors: selector });
       await expectKeyboardFocus(page, selector);
     }
-    for (const selector of [".site-header nav a:first-child", ".case-pane .text-link", "#source-assessment > summary", "#source-sop > summary", ".safety-tools > summary"]) {
+    for (const selector of [".site-header nav a:first-child", ".case-pane .text-link", "#source-assessment > summary", "#source-sop > summary", ".trace-panel > summary"]) {
       await page.locator(selector).hover();
       await expectContrast(page, `${selector} hover`, { selectors: selector });
       await expectKeyboardFocus(page, selector);
     }
 
     await page.locator("#source-assessment > summary").click();
-    await page.locator(".safety-tools > summary").click();
+    await page.locator(".trace-panel > summary").click();
     await expectContrast(page, "unchecked source checkbox", { kind: "border", selectors: "#retrieval-failure" });
     await page.locator("#retrieval-failure").check();
     await expectContrast(page, "checked source checkbox", { kind: "surface", selectors: "#retrieval-failure" });

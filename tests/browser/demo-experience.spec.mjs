@@ -40,7 +40,10 @@ test("the demo explains the starting point, author's role, honest example, and W
   await expect(page.locator("#source-assessment")).not.toHaveAttribute("open", "");
   await expect(page.locator("#source-sop")).not.toHaveAttribute("open", "");
   await expect(page.locator(".input-document")).toHaveCount(2);
-  await expect(page.locator(".safety-tools")).not.toHaveAttribute("open", "");
+  await expect(page.locator(".safety-tools, .source-hint")).toHaveCount(0);
+  await expect(page.locator(".trace-panel")).not.toHaveAttribute("open", "");
+  for (const id of ["retrieval-failure", "sop-failure"]) await expect(page.locator(`#${id}`)).toBeHidden();
+  await expect(page.locator(".trace-panel input")).toHaveCount(2);
   await page.locator("#source-assessment > summary").click();
   await expect(page.locator("#assessment-skills p")).toHaveText(SAMPLES[0].sources.assessment.sections[1].text);
   await page.locator("#source-sop > summary").click();
@@ -290,7 +293,7 @@ test("a missing source clears the old preview, focuses the explicit error, and r
   await page.goto("/lab.html");
   await page.locator("#generate").click();
   await page.locator("#approve").check();
-  await page.locator(".safety-tools > summary").click();
+  await page.locator(".trace-panel > summary").click();
   await page.locator("#retrieval-failure").check();
   await page.locator("#generate").click();
   await expect(page.locator("#error")).toBeVisible();
@@ -321,7 +324,7 @@ test("changing guides and resetting remove both the edited preview and hidden ed
     await page.locator("#edit-mode").uncheck();
     await expect(page.locator("#worksheet-title")).toHaveText("Temporary fictional title to clear.");
     if (reset === "source-failure") {
-      await page.locator(".safety-tools > summary").click();
+      await page.locator(".trace-panel > summary").click();
       await page.locator("#sop-failure").check();
     } else await page.locator("#reset").click();
     await expect(page.locator("#draft-content")).toBeHidden();

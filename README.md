@@ -55,7 +55,7 @@ I built a workflow that used AI to combine the assessment and procedure data int
 
 The preview shows only **applied** values. Pending edits never change it or bypass approval, even if you leave edit mode; apply or discard them before approving. Changing the guide or resetting clears the preview and all edits. Reloading also clears this in-memory session.
 
-Distinct source excerpts are visible immediately; each document also has expandable full text. Open **What if either input is missing?** and simulate an unavailable assessment or SOP. Either failure clears the draft and stops drafting, with no fallback. Restore the input and retry, or reset to restore both. The workflow trace is secondary.
+Distinct source excerpts are visible immediately; each document also has expandable full text. Optional failure checks are inside **Behind the scenes: workflow trace**, not the main source panel. Simulate an unavailable assessment or SOP there: either failure clears the draft and stops drafting, with no fallback. Restore the input and retry, or reset to restore both.
 
 Choose **Logistics** to compare fictional receiving records with advance shipment information, or **IT service desk** to classify fictional incident reports and prepare a routing handoff. Each has its own L&D assessment, engineering SOP, prepared guide, trainer edit, and Word download. These are public illustrations of established industry tasks, not additional projects the author deployed. [Research and example provenance](docs/CASE_STUDY.md#public-examples) distinguish the published guidance from the invented local policies and records.
 

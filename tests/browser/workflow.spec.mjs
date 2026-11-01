@@ -69,7 +69,7 @@ for (const fixture of DEMO_SAMPLES) test.describe(fixture.name, () => {
       await create(page);
       await expect(page.locator("#sample-choice")).toHaveValue(fixture.id);
       await page.locator("#approve").check();
-      await page.locator(".safety-tools > summary").click();
+      await page.locator(".trace-panel > summary").click();
       await page.locator(`#${control}`).check();
       await expect(page.locator("#approve")).not.toBeChecked();
       await expect(page.locator("#draft-content")).toBeHidden();
@@ -90,7 +90,7 @@ for (const fixture of DEMO_SAMPLES) test.describe(fixture.name, () => {
 
   test("reset restores both inputs without keeping a previous draft or browser storage", async ({ page }) => {
     await create(page);
-    await page.locator(".safety-tools > summary").click();
+    await page.locator(".trace-panel > summary").click();
     await page.locator("#retrieval-failure").check();
     await page.locator("#sop-failure").check();
     await page.locator("#reset").click();

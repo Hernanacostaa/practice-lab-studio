@@ -113,11 +113,6 @@
             <button id="generate" class="button primary full-width" type="button">Create prepared trainer guide <span aria-hidden="true">&#8594;</span></button>
             <button id="reset" class="button secondary full-width" type="button">Reset this demo</button>
           </div>
-          <p class="source-hint">Both documents are needed to create the guide.</p>
-          <details class="safety-tools">
-            <summary>What if either input is missing?</summary>
-            <div class="fault-control"><label><input id="retrieval-failure" type="checkbox"> Simulate unavailable assessment</label><label><input id="sop-failure" type="checkbox"> Simulate unavailable SOP</label><p>Either failure clears the draft and stops creation. Restore the missing input by unchecking it, then retry. Reset restores both sources.</p></div>
-          </details>
         </aside>
         <section class="draft-panel panel" aria-labelledby="draft-heading">
           <div class="panel-heading"><h3 id="draft-heading" tabindex="-1">2 / Your trainer guide</h3><span id="draft-state" class="pill neutral">Ready when you are</span></div>
@@ -159,7 +154,9 @@
           </div>
         </section>
       </div>
-      <details class="trace-panel"><summary>Behind the scenes: workflow trace <span id="trace-count">0 events</span></summary><ol id="trace" aria-label="Workflow events"><li>No actions yet.</li></ol></details>
+      <details class="trace-panel"><summary>Behind the scenes: workflow trace <span id="trace-count">0 events</span></summary><ol id="trace" aria-label="Workflow events"><li>No actions yet.</li></ol>
+        <div class="fault-control"><label><input id="retrieval-failure" type="checkbox"> Simulate unavailable assessment</label><label><input id="sop-failure" type="checkbox"> Simulate unavailable SOP</label><p>Either failure clears the draft and stops creation. Restore the missing input by unchecking it, then retry. Reset restores both sources.</p></div>
+      </details>
     </section>
     </div>
   </main>

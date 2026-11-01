@@ -69,7 +69,7 @@ for (const state of ["pending", "applied", "approved"]) {
 
 test("switch clears source failures and reset stays on the selected example", async ({ page }) => {
   await page.goto("/lab.html");
-  await page.locator(".safety-tools > summary").click();
+  await page.locator(".trace-panel > summary").click();
   for (const id of ["retrieval-failure", "sop-failure"]) await page.locator(`#${id}`).check();
   await page.locator("#generate").click();
   await expect(page.locator("#error")).toBeVisible();

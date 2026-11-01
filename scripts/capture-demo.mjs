@@ -20,7 +20,7 @@ try {
   await page.getByRole("button", { name: "Create prepared trainer guide" }).click();
   await page.locator("#draft-content").waitFor({ state: "visible" });
   await page.evaluate(() => {
-    document.getElementById("demo").scrollTop = document.querySelector(".draft-panel").offsetTop - document.getElementById("demo").offsetTop - 56;
+    document.getElementById("demo").scrollTop = document.querySelector(".draft-panel").offsetTop - document.getElementById("demo").offsetTop - 40;
     window.scrollTo({ top: 0, behavior: "instant" });
   });
   await mkdir(path.join(root, "docs"), { recursive: true });
@@ -51,7 +51,7 @@ try {
       await page.locator("#generate").click();
       await page.locator("#draft-content").waitFor({ state: "visible" });
       await page.evaluate(() => {
-        document.getElementById("demo").scrollTop = document.querySelector(".draft-panel").offsetTop - document.getElementById("demo").offsetTop - 56;
+        document.getElementById("demo").scrollTop = document.querySelector(".draft-panel").offsetTop - document.getElementById("demo").offsetTop - 40;
         window.scrollTo({ top: 0, behavior: "instant" });
       });
       await page.screenshot({ path: path.join(evidence, `${sample.id}-guide-wide.png`) });
