@@ -48,6 +48,7 @@ test("documentation relative links point to actual public files", async () => {
 test("lab page declares local-only demo and blocks network connections", async () => {
   const html = await readFile(path.join(root, "lab.html"), "utf8");
   assert.match(html, /No live AI is running here/);
+  assert.doesNotMatch(html, /<footer\b/);
   assert.match(html, /connect-src 'none'/);
   assert.match(html, /form-action 'none'/);
   assert.doesNotMatch(html, /<script[^>]+src=|<link[^>]+(?:stylesheet|preconnect)/i);

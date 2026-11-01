@@ -17,7 +17,6 @@ test("personal portfolio identifies the person without inventing a product title
   assert.match(html, /PayPal/);
   assert.match(html, /Amazon/);
   assert.doesNotMatch(html, /Principal Product Manager|Senior Product Manager|40%|160 hours|616 learners|9,977|eight.team rollout/);
-  assert.match(await readFile(path.join(root, "lab.html"), "utf8"), /not an official Microsoft/i);
   assert.match(html, /pre-authored/);
   assert.match(html, /fictional/);
 });

@@ -141,11 +141,10 @@
 .worksheet-section { scroll-margin-top: 96px; }
 @media (min-width: 761px) and (min-height: 700px) {
   .lab-page { height: 100dvh; display: flex; flex-direction: column; }
-  .lab-page .site-header, .lab-page footer, .lab-hero { flex-shrink: 0; }
+  .lab-page .site-header, .lab-hero { flex-shrink: 0; }
   .lab-page main { flex: 1; min-height: 0; display: flex; flex-direction: column; }
   .case-demo-layout { flex: 1; min-height: 0; grid-template-rows: minmax(0, 1fr); }
   .pane-scroll { height: 100%; }
-  .lab-page footer { padding-block: 12px; }
 }
 @media (max-width: 1000px) {
   .case-demo-layout { gap: 16px; }

@@ -30,6 +30,7 @@ test("the demo explains the starting point, author's role, honest example, and W
   await expect(page.locator(".design-card")).toHaveCount(0);
   await expect(page.locator(".demo-intro")).toContainText("Try it as the training author");
   await expect(page.locator(".demo-disclosure")).toContainText("No live AI is running here");
+  await expect(page.locator("footer")).toHaveCount(0);
   await expect(page.locator(".demo-disclosure")).toContainText("a prepared example you can edit and download");
   await expect(page.getByRole("combobox", { name: "Choose an example" })).toHaveValue("logistics");
   await expect(page.locator("#sample-choice option")).toHaveText(["Logistics", "IT service desk"]);
