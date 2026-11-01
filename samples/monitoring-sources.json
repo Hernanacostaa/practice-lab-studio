@@ -1,0 +1,19 @@
+{
+  "assessment": {
+    "title": "Training-needs assessment",
+    "sections": [
+      { "id": "assessment-context", "label": "A1 / Audience and skill gap", "text": "FICTIONAL TRAINING-NEEDS ASSESSMENT: MONITORING RECORD HANDOFF\nOriginal public portfolio example. Not an internal document or live operational instruction.\nNew datacenter monitoring staff in this invented scenario can read a record but need practice distinguishing observed facts from assumptions and handing off an unresolved alert to the designated review role. Trainers need a consistent way to cover those gaps." },
+      { "id": "assessment-skills", "label": "A2 / Required competencies", "text": "Participants must identify the record identifier, displayed timestamp, monitoring label, displayed status, and observation. They must distinguish an observation from an inferred cause, identify the designated review role, and communicate a factual handoff without claiming resolution or changing a monitoring state." },
+      { "id": "assessment-success", "label": "A3 / Observable success requirements", "text": "For this fictional exercise, a participant completes a handoff containing all five record details and the designated review role, states that the cause is unverified, and leaves the status unchanged. They must explain that an absent destination means pause and ask the trainer, not invent a recipient. A trainer observes each participant and requests another attempt for any missed criterion. Completion applies only to the exercise; it does not qualify staff for real operations." }
+    ]
+  },
+  "sop": {
+    "title": "Fictional standard operating procedure",
+    "sections": [
+      { "id": "sop-record", "label": "S1 / Read-only monitoring record", "text": "FICTIONAL SOP: MONITORING ALERT REVIEW HANDOFF\nOriginal public portfolio example. This invented procedure defines only a paper simulation, not instructions for a real datacenter.\nRecord identifier: SIM-042. Displayed timestamp: 09:15 exercise time (not a real event date). Monitoring label: Observe Queue. Displayed status: Needs review. Observation: A placeholder monitoring update has not appeared on the practice display. Cause: unverified. No severity, diagnosis, or resolution is provided." },
+      { "id": "sop-roles", "label": "S2 / Responsibilities and handoff", "text": "The practice observer reads the displayed record and passes the identifier, timestamp, label, unchanged status, observation, and unverified-cause statement to the role named Practice Review Lead. The Practice Review Lead receives the fictional handoff; receipt is not resolution. No real contacts, escalation timing, production destinations, or technical remediation are supplied. If a destination card is absent, the observer pauses and asks the trainer to supply the designated practice role." },
+      { "id": "sop-preparation", "label": "S3 / Materials and preparation", "text": "Use a printed or locally displayed copy of SIM-042, a role card labelled Practice Review Lead, a blank handoff card, and a pencil or local text editor. Prepare an additional copy with the destination card withheld to exercise the pause-and-ask condition. There are no accounts, credentials, real alerts, external messaging tools, or infrastructure connections. No session length, author, contributor, course reference, or update date is specified." },
+      { "id": "sop-boundaries", "label": "S4 / Operating boundaries", "text": "Simulation only. Read the practice record; do not acknowledge, clear, change, or resolve any alert. Do not touch hardware, perform electrical work, use privileged access, bypass controls, diagnose causes, or send a real escalation. If anyone introduces a real system, real operational detail, or an action outside these boundaries, stop the exercise and return to fictional materials. The trainer explains these limits before any practice." }
+    ]
+  }
+}

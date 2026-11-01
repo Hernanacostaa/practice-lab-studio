@@ -56,6 +56,25 @@ test("lab page declares local-only demo and blocks network connections", async (
   assert.doesNotMatch(source, /\.innerHTML\s*=/);
 });
 
+test("technical outline follows the public prompt and retrieval contracts without claiming deployment", async () => {
+  const [html, topicText, flowText] = await Promise.all([
+    readFile(path.join(root, "lab.html"), "utf8"),
+    readFile(path.join(root, "platform", "topic-blueprint.json"), "utf8"),
+    readFile(path.join(root, "platform", "flow-blueprint.json"), "utf8"),
+  ]);
+  const topic = JSON.parse(topicText);
+  const flow = JSON.parse(flowText);
+  assert.equal(topic.configuration.retrieval_adapter_requirements.implemented_here, false);
+  for (const name of Object.keys(topic.configuration.action_bindings)) assert.ok(html.includes(name), `${name} must appear in the outline`);
+  const documentPrompt = flow.configuration.actions.find(({ id }) => id === "run_generate_prompt");
+  assert.ok(html.includes(documentPrompt.prompt_name));
+  assert.equal(documentPrompt.output_mode, "Document (preview)");
+  assert.match(html, /AI \+ automation \/ Power Automate/);
+  assert.match(html, /With connected source retrieval, it follows the RAG pattern/);
+  assert.match(html, /repo leaves the reader unconfigured/);
+  assert.match(html, /not an export of the original internal system/);
+});
+
 test("product story distinguishes real work, public examples, and proposed business measures", async () => {
   const html = await readFile(path.join(root, "case-study.html"), "utf8");
   assert.match(html, /Real project\. Anonymized public version\./);
@@ -65,8 +84,8 @@ test("product story distinguishes real work, public examples, and proposed busin
   assert.match(html, /Shared, presented, and demoed it/);
   assert.match(html, /Redesigned for production needs/);
   assert.doesNotMatch(html, /These are illustrative personas and problem hypotheses/);
-  assert.match(html, new RegExp(`<strong>${FIELD_KEYS.length}</strong><span>shared worksheet fields`));
-  assert.match(html, new RegExp(`<strong>${SAMPLES.length}</strong><span>fictional source scenarios`));
+  assert.match(html, new RegExp(`<strong>${FIELD_KEYS.length}</strong><span>shared trainer-guide fields`));
+  assert.match(html, /<strong>2<\/strong><span>required fictional sources/);
   assert.match(html, /Proposed pilot criteria&mdash;not measured results/);
   assert.match(html, /Illustrative assumptions only/);
   assert.match(html, /not revenue, profit, a staffing reduction, or cash saved/);
@@ -88,9 +107,12 @@ test("public entry points describe a real project without reclassifying its exam
     assert.doesNotMatch(content, /is a fictional portfolio project|fictionalized personas/);
   }
   const html = await readFile(path.join(root, "lab.html"), "utf8");
-  assert.match(html, /Turn a how-to guide into a training worksheet/);
-  assert.match(html, /real solution Hernan Acosta built at Microsoft/);
-  assert.match(html, /Creating a worksheet loads a prepared example for that guide, not a new AI response/);
+  assert.match(html, /AI-drafted training guides/);
+  assert.match(html, /I built this at Microsoft/);
+  assert.match(html, /training-needs assessments and operating procedures/);
+  assert.match(html, /AI combined the source material into a draft/);
+  assert.match(html, /automation assembled the document for review/);
+  assert.match(html, /No live AI is running here\. The sources and guide are a prepared example/);
   assert.doesNotMatch(html, /Ready-to-run practice|practical activity worksheet/);
 });
 
@@ -146,7 +168,7 @@ test("shared screen colors live in one palette while project components use sema
 test("project navigation keeps the lab separate from the portfolio and protects in-memory drafts", async () => {
   const [lab, story] = await Promise.all(["lab.html", "case-study.html"].map((filename) => readFile(path.join(root, filename), "utf8")));
   const outgoing = [...lab.matchAll(/<a\b[^>]*href="(?:index|case-study)\.html"[^>]*>/g)];
-  assert.equal(outgoing.length, 4);
+  assert.equal(outgoing.length, 3);
   for (const [link] of outgoing) {
     assert.match(link, /\bdata-site-link\b/);
     assert.match(link, /\btarget="_blank"/);

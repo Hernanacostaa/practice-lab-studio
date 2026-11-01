@@ -3,7 +3,8 @@ import assert from "node:assert/strict";
 import { strFromU8, unzipSync } from "fflate";
 import { FIELD_KEYS, FIELD_LABELS, createSampleDraft, updateField } from "../src/core.mjs";
 import { createWorksheetDocx } from "../src/document.mjs";
-import { SAMPLES } from "../src/samples.mjs";
+import { SAMPLES as LEGACY_SAMPLES, DEMO_SAMPLES } from "../src/samples.mjs";
+const SAMPLES = [...DEMO_SAMPLES, ...LEGACY_SAMPLES];
 
 function decodeXml(text) {
   const entities = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'" };
@@ -74,7 +75,7 @@ for (const sample of SAMPLES) {
     }
     assert.equal(body.filter(({ text }) => text === worksheet.PATitle).length, 1);
     assert.equal(body.filter(({ text }) => text === worksheet.PASubtitle).length, 1);
-    assert.ok(body.some(({ text }) => text === "From source documents to training exercises"));
+    assert.ok(body.some(({ text }) => text === "From training needs and operating procedures to a consistent trainer guide"));
     assert.match(body.map(({ text }) => text).join("\n"), /FICTIONAL DEMO.*not live AI/);
     assert.ok(body.some(({ text }) => text.startsWith("Source: ")));
     assert.ok(body.some(({ text }) => text.startsWith("Reviewer: TBD. Review date: TBD.")));
@@ -171,7 +172,7 @@ test("document properties use neutral project metadata, never worksheet identiti
   const core = parts["docProps/core.xml"];
   assert.match(core, /<dc:creator>Practice Lab Studio<\/dc:creator>/);
   assert.match(core, /<cp:lastModifiedBy>Practice Lab Studio<\/cp:lastModifiedBy>/);
-  assert.match(core, /<dc:title>Practice Lab Studio - fictional training worksheet<\/dc:title>/);
+  assert.match(core, /<dc:title>Practice Lab Studio - fictional trainer guide<\/dc:title>/);
   assert.doesNotMatch(core, /Fictional reviewer alias|file:|\b[A-Z]:[\\/]|\\Users\\|\/home\//i);
   assert.doesNotMatch(parts["docProps/app.xml"], /Fictional reviewer alias|file:|\b[A-Z]:[\\/]|\\Users\\|\/home\//i);
 });

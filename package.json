@@ -2,7 +2,7 @@
   "name": "practice-lab-studio",
   "version": "1.0.0",
   "private": true,
-  "description": "An offline portfolio demo and reusable low-code blueprints for practical activity worksheets.",
+  "description": "An offline case study and prepared two-input demo for consistent datacenter trainer guides.",
   "type": "module",
   "engines": {
     "node": ">=22"

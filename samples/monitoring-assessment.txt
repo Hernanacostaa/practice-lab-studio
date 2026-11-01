@@ -1,0 +1,10 @@
+A1 / Audience and skill gap
+FICTIONAL TRAINING-NEEDS ASSESSMENT: MONITORING RECORD HANDOFF
+Original public portfolio example. Not an internal document or live operational instruction.
+New datacenter monitoring staff in this invented scenario can read a record but need practice distinguishing observed facts from assumptions and handing off an unresolved alert to the designated review role. Trainers need a consistent way to cover those gaps.
+
+A2 / Required competencies
+Participants must identify the record identifier, displayed timestamp, monitoring label, displayed status, and observation. They must distinguish an observation from an inferred cause, identify the designated review role, and communicate a factual handoff without claiming resolution or changing a monitoring state.
+
+A3 / Observable success requirements
+For this fictional exercise, a participant completes a handoff containing all five record details and the designated review role, states that the cause is unverified, and leaves the status unchanged. They must explain that an absent destination means pause and ask the trainer, not invent a recipient. A trainer observes each participant and requests another attempt for any missed criterion. Completion applies only to the exercise; it does not qualify staff for real operations.

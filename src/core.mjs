@@ -101,18 +101,47 @@ export function hasUsableSource(text) {
 }
 
 /** Replay supplied fixture fields only. No model or source-extraction algorithm runs. */
-export function createSampleDraft(sample, { retrievalAvailable = true } = {}) {
+export function createSampleDraft(sample, { retrievalAvailable = true, sourceAvailability = {} } = {}) {
   if (retrievalAvailable !== true) {
     throw new Error("Source retrieval failed or was unavailable. No fixture draft was created.");
   }
   if (sample === null || typeof sample !== "object" || Array.isArray(sample)) {
     throw new Error("A sample fixture with source text and worksheet fields is required.");
   }
+  if (sample.id === "monitoring" || Object.hasOwn(sample, "sources")) {
+    for (const key of ["assessment", "sop"]) {
+      if ((Object.hasOwn(sourceAvailability, key) && sourceAvailability[key] !== true) || !hasUsableSource(sample.sources?.[key]?.text)) {
+        throw new Error(`Required ${key === "assessment" ? "training-needs assessment" : "SOP"} is unavailable or missing usable text. Restore this source and retry. No guide was created.`);
+      }
+    }
+    assertTrainerGuide(sample.fields, sample.requiredBoundaries);
+  }
   if (!hasUsableSource(sample.source)) {
     throw new Error("Usable source text is required; blank or link-only input cannot create a fixture draft.");
   }
+
   const fields = assertWorksheet(sample.fields);
   return Object.fromEntries(FIELD_KEYS.map((key) => [key, fields[key]]));
+}
+
+/** Completeness is separate from the general schema, which also accepts templates. */
+export function assertTrainerGuide(worksheet, requiredBoundaries = []) {
+  assertWorksheet(worksheet);
+  for (const key of [
+    "PATitle", "PASubtitle", "TargetAudience", "ActivityDescription", "TrainerGuidelines",
+    "DesiredLearningOutcome", "WhatIsNeeded", "SkillsBasedLearningObjectives",
+    "DocumentationAndReferences", "ActivitySteps", "Validation", "Notes",
+  ]) {
+    if (/^\s*TBD\b/imu.test(worksheet[key])) {
+      throw new Error(`${FIELD_LABELS[key]} is required instructional or boundary content; it cannot be TBD. Restore the content before reviewing.`);
+    }
+  }
+  for (const boundary of requiredBoundaries) {
+    if (!worksheet.Notes.includes(boundary)) {
+      throw new Error("Keep the two required simulation-boundary paragraphs in Notes unchanged. You may add fictional trainer notes below them; removal or rewriting of these boundaries is not supported by this prepared demo.");
+    }
+  }
+  return worksheet;
 }
 
 export function updateField(worksheet, key, value) {

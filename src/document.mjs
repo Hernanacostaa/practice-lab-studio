@@ -37,10 +37,10 @@ export async function createWorksheetDocx(worksheet) {
   assertWorksheet(worksheet);
   const children = [
     new Paragraph({ style: "PracticeBrand", text: "Practice Lab Studio" }),
-    new Paragraph({ text: "From source documents to training exercises" }),
+    new Paragraph({ text: "From training needs and operating procedures to a consistent trainer guide" }),
     new Paragraph({
       style: "PracticeNotice",
-      text: "FICTIONAL DEMO - Original portfolio fixtures, not live AI output or verified operating instructions. Human review is required. Manual edits must be checked against the source; export is not evidence of approval.",
+      text: "FICTIONAL DEMO - Original portfolio fixtures, not live AI output or verified operating instructions. Human review is required. Manual edits must be checked against both sources; export is not operational approval or evidence of staff qualification.",
     }),
     new Paragraph({
       children: [
@@ -57,7 +57,11 @@ export async function createWorksheetDocx(worksheet) {
   ];
   for (const key of FIELD_KEYS) {
     children.push(
-      new Paragraph({ heading: HeadingLevel.HEADING_1, text: FIELD_LABELS[key] }),
+      new Paragraph({
+        heading: HeadingLevel.HEADING_1,
+        text: FIELD_LABELS[key],
+        ...(FIELD_KEYS.indexOf(key) < 8 ? { spacing: { before: 120, after: 60 } } : {}),
+      }),
       ...fieldParagraphs(key, worksheet[key]),
     );
   }
@@ -65,8 +69,8 @@ export async function createWorksheetDocx(worksheet) {
   const document = new Document({
     creator: "Practice Lab Studio",
     lastModifiedBy: "Practice Lab Studio",
-    title: "Practice Lab Studio - fictional training worksheet",
-    subject: "Fictional training exercise worksheet for human review",
+    title: "Practice Lab Studio - fictional trainer guide",
+    subject: "Fictional trainer-led exercise guide for human review",
     description: "Original public portfolio demonstration. No review or provenance verification is implied.",
     keywords: "fictional, demo, training exercise",
     revision: 1,
@@ -74,7 +78,7 @@ export async function createWorksheetDocx(worksheet) {
       default: {
         document: {
           run: { font: "Arial", size: 22, color: "202B35" },
-          paragraph: { spacing: { after: 120, line: 276 } },
+          paragraph: { spacing: { after: 100, line: 264 } },
         },
         title: {
           basedOn: "Normal",

@@ -4,7 +4,9 @@ A personal portfolio of product thinking, hands-on building, and creative work. 
 
 [Visit the portfolio](https://hernanacostaa.github.io/practice-lab-studio/) · [Try Practice Lab Studio](https://hernanacostaa.github.io/practice-lab-studio/lab.html#demo) · [Why I built this](https://hernanacostaa.github.io/practice-lab-studio/case-study.html) · [Architecture](docs/ARCHITECTURE.md) · [Build it in Power Platform](docs/DEPLOYMENT.md)
 
-The public site has three entry points: `index.html` is the personal portfolio, `lab.html` is the interactive project, and `case-study.html` is the recruiter-facing project narrative. The technical project documentation and local build instructions follow below.
+The public site has three entry points: `index.html` is the personal portfolio, `lab.html` puts the concise case study beside the two-input demo on wider screens, and `case-study.html` is a secondary evidence deep dive with optional planning tools. The case-study and demo panes scroll independently on desktop and stack naturally on mobile. The technical project documentation and local build instructions follow below.
+
+The case-study pane has **Story** and **Technical outline** tabs. The outline shows where AI prompts, automation, and human review fit, with links to the public architecture and blueprints. It explains the optional retrieval-augmented generation (RAG) path without claiming that these files prove retrieval in the original system. Changing tabs does not reset a draft or its review.
 
 The homepage includes a permanent headshot, selected Microsoft and ASU experience, selected projects, and LinkedIn contact. Its accessible photo carousel is manually controlled, with no autoplay. **Save a one-page profile** opens the browser's print dialog, including Save as PDF where available; the profile summarizes selected work, not a full resume.
 
@@ -18,17 +20,21 @@ The writing takes cues from [Mailchimp's voice and tone guidance](https://styleg
 
 ## Featured project: Practice Lab Studio
 
-**From source documents to hands-on training exercises, with a human in control.**
+**Turn training needs and operating procedures into a consistent trainer guide, with a human in control.**
 
-![Practice Lab Studio showing a fictional source beside its reviewable worksheet](docs/demo-preview.png)
+**System type:** AI-assisted document generation and workflow automation. In technical terms, the platform design is a source-grounded generative AI workflow. RAG describes the optional connected-retrieval path, not a confirmed feature of the original deployment or the offline browser demo.
+
+![Practice Lab Studio showing the AI-assisted product story beside the prepared public demo](docs/demo-preview.png)
 
 ## The problem
 
-At Microsoft, I identified a repeated authoring problem: reference documents existed, but training authors still had to manually turn them into exercises. That meant defining learning objectives, listing preparation and materials, writing learner instructions, adding completion checks, and assembling a reviewable worksheet.
+At Microsoft, I identified a repeated authoring problem: training-needs assessments described what datacenter staff needed to learn about new technologies, while engineering and execution teams supplied standard operating procedures. Authors still had to synthesize both into a consistent guide for trainers: topics, safety callouts, tooling and preparation, demonstration, learner practice, and criteria for completing training.
 
-I built a working solution to assist that source-to-worksheet process, then shared it, presented and demoed it, and redesigned the workflow for production needs. Practice Lab Studio is its anonymized public adaptation:
+The trainer guide was a global standard document in a context spanning hundreds of datacenters. That is the scope of the document, not a claim of tool deployment at those sites, universal adoption, certified staff, or measured savings.
 
-**Source text → 17-field draft → human review and revisions → Word document**
+I built a workflow that used AI to combine the assessment and procedure data into a trainer-guide draft. Automation assembled the document for review. I shared and demonstrated the working version, then redesigned it for production needs. Practice Lab Studio is the public adaptation: the browser opens a prepared example rather than running the original AI or automation.
+
+**Training-needs assessment + SOP → 17-field trainer-guide draft → human review and revisions → Word document**
 
 **Real project. Replacement examples.** This personal case study by **Hernan Acosta** describes work I actually created at Microsoft, not a fictional problem or an unbuilt concept. The demo scenarios, worksheet assets, and infrastructure placeholders were newly authored; internal documents and systems are not included.
 
@@ -42,14 +48,16 @@ I built a working solution to assist that source-to-worksheet process, then shar
 
 ## Try it in two minutes
 
-1. [Open the demo](https://hernanacostaa.github.io/practice-lab-studio/lab.html#demo) and choose a fictional guide. You are the training author, not the learner.
-2. Select **Create example worksheet**. Read the 17-field worksheet preview: learning goals, preparation, practice steps, completion checks, and title-page details.
-3. Optionally turn on **Edit worksheet**, make a manual change, and select **Apply field**. Turn editing off to return to the readable preview.
-4. Compare the worksheet with the original guide, review the applied changes and any `TBD` values, and confirm your review. Download **Word** for an editable training worksheet or **JSON** for the same 17 fields.
+1. [Open the demo](https://hernanacostaa.github.io/practice-lab-studio/lab.html#demo) and inspect both fictional documents: the training-needs assessment and SOP. You are the training author, not the learner.
+2. Select **Create prepared trainer guide**. Read the compact teaching overview, then expand the full 17-field guide. Optional source connections are manually curated fixture teaching aids, not model-generated citations or evidence of the internal UI.
+3. Optionally turn on **Edit trainer guide**, add a trainer question, and select **Apply field**. Turn editing off to return to the applied-value preview.
+4. Review against **both** inputs, including competencies, tooling, demonstration, practice, operating boundaries, and completion criteria. Confirm review, then download **Word**. Secondary **JSON** contains the same 17 fields.
 
 The preview shows only **applied** values. Pending edits never change it or bypass approval, even if you leave edit mode; apply or discard them before approving. Changing the guide or resetting clears the preview and all edits. Reloading also clears this in-memory session.
 
-The source text, failure demonstration, and technical trace are secondary disclosures. Open **Read the original guide** to compare the source; expand **What if the guide is missing?** before using **Simulate unavailable source**; open **Behind the scenes: workflow trace** to inspect the workflow. A missing guide stops drafting rather than manufacturing a worksheet.
+Distinct source excerpts are visible immediately; each document also has expandable full text. Open **What if either input is missing?** and simulate an unavailable assessment or SOP. Either failure clears the draft and stops drafting, with no fallback. Restore the input and retry, or reset to restore both. The workflow trace is secondary.
+
+The example is a read-only monitoring alert identification and practice escalation handoff simulation. It uses fictional records and role cards, not real monitoring systems, hardware work, electrical work, privileged access, diagnosis, or real escalation. Completion concerns the exercise only, not staff qualification. Metadata and duration can remain `TBD`; required instructional and boundary fields cannot be replaced with `TBD`. The first two Notes paragraphs are fixed simulation boundaries: edits may add fictional notes but must preserve those paragraphs verbatim. This narrow guard does not certify a manual rewrite's accuracy; human review against both sources remains essential.
 
 **Demo disclosure:** creating an example loads a prepared, pre-authored fixture, not a live AI response. Editing, validation, approval gates, and document exports are functional. There is no sign-in, API key, cloud connection, telemetry, browser storage, or upload of field contents. Use fictional material only.
 
@@ -57,7 +65,7 @@ The source text, failure demonstration, and technical trace are secondary disclo
 
 | Component | Included | Status |
 |---|---|---|
-| Browser walkthrough | Three fictional sources and their illustrative 17-field drafts | Runs locally or on GitHub Pages |
+| Browser walkthrough | One fictional scenario, two required source documents, one prepared 17-field trainer guide | Runs locally; no live AI |
 | Review workflow | Manual edits, explicit missing facts, reapproval after changes | Implemented |
 | Document export | Editable `.docx` and exact-schema `.json` downloads | Implemented locally |
 | Prompt contracts | ExtractPA, EditPA, FormatPreview, GeneratePA | Reusable text; configure in your own environment |
@@ -71,12 +79,12 @@ These statuses describe the public repository, not whether the original project 
 
 - **A link is not source content.** Retrieval must produce actual text before extraction can proceed.
 - **One field contract.** All 17 fields are strings, and the same keys survive extraction, edits, preview, and export.
-- **Unknown stays unknown.** Missing facts remain `TBD`; sample objectives are supported by the sample tasks.
+- **Unknown stays unknown.** Missing metadata and duration remain `TBD`; required instruction and operating boundaries must be present before export.
 - **Review has meaning.** Pending edits block export, and applied changes invalidate prior approval.
 - **Formatting is not generation.** Document assembly places the reviewed content without adding technical claims.
 - **Cloud dependencies are optional.** Public examples do not require an organization's tenant, documents, or connectors.
 
-Read the [in-site product story](https://hernanacostaa.github.io/practice-lab-studio/case-study.html) for the problem, my role, prioritization, proposed success metrics, lessons, and an interactive business-case model. Its planning defaults and pilot thresholds are explicitly illustrative, not original project metrics or measured outcomes. The model includes unsuccessful attempts, manual fallback, running costs, and setup cost; capacity value is not cash savings.
+Read the [secondary evidence deep dive](https://hernanacostaa.github.io/practice-lab-studio/case-study.html) for decisions and evidence limits. Its optional measurement and economics tools are explicitly illustrative, not original project metrics or measured outcomes. The model includes unsuccessful attempts, manual fallback, running costs, and setup cost; capacity value is not cash savings. The primary case study and demo contain no hypothetical economics.
 
 The optional [technical evidence deep dive](docs/CASE_STUDY.md) and [architecture](docs/ARCHITECTURE.md) provide additional design and implementation context.
 
@@ -118,7 +126,7 @@ Update only curated, metadata-sanitized WebP derivatives under `assets/portfolio
 | `assets/portfolio/` | Curated, metadata-sanitized portfolio derivatives and the social preview; no originals |
 | `lab.html` | Practice Lab Studio's interactive, offline project page |
 | `src/core.mjs` | Worksheet contract and deterministic demo domain logic |
-| `src/samples.mjs` | Newly authored fictional sources and illustrative responses |
+| `src/samples.mjs` | `DEMO_SAMPLES`: two-input monitoring scenario; `SAMPLES`: preserved legacy fixtures for regression coverage, not browser choices |
 | `src/app.mjs` | Browser state, review, editing, and local downloads |
 | `case-study.html` | Anonymized product-manager story, decisions, metrics, and evidence limits |
 | `src/business-case.mjs` | Tested illustrative capacity/cost model; no real business data |
@@ -137,7 +145,9 @@ To regenerate the Word examples and template from the public fixtures:
 node scripts/make-examples.mjs
 ```
 
-Optional package/XML verification of all four generated documents uses Python 3 and no additional packages: `python scripts/validate-documents.py`.
+The script generates `samples/monitoring-trainer-guide.docx`, `monitoring-assessment.txt`, `monitoring-sop.txt`, and the template. Source text copies come from `samples/monitoring-sources.json`, which is bundled locally alongside the expected `monitoring.json`. Three older workshop/library/photos fixtures and Word examples remain as clearly separate legacy regression assets; they are not the current demo.
+
+Optional package/XML verification of all five documents uses Python 3 and no additional packages: `python scripts/validate-documents.py`.
 
 ## Boundaries
 

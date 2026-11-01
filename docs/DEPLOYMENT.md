@@ -8,17 +8,15 @@
 
 Use the commands in the [root README](../README.md) to run the browser demo locally. No Power Platform account, cloud credentials, or connected content source is needed for this path.
 
-The scenarios in [src/samples.mjs](../src/samples.mjs), identified by `workshop`, `library`, and `photos`, contain fictional source material and illustrative pre-authored responses. They are not live AI output. Field edits and JSON/Word downloads are real local browser operations. The demo is not a general document reader or a deployed Copilot Studio client.
+The primary combined case study and demo use `DEMO_SAMPLES` in [src/samples.mjs](../src/samples.mjs): one monitoring scenario with a required fictional assessment and SOP. Drafting is prepared fixture replay, not live AI. Field edits and JSON/Word downloads are local browser operations. The demo is not a general document reader or a deployed Copilot Studio client.
 
 Use these paired public fixtures when inspecting the demo or preparing optional platform tests:
 
 | Fixture | Full source text | Expected flat worksheet JSON |
 | --- | --- | --- |
-| `workshop` | [samples/workshop.txt](../samples/workshop.txt) | [samples/workshop.json](../samples/workshop.json) |
-| `library` | [samples/library.txt](../samples/library.txt) | [samples/library.json](../samples/library.json) |
-| `photos` | [samples/photos.txt](../samples/photos.txt) | [samples/photos.json](../samples/photos.json) |
+| `monitoring` | [assessment](../samples/monitoring-assessment.txt) + [SOP](../samples/monitoring-sop.txt) | [trainer guide](../samples/monitoring.json) |
 
-Each source file is the complete fictional guide; each expected JSON file is the worksheet object itself, without a sample wrapper. The browser imports those expected JSON objects and bundles matching source-text copies. It does not fetch the `.txt` files or extract new worksheets at runtime.
+Each source file is a complete fictional input document, not an existing trainer guide. `monitoring-sources.json` is the canonical pair; the example script generates matching text copies. The browser bundles the sources and expected 17-field guide without runtime fetches. The old workshop/library/photos assets remain only as legacy regression examples.
 
 Inspect the displayed fields, make a local edit, review the revised worksheet, and confirm it before downloading JSON or Word. Edits and source changes clear approval, so the revised worksheet needs a new confirmation. If the demo reports a source failure, use its retry path; the failed attempt must not be treated as a completed draft.
 
@@ -30,7 +28,7 @@ The browser does not upload entered content or persist drafts in browser storage
 
 Use your own Power Platform development environment and confirm that you are permitted to create an agent, prompts, and a solution-aware flow. Availability, licensing, capacity, connector policies, and charges depend on that environment. The local demo does not include or grant these entitlements.
 
-Start with pasted fictional workshop text. If you want stored document output, create a new sample SharePoint site and empty output library in your own tenant. If you later want library retrieval, create a separate sample content location containing only newly authored fictional material.
+Start with the complete fictional assessment and SOP, clearly separated and registered as the two required source roles. If you want stored document output, create a new sample SharePoint site and empty output library in your own tenant. If you later want library retrieval, create a separate sample content location containing only newly authored fictional material.
 
 For prompt tests, pass a fixture's full `.txt` body as source content, not its expected JSON. Use the `.json` for field and grounding expectations, allowing supported wording differences from a real extraction. Document-fidelity tests instead require preservation of the exact approved input values. Never return an expected fixture as a substitute for a failed platform retrieval, prompt, or flow.
 
@@ -95,10 +93,10 @@ Implement the following gates before connecting the success path:
 
 | Gate | Required implementation |
 | --- | --- |
-| Source intake | Route pasted text, selected library items, links, mixed sources, and additional content into the same source-resolution and content guard |
+| Source intake | Register both required roles (training-needs assessment and SOP). Route all bodies and additional content into the same source guard; neither required input may be dropped |
 | Retrieval | Require authorized success and a complete body for every requested resource; stop on URL-only, failed, partial, or unknown results |
 | Content | Accept a short clear activity/goal; reject empty, error-only, and non-content bodies; use explicit intake questions for ambiguous material, never a character-count-only test |
-| Schema | Parse one object; require all 17 exact keys, no extras, and string values; enforce the shared worksheet schema |
+| Schema and completeness | Require all 17 string fields and no extras. Separately block missing/TBD instructional and operating-boundary sections; metadata and duration may be TBD. Human review checks semantic grounding |
 | Correction | At most two total calls per extraction/edit operation: initial attempt plus one schema-correction retry with identical trusted inputs |
 | Editing | Confirm the targeted fields, bind the complete source, compare decoded values, reject unrelated changes, and explain unapplied requests |
 | Preview | Display every value; detect formatting changes and visibly fall back to direct rendering of validated fields |

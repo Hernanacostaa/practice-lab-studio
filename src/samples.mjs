@@ -1,7 +1,33 @@
 import workshopFields from "../samples/workshop.json" with { type: "json" };
 import libraryFields from "../samples/library.json" with { type: "json" };
 import photosFields from "../samples/photos.json" with { type: "json" };
+import monitoringFields from "../samples/monitoring.json" with { type: "json" };
+import monitoringSources from "../samples/monitoring-sources.json" with { type: "json" };
 import { assertWorksheet } from "./core.mjs";
+
+// Legacy fixtures remain for regression coverage, not as alternative browser demos.
+const sources = Object.freeze(Object.fromEntries(Object.entries(monitoringSources).map(([key, source]) => [
+  key, Object.freeze({
+    ...source,
+    sections: Object.freeze(source.sections.map((section) => Object.freeze(section))),
+    text: source.sections.map(({ label, text }) => `${label}\n${text}`).join("\n\n") + "\n",
+  }),
+])));
+export const DEMO_SAMPLES = Object.freeze([Object.freeze({
+  id: "monitoring",
+  name: "Fictional monitoring alert / practice handoff",
+  summary: "This example covers identifying a monitoring alert and writing a practice handoff. The assessment and procedure are both fictional.",
+  sources,
+  source: Object.values(sources).map(({ title, text }) => `${title}\n${text}`).join("\n"),
+  fields: Object.freeze(assertWorksheet(monitoringFields)),
+  requiredBoundaries: Object.freeze(monitoringFields.Notes.split("\n").slice(0, 2)),
+  connections: Object.freeze([
+    Object.freeze({ source: "assessment-skills", field: "SkillsBasedLearningObjectives", reason: "The assessment says which skills participants need to practise." }),
+    Object.freeze({ source: "sop-preparation", field: "WhatIsNeeded", reason: "The procedure lists the materials the trainer needs to prepare." }),
+    Object.freeze({ source: "sop-boundaries", field: "Notes", reason: "The procedure sets the limits of the fictional exercise." }),
+    Object.freeze({ source: "assessment-success", field: "Validation", reason: "The assessment defines what each participant must demonstrate." }),
+  ]),
+})]);
 
 // JSON is the single source of expected fields; tests keep these browser-ready
 // source strings byte-for-byte aligned with the downloadable text fixtures.

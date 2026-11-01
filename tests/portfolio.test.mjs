@@ -95,7 +95,7 @@ test("revised portfolio favors a personal greeting, a clear product CTA, and fac
   const html = await readFile(path.join(root, "index.html"), "utf8");
   assert.match(html, /Hi! Nice to meet you\./);
   assert.match(html, /Spotlight Product/);
-  assert.match(html, /Goodbye,<br>blank worksheet/);
+  assert.match(html, /Two inputs\.<br>One trainer guide/);
   assert.match(html, /microsoft-logo\.webp/);
   assert.match(html, /paypal-logo\.webp/);
   assert.match(html, /amazon-logo\.webp/);

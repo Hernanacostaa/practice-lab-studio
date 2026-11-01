@@ -1,16 +1,17 @@
-import { FIELD_KEYS, FIELD_LABELS, assertWorksheet, createSampleDraft, updateField } from "./core.mjs";
-import { SAMPLES } from "./samples.mjs";
+import { FIELD_KEYS, FIELD_LABELS, assertWorksheet, assertTrainerGuide, createSampleDraft, updateField } from "./core.mjs";
+import { DEMO_SAMPLES as SAMPLES } from "./samples.mjs";
 import { createWorksheetDocx } from "./document.mjs";
 import { initializeThemeControls } from "./theme.mjs";
 
 const byId = (id) => document.getElementById(id);
 const controls = Object.fromEntries([
-  "sample-select", "source-text", "sample-summary", "source-length", "generate", "reset",
+  "sample-summary", "generate", "reset",
   "retrieval-failure", "status", "error", "empty-state", "draft-content", "fields",
   "worksheet-title", "worksheet-subtitle", "field-count", "draft-state", "edit-mode",
   "edit-help", "revision-count", "approve", "review-note", "export-docx", "export-json",
-  "trace", "trace-count", "source-audience", "source-duration", "worksheet-preview",
+  "trace", "trace-count", "worksheet-preview",
   "worksheet-facts", "worksheet-sections", "worksheet-metadata", "pending-warning", "download-result",
+  "sop-failure", "source-documents", "guide-overview", "connections", "full-guide",
 ].map((id) => [id, byId(id)]));
 
 let worksheet = null;
@@ -41,9 +42,54 @@ function message(text, isError = false) {
 }
 
 function currentSample() {
-  const sample = SAMPLES.find(({ id }) => id === controls["sample-select"].value);
-  if (!sample) throw new Error("Choose one of the available fictional scenarios.");
-  return sample;
+  return SAMPLES[0];
+}
+
+function initializeCaseTabs() {
+  const tabList = byId("case-tabs");
+  const tabs = Array.from(tabList.querySelectorAll('[role="tab"]'));
+  const panels = tabs.map((tab) => byId(tab.getAttribute("aria-controls")));
+  panels.forEach((panel, index) => {
+    panel.setAttribute("role", "tabpanel");
+    panel.setAttribute("aria-labelledby", tabs[index].id);
+    panel.tabIndex = 0;
+  });
+  function select(index, focus = false) {
+    tabs.forEach((tab, position) => {
+      const selected = position === index;
+      tab.setAttribute("aria-selected", String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+      panels[position].hidden = !selected;
+    });
+    byId("project-story").scrollTop = 0;
+    if (focus) tabs[index].focus({ preventScroll: true });
+  }
+  tabs.forEach((tab, index) => tab.addEventListener("click", () => select(index)));
+  tabList.addEventListener("keydown", (event) => {
+    const index = tabs.indexOf(event.target);
+    if (index < 0) return;
+    const next = {
+      ArrowRight: (index + 1) % tabs.length,
+      ArrowLeft: (index + tabs.length - 1) % tabs.length,
+      Home: 0,
+      End: tabs.length - 1,
+    }[event.key];
+    if (next === undefined) return;
+    event.preventDefault();
+    select(next, true);
+  });
+  function revealAnchor() {
+    const target = byId(window.location.hash.slice(1));
+    if (!target) return;
+    const index = panels.findIndex((panel) => panel === target || panel.contains(target));
+    if (index < 0 || !panels[index].hidden) return;
+    select(index);
+    (target === panels[index] ? tabList : target).scrollIntoView({ block: "nearest", behavior: "instant" });
+  }
+  tabList.hidden = false;
+  select(0);
+  revealAnchor();
+  window.addEventListener("hashchange", revealAnchor);
 }
 
 function syncReview() {
@@ -62,7 +108,7 @@ function syncReview() {
   controls["pending-warning"].hidden = !dirty;
   controls["pending-warning"].textContent = controls["edit-mode"].checked
     ? "Apply or discard your pending edits. Only applied changes appear in the preview and downloads."
-    : "Your preview shows the last applied version. Turn on Edit worksheet to apply or discard your pending edits before reviewing.";
+    : "Your preview shows the last applied version. Turn on Edit trainer guide to apply or discard your pending edits before reviewing.";
   controls["download-result"].hidden = !approved || exportedEpoch !== epoch;
   const currentStep = !worksheet ? "progress-source" : dirty ? "progress-draft" : approved ? "progress-export" : "progress-review";
   for (const [id, active] of [
@@ -92,6 +138,9 @@ function clearDraft() {
   controls["draft-content"].hidden = true;
   controls.fields.replaceChildren();
   for (const id of ["worksheet-facts", "worksheet-sections", "worksheet-metadata"]) controls[id].replaceChildren();
+  controls["guide-overview"].replaceChildren();
+  controls.connections.replaceChildren();
+  controls["full-guide"].open = false;
   for (const id of ["worksheet-title", "worksheet-subtitle", "field-count", "download-result"]) controls[id].textContent = "";
   controls["revision-count"].textContent = "No manual edits";
   setEditing(false);
@@ -100,12 +149,37 @@ function clearDraft() {
 function selectSample() {
   clearDraft();
   const sample = currentSample();
-  controls["source-text"].textContent = sample.source;
   controls["sample-summary"].textContent = sample.summary;
-  controls["source-length"].textContent = `${sample.source.trim().split(/\s+/u).length} words`;
-  controls["source-audience"].textContent = sample.fields.TargetAudience;
-  controls["source-duration"].textContent = sample.fields.Duration;
-  message("Ready when you are. Create the example worksheet to see what the learner gets.");
+  renderSources();
+  message("Inspect the assessment and SOP, then create the prepared trainer guide.");
+}
+
+function renderSources() {
+  const sample = currentSample();
+  controls["source-documents"].replaceChildren(...Object.entries(sample.sources).map(([key, source]) => {
+    const unavailable = controls[key === "assessment" ? "retrieval-failure" : "sop-failure"].checked;
+    const card = document.createElement("section");
+    card.className = "input-document";
+    card.append(previewText("h4", source.title));
+    if (unavailable) {
+      card.append(previewText("p", "Unavailable in this simulation. Restore this input below and retry; drafting is blocked."));
+      return card;
+    }
+    const excerpt = source.sections[1];
+    card.append(previewText("p", excerpt.label), previewText("blockquote", excerpt.text));
+    const details = document.createElement("details");
+    details.className = "source-document";
+    details.id = `source-${key}`;
+    details.append(previewText("summary", `Read full ${key === "assessment" ? "assessment" : "SOP"}`));
+    for (const section of source.sections) {
+      const passage = document.createElement("section");
+      passage.id = section.id;
+      passage.append(previewText("h5", section.label), previewText("p", section.text));
+      details.append(passage);
+    }
+    card.append(details);
+    return card;
+  }));
 }
 
 function showSummary() {
@@ -139,24 +213,53 @@ function renderPreview() {
   controls["worksheet-facts"].replaceChildren(facts);
   controls["worksheet-metadata"].replaceChildren(...previewDetails(["CourseReference", "Authors", "Contributors", "LastUpdated"]));
   controls["worksheet-sections"].replaceChildren(...[
-    ["ActivityDescription", "The exercise"],
-    ["DesiredLearningOutcome", "The learning goal"],
-    ["SkillsBasedLearningObjectives", "What learners will practise", "ul"],
-    ["WhatIsNeeded", "Before you start", "ul"],
-    ["TrainerGuidelines", "For the trainer", "ul"],
-    ["ActivitySteps", "Try it, step by step", "ol"],
-    ["Validation", "How to check it worked", "ul"],
+    ["ActivityDescription", "What to teach and why"],
+    ["DesiredLearningOutcome", "Intended learning outcome"],
+    ["SkillsBasedLearningObjectives", "Required competencies", "ul"],
+    ["WhatIsNeeded", "Tooling and trainer preparation", "ul"],
+    ["TrainerGuidelines", "Trainer briefing and demonstration", "ul"],
+    ["ActivitySteps", "Trainer-led sequence and learner practice", "ol"],
+    ["Validation", "Individual exercise completion criteria", "ul"],
     ["DocumentationAndReferences", "Source & references"],
-    ["Notes", "Notes & limits"],
+    ["Notes", "Safety callouts and simulation boundaries"],
   ].map(([key, label, list]) => {
     const section = document.createElement("section");
     section.className = "worksheet-section";
+    section.id = `guide-${key}`;
     const value = list ? document.createElement(list) : previewText("p", worksheet[key]);
     value.dataset.previewKey = key;
     if (list) {
       for (const line of worksheet[key].split(/\r\n|\r|\n/)) value.append(previewText("li", line));
     }
     section.append(previewText("h5", label), value);
+    return section;
+  }));
+  controls["guide-overview"].replaceChildren(previewText("h5", "What this guide covers"), ...[
+    ["SkillsBasedLearningObjectives", "Teach"],
+    ["WhatIsNeeded", "Prepare"],
+    ["TrainerGuidelines", "Demonstrate", 1],
+    ["ActivitySteps", "Practise", 2],
+    ["Notes", "Stay within boundaries"],
+    ["Validation", "Check each participant"],
+  ].map(([key, label, index = 0]) => {
+    const section = document.createElement("section");
+    section.className = "guide-overview-item";
+    section.append(previewText("h5", label), previewText("p", worksheet[key].split(/\r\n|\r|\n/)[index] ?? worksheet[key]));
+    return section;
+  }));
+  controls.connections.replaceChildren(...currentSample().connections.map(({ source, field, reason }) => {
+    const section = document.createElement("section");
+    const passage = Object.values(currentSample().sources).flatMap(({ sections }) => sections).find(({ id }) => id === source);
+    section.append(previewText("p", reason), previewText("blockquote", passage.text));
+    const inputLink = document.createElement("a");
+    inputLink.href = `#${source}`;
+    inputLink.textContent = passage.label;
+    inputLink.addEventListener("click", () => { byId(source).closest("details").open = true; });
+    const outputLink = document.createElement("a");
+    outputLink.href = `#guide-${field}`;
+    outputLink.textContent = `${FIELD_LABELS[field]}${editedKeys.has(field) ? " (manually edited; review again)" : ""}`;
+    outputLink.addEventListener("click", () => { controls["full-guide"].open = true; });
+    section.append(inputLink, previewText("span", " → "), outputLink);
     return section;
   }));
 }
@@ -250,7 +353,9 @@ function renderFields() {
     });
     apply.addEventListener("click", () => {
       try {
-        worksheet = updateField(worksheet, key, textarea.value);
+        const candidate = updateField(worksheet, key, textarea.value);
+        assertTrainerGuide(candidate, currentSample().requiredBoundaries);
+        worksheet = candidate;
         pendingKeys.delete(key);
         editedKeys.add(key);
         revision++;
@@ -264,7 +369,7 @@ function renderFields() {
         showSummary();
         syncReview();
         log(`Edit ${revision}: ${FIELD_LABELS[key]} updated manually; remaining fields preserved. Approval cleared.`);
-        message(`${FIELD_LABELS[key]} updated. Review the change against the sample source.`);
+        message(`${FIELD_LABELS[key]} updated. Review the change against BOTH the assessment and SOP.`);
       } catch (error) {
         fieldError.textContent = error.message;
         fieldError.hidden = false;
@@ -301,7 +406,7 @@ function download(bytes, mime, filename) {
 
 async function exportDocument(format) {
   if (!worksheet || !controls.approve.checked || pendingKeys.size || exporting) {
-    message("Review and approve the current worksheet before exporting.", true);
+    message("Review and approve the current trainer guide before exporting.", true);
     return;
   }
   const exportEpoch = epoch;
@@ -312,6 +417,7 @@ async function exportDocument(format) {
   syncReview();
   try {
     assertWorksheet(snapshot);
+    assertTrainerGuide(snapshot, currentSample().requiredBoundaries);
     const bytes = format === "docx" ? await createWorksheetDocx(snapshot) : JSON.stringify(snapshot, null, 2);
     if (epoch !== exportEpoch || !controls.approve.checked || pendingKeys.size) {
       message("The draft changed during export. Review it again before downloading.", true);
@@ -320,10 +426,10 @@ async function exportDocument(format) {
     download(bytes, format === "docx" ? "application/vnd.openxmlformats-officedocument.wordprocessingml.document" : "application/json", `practice-lab-${currentSample().id}.${format}`);
     exportedEpoch = epoch;
     controls["download-result"].textContent = format === "docx"
-      ? "Word download prepared. Open it to edit the training worksheet, or keep exploring another fictional guide."
-      : "JSON download prepared. It contains the same 17 plain-text fields as the reviewed worksheet.";
+      ? "Word download prepared from the current reviewed trainer guide. Fictional simulation only, not approved operational instruction."
+      : "JSON download prepared. It contains the same 17 plain-text fields as the reviewed trainer guide.";
     log(`Local ${format.toUpperCase()} export prepared from the approved 17-field draft. No cloud delivery.`);
-    message(`${format.toUpperCase()} download prepared. The worksheet remains available for another review.`);
+    message(`${format.toUpperCase()} download prepared from the reviewed trainer guide. Fictional exercise only, not operational approval.`);
   } catch (error) {
     message(`Export failed: ${error.message}. Your current draft is still available.`, true);
     log(`${format.toUpperCase()} export failed; draft retained.`);
@@ -336,31 +442,24 @@ async function exportDocument(format) {
   }
 }
 
-for (const sample of SAMPLES) {
-  const option = document.createElement("option");
-  option.value = sample.id;
-  option.textContent = sample.name;
-  controls["sample-select"].append(option);
-}
-controls["sample-select"].addEventListener("change", () => {
-  selectSample();
-  log("Scenario changed. Previous draft, edits, and approval cleared.");
-});
 controls.generate.addEventListener("click", () => {
   clearDraft();
   try {
     const sample = currentSample();
     log(`Source requested: ${sample.name}.`);
-    worksheet = createSampleDraft(sample, { retrievalAvailable: !controls["retrieval-failure"].checked });
+    worksheet = createSampleDraft(sample, { sourceAvailability: {
+      assessment: !controls["retrieval-failure"].checked,
+      sop: !controls["sop-failure"].checked,
+    } });
     controls["empty-state"].hidden = true;
     controls["draft-content"].hidden = false;
     showSummary();
     renderFields();
     syncReview();
-    log("Source gate passed: full fictional source text is available.");
+    log("Both source gates passed: complete fictional assessment and SOP available.");
     log("Illustrative extraction replayed: pre-authored sample output, not a model call.");
     log("Contract accepted: exactly 17 nonempty string fields. Human review required.");
-    message("Example worksheet ready. Read the preview, optionally edit it, then review and download.");
+    message("Prepared trainer guide ready. Inspect its teaching structure and full guide, optionally edit, then review against BOTH sources.");
     focusResult("draft-heading");
   } catch (error) {
     message(error.message, true);
@@ -368,15 +467,17 @@ controls.generate.addEventListener("click", () => {
     focusResult("error");
   }
 });
-controls["retrieval-failure"].addEventListener("change", () => {
+for (const id of ["retrieval-failure", "sop-failure"]) controls[id].addEventListener("change", () => {
   clearDraft();
-  message(controls["retrieval-failure"].checked
-    ? "Unavailable-source simulation enabled. Create the example to see why the workflow stops."
-    : "The source is available again. Create the example worksheet to continue.");
+  renderSources();
+  const unavailable = controls["retrieval-failure"].checked || controls["sop-failure"].checked;
+  message(unavailable
+    ? "A required input is unavailable. Restore it below, or create the example to inspect the stopped workflow."
+    : "Both inputs are available again. Retry Create prepared trainer guide to continue.", unavailable);
 });
 controls.reset.addEventListener("click", () => {
   controls["retrieval-failure"].checked = false;
-  controls["sample-select"].selectedIndex = 0;
+  controls["sop-failure"].checked = false;
   events = [];
   selectSample();
   log("Demo reset. All manual edits and approval removed from memory.");
@@ -385,9 +486,13 @@ controls["edit-mode"].addEventListener("change", () => setEditing(controls["edit
 controls.approve.addEventListener("change", () => {
   epoch++;
   syncReview();
+  message(controls.approve.checked
+    ? "Review confirmed for the current fictional trainer guide. Local downloads are enabled."
+    : "Review withdrawn. Compare the current trainer guide against BOTH sources before downloading.");
   log(controls.approve.checked ? "Human review confirmed for the current draft. Local export enabled." : "Approval withdrawn. Local export disabled.");
 });
 controls["export-docx"].addEventListener("click", () => void exportDocument("docx"));
 controls["export-json"].addEventListener("click", () => void exportDocument("json"));
 initializeThemeControls();
+initializeCaseTabs();
 selectSample();

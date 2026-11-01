@@ -1,0 +1,13 @@
+S1 / Read-only monitoring record
+FICTIONAL SOP: MONITORING ALERT REVIEW HANDOFF
+Original public portfolio example. This invented procedure defines only a paper simulation, not instructions for a real datacenter.
+Record identifier: SIM-042. Displayed timestamp: 09:15 exercise time (not a real event date). Monitoring label: Observe Queue. Displayed status: Needs review. Observation: A placeholder monitoring update has not appeared on the practice display. Cause: unverified. No severity, diagnosis, or resolution is provided.
+
+S2 / Responsibilities and handoff
+The practice observer reads the displayed record and passes the identifier, timestamp, label, unchanged status, observation, and unverified-cause statement to the role named Practice Review Lead. The Practice Review Lead receives the fictional handoff; receipt is not resolution. No real contacts, escalation timing, production destinations, or technical remediation are supplied. If a destination card is absent, the observer pauses and asks the trainer to supply the designated practice role.
+
+S3 / Materials and preparation
+Use a printed or locally displayed copy of SIM-042, a role card labelled Practice Review Lead, a blank handoff card, and a pencil or local text editor. Prepare an additional copy with the destination card withheld to exercise the pause-and-ask condition. There are no accounts, credentials, real alerts, external messaging tools, or infrastructure connections. No session length, author, contributor, course reference, or update date is specified.
+
+S4 / Operating boundaries
+Simulation only. Read the practice record; do not acknowledge, clear, change, or resolve any alert. Do not touch hardware, perform electrical work, use privileged access, bypass controls, diagnose causes, or send a real escalation. If anyone introduces a real system, real operational detail, or an action outside these boundaries, stop the exercise and return to fictional materials. The trainer explains these limits before any practice.

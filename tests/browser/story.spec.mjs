@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 
 test("the in-site story opens without losing an edited worksheet and preserves the theme", async ({ page }) => {
   await page.goto("/lab.html?scoutTheme=dark");
-  await page.getByRole("button", { name: "Create example worksheet" }).click();
+  await page.getByRole("button", { name: "Create prepared trainer guide" }).click();
   await page.locator("#edit-mode").check();
   const field = page.locator('[data-key="ActivityDescription"]');
   await field.locator("textarea").fill("A revised fictional workshop for portfolio review.");
@@ -16,7 +16,7 @@ test("the in-site story opens without losing an edited worksheet and preserves t
   ]);
   await expect(story).toHaveURL(/\/case-study\.html\?scoutTheme=dark$/);
   await expect(story.locator("html")).toHaveAttribute("data-theme", "dark");
-  await expect(story.getByRole("heading", { level: 1 })).toHaveText("From source documentsto training exercises.");
+  await expect(story.getByRole("heading", { level: 1 })).toHaveText(/How I built\s*the trainer-guide workflow\./);
   await expect(page.locator("#approve")).toBeChecked();
   await expect(field.locator("textarea")).toHaveValue("A revised fictional workshop for portfolio review.");
   await story.locator("#theme-toggle").click();
@@ -37,11 +37,12 @@ test("the in-site story opens without losing an edited worksheet and preserves t
 test("the real project progression stays distinct from replacement examples and modeled impact", async ({ page }) => {
   await page.goto("/case-study.html");
   await expect(page.locator(".story-boundary")).toContainText("Real project. Anonymized public version.");
+  await expect(page.locator(".story-brief")).toContainText("AI-assisted document generation and workflow automation");
   await expect(page.locator("#problem .story-caption")).toContainText("a real example from my work at Microsoft");
-  await expect(page.locator("#problem-title")).toHaveText("Training authors were manually rebuilding source material into exercises.");
+  await expect(page.locator("#problem-title")).toHaveText("Trainers still needed a guide they could follow.");
   await expect(page.locator(".approach-list h3")).toHaveText([
     "Identified the repeated authoring work",
-    "Defined a consistent worksheet",
+    "Defined a consistent trainer guide",
     "Built a working version",
     "Shared, presented, and demoed it",
     "Redesigned for production needs",
@@ -115,7 +116,7 @@ test("the narrative remains readable without JavaScript", async ({ browser }) =>
   try {
     const page = await context.newPage();
     await page.goto("http://127.0.0.1:4173/case-study.html");
-    await expect(page.getByRole("heading", { name: "Measure accepted work, not generated words." })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "What I would measure in a pilot" })).toBeVisible();
     await expect(page.locator("#calculator-unavailable")).toBeVisible();
     await expect(page.locator("#calculator-unavailable")).toContainText("The calculator requires JavaScript");
     await expect(page.locator("#interactive-model")).toBeHidden();
@@ -131,8 +132,8 @@ test("the standalone story and its link back to the demo work offline", async ({
     const page = await context.newPage();
     await page.goto(pathToFileURL(resolve("dist", "case-study.html")).href);
     await expect(page.locator("#result-hours")).toHaveText("27.3 hours");
-    await page.getByRole("link", { name: "Try what I built" }).click();
-    await page.getByRole("button", { name: "Create example worksheet" }).click();
+    await page.getByRole("link", { name: "Open the case study + demo" }).click();
+    await page.getByRole("button", { name: "Create prepared trainer guide" }).click();
     await expect(page.locator(".field")).toHaveCount(17);
   } finally {
     await context.close();

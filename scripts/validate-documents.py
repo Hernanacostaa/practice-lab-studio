@@ -43,7 +43,7 @@ def validate(file):
 
 if __name__ == "__main__":
     documents = sorted((ROOT / "samples").glob("*.docx"))
-    if len(documents) != 4:
-        raise ValueError(f"Expected three examples and one template, found {len(documents)}.")
+    if len(documents) != 5:
+        raise ValueError(f"Expected one trainer guide, three legacy examples and one template, found {len(documents)}.")
     for document in documents:
         validate(document)

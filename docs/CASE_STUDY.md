@@ -1,6 +1,6 @@
-# Practice Lab Studio: from source documents to training exercises
+# Practice Lab Studio: two inputs to a consistent trainer guide
 
-This is an optional technical-evidence deep dive into Practice Lab Studio. The recruiter-facing narrative, role, prioritization, proposed success measures, and interactive economics remain in [Why I built this](https://hernanacostaa.github.io/practice-lab-studio/case-study.html).
+This is an optional technical-evidence deep dive. The primary concise case study and two-input demo are at [Practice Lab Studio](../lab.html). The secondary [evidence and planning page](../case-study.html) retains optional measurement and economics tools, not achieved results.
 
 [Personal portfolio](https://hernanacostaa.github.io/practice-lab-studio/) | [Interactive lab](https://hernanacostaa.github.io/practice-lab-studio/lab.html#demo) | [Local setup](../README.md) | [Architecture](ARCHITECTURE.md) | [Optional platform build](DEPLOYMENT.md)
 
@@ -12,11 +12,13 @@ Practice Lab Studio is the public adaptation of that work. Its examples, infrast
 
 ## The problem
 
-The source documents already existed, but a training author still had to turn them into an exercise someone could teach or complete. That meant identifying the relevant tasks, defining learning objectives, listing prerequisites and materials, writing step-by-step learner instructions, adding completion checks, and formatting a consistent worksheet.
+Training-needs assessments identified what datacenter staff needed to learn about new technologies. Engineering and execution teams supplied standard operating procedures. A training author still had to synthesize them into a trainer guide: topics, safety callouts, tooling, preparation, demonstration, practice, and completion criteria.
+
+The guide was a global standard document in a context spanning hundreds of datacenters. This document-level scope is not a claim of tool deployment at those sites, universal adoption, measured savings, or certified learning.
 
 I identified that repeated translation and assembly work as the problem to solve. My solution was to assist the author with a structured draft while keeping source accuracy, missing information, review, and editable delivery visible.
 
-The design question was: **How can I turn reference material into a usable training exercise without replacing the author's judgment or creating more reviewer rework?**
+The design question was: **How can I turn learning needs and procedures into a consistent trainer guide without replacing the author's judgment?**
 
 ## What I did
 
@@ -29,9 +31,11 @@ The design question was: **How can I turn reference material into a usable train
 
 ## Public examples
 
-The scenarios are deliberately ordinary and fictional. The `workshop`, `library`, and `photos` fixture identifiers in [src/samples.mjs](../src/samples.mjs) provide a bounded evaluation surface without needing a connected content library.
+The primary example is a newly authored read-only monitoring alert / practice escalation handoff simulation. Inspect the [two source documents](../samples/monitoring-sources.json) and [expected trainer guide](../samples/monitoring.json). The assessment defines audience, skill gaps, competencies, and success requirements. The fictional SOP defines record details, roles, materials, and operating boundaries. Neither is already a lesson; the prepared guide adds trainer briefing, demonstration, learner practice, and individual checks.
 
-The paired artifacts are [workshop source](../samples/workshop.txt) and [worksheet](../samples/workshop.json), [library source](../samples/library.txt) and [worksheet](../samples/library.json), and [photos source](../samples/photos.txt) and [worksheet](../samples/photos.json). Each text file is a complete original fictional guide. Each JSON file is the expected flat 17-field worksheet, not a sample wrapper or evidence of an AI run.
+The [Word guide](../samples/monitoring-trainer-guide.docx) contains the same 17 values. Curated browser source connections are manual fixture annotations, not model-generated citations or proof of the internal implementation. Older `workshop`, `library`, and `photos` assets remain only as legacy regression examples, not browser choices.
+
+No real infrastructure, hardware manipulation, electrical work, privileged access, control bypass, diagnosis, or escalation is involved. The output is not approved operational instruction or proof of staff qualification.
 
 ## People the workflow serves
 
@@ -47,7 +51,7 @@ These role descriptions are generalized for the public case study. The underlyin
 
 The local demo makes the workflow inspectable without access to the original environment. It replays clearly labeled, pre-authored sample responses rather than calling an AI service. Users can make real local field edits and download JSON or Word after review. This browser implementation is a separate, offline adaptation of work built with Copilot Studio and Power Automate.
 
-The browser does not upload entered content or persist drafts in browser storage. Changes to fields or sources invalidate export approval, and a visible source failure offers retry rather than a substitute draft. Downloads are deliberately local files, not cloud delivery. Keeping drafts in memory also means an unfinished session is not restored after a reload.
+The browser does not upload entered content or persist drafts in browser storage. Changes to fields or either source invalidate approval. Each required source has a failure simulation, restoration/retry path, and reset; neither may be dropped to produce a draft. Downloads are local files, not cloud delivery. An unfinished session is not restored after a reload.
 
 The optional platform design assigns control to one topic. Source intake precedes extraction; extraction precedes schema validation; review precedes generation. Four logical prompts have separate responsibilities: `ExtractPA` extracts, `EditPA` changes selected fields using full source grounding, `FormatPreview` formats the draft for display, and `GeneratePA` fills a Word layout without authoring new content.
 
@@ -60,7 +64,7 @@ The [worksheet contract](../schemas/worksheet.schema.json) has exactly 17 string
 | Offline illustrative responses | A low-friction, inspectable portfolio experience with no cloud account required | Does not measure model quality, retrieval quality, or platform latency |
 | One deterministic topic | A visible owner for validation, review, and generation order | More explicit state and conditions to configure; routing alone does not make model content deterministic |
 | Preserve complete raw source bodies | Editing retains the context needed to evaluate factual changes | Larger inputs consume more capacity; oversize content must stop or be explicitly rescoped, not silently shortened |
-| `TBD` for missing facts | Makes uncertainty visible rather than hiding it behind plausible text | Some drafts remain incomplete and require reviewer input |
+| `TBD` for missing metadata | Makes uncertainty visible rather than hiding it behind plausible text | Required instructional and boundary fields cannot be TBD; semantic completeness still requires human review |
 | Label derived objectives | Allows useful instructional proposals without presenting them as extracted facts | Human review must judge whether the derivation is appropriate |
 | Exact field-scoped edits | Prevents an unrelated author, duration, or reference from drifting during a rewrite | Ambiguous and partly applied requests require clarification |
 | Approval bound to payload and revision | Prevents exporting an older approval after a new change | Adds a deliberate review step after edits, even unsuccessful ones |

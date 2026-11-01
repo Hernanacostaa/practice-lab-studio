@@ -2,7 +2,7 @@
 
 ## What is included
 
-The site's entry point is Hernan Acosta's personal portfolio at `index.html`. The interactive Practice Lab Studio project remains at `lab.html`, and its recruiter-facing narrative remains at `case-study.html`. Portfolio photographs are curated personal-image derivatives, separate from the fictional training scenarios and subject to the publication review below. Locally bundled Microsoft, PayPal, and Amazon marks identify current/prior experience only; see their separate [provenance and trademark boundaries](../THIRD_PARTY_NOTICES.md#employer-identification-marks). The architecture-inspired visual theme is an artistic choice, not an assertion of personal identity or organizational branding.
+The site's entry point is Hernan Acosta's personal portfolio at `index.html`. The primary combined case study and two-input demo are at `lab.html`; the secondary evidence and optional planning deep dive is at `case-study.html`. Portfolio photographs are curated personal-image derivatives, separate from the fictional training scenarios and subject to the publication review below. Locally bundled Microsoft, PayPal, and Amazon marks identify current/prior experience only; see their separate [provenance and trademark boundaries](../THIRD_PARTY_NOTICES.md#employer-identification-marks). The architecture-inspired visual theme is an artistic choice, not an assertion of personal identity or organizational branding.
 
 Practice Lab Studio is a newly authored public adaptation of a real solution Hernan Acosta created at Microsoft. The problem identification, working version, sharing, presentations, demos, and production-oriented redesign are real project history. The sample content and infrastructure are replacements, not the original organizational assets.
 
@@ -10,7 +10,7 @@ The adaptation preserves reusable concepts: source grounding, a 17-field contrac
 
 The public release uses:
 
-- Newly invented workshop scenarios and source documents.
+- A newly invented monitoring alert / handoff simulation with a training-needs assessment and fictional SOP; older workshop assets are legacy regression fixtures.
 - Pre-authored sample outputs, explicitly labeled as an illustrative replay.
 - An original Word layout and template.
 - Descriptive low-code blueprints with unbound configuration placeholders.
@@ -48,7 +48,9 @@ Each built site page is a self-contained HTML document. Portfolio images are emb
 
 Field content remains in the current page's memory until the page is reset or closed. The lab's portfolio and case-study links open in new tabs to preserve that draft. A user-requested download creates a local file. GitHub Pages receives normal web-hosting requests, and following an external portfolio or documentation link leaves the local site; this is not a promise that hosting providers or external sites have no access logs.
 
-Source extraction is a replay of authored fixtures, not an AI service. Word generation uses a bundled open-source library locally. The unavailable-source control exercises a simulated failure path, not a connection to a real document service.
+Source extraction is a replay of authored fixtures, not an AI service. Word generation uses a bundled open-source library locally. Independent assessment and SOP failure controls exercise simulated failures, not a real document service. Curated passage connections are manually authored, not model-generated citations or proof of an internal UI.
+
+The author reports that the trainer guide was a global standard document in a context spanning hundreds of datacenters. This is document scope, not a claim of tool deployment at those sites, universal adoption, measured savings, or certified staff. The public guide is a read-only paper simulation, not approved operational instruction. No actual internal assessments, SOPs, monitoring records, or operational advice are published.
 
 The product story describes a real authoring problem and working solution; public role descriptions are generalized. The calculator assumptions are newly invented, and proposed pilot thresholds are not reported achievements. The interactive model reports potential reusable labor capacity, charges for unsuccessful attempts and manual fallback, and includes adjustable operating/setup costs; it does not establish cash savings, financial ROI, or actual platform pricing. Calculator values are neither persisted nor placed in navigation URLs.
 

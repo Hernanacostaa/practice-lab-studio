@@ -2,11 +2,13 @@
 
 [Portfolio and local setup](../README.md) | [Interactive lab](../lab.html) | [Deployment guide](DEPLOYMENT.md) | [Technical evidence](CASE_STUDY.md)
 
-The repository's `index.html` is Hernan Acosta's personal portfolio. Practice Lab Studio remains a separate interactive project at `lab.html`, with its recruiter-facing narrative and illustrative calculator at `case-study.html`.
+The repository's `index.html` is Hernan Acosta's personal portfolio. `lab.html` is the primary combined case study and two-input trainer-guide demo: independently scrollable side-by-side panes above 760px, naturally stacked content below that width. Both panes are keyboard-focusable; source and review anchors navigate within the demo pane. `case-study.html` is a secondary evidence deep dive with an optional illustrative calculator.
 
 Practice Lab Studio separates an inspectable, offline demonstration from a reusable Copilot Studio and Power Automate design. They share a worksheet contract and review principles, not a running backend.
 
-The case study is based on a real working solution the author created at Microsoft and subsequently shared, presented, demoed, and redesigned for production needs. This document describes the replacement public artifacts, not the original environment or its deployment status.
+The system is described as **AI-assisted document generation and workflow automation**. The technical outline calls the platform design a **source-grounded generative AI workflow**: supplied assessment and procedure text grounds the draft. RAG applies to the optional connected-retrieval path, subject to the evidence limits below.
+
+The case study is based on a real working solution the author created at Microsoft and subsequently shared, presented, demoed, and redesigned for production needs. The original system used AI to synthesize aggregated assessment and procedure data, with automation to assemble a trainer document. The browser instead replays a prepared result, with real local editing, review, and exports. This document describes the replacement public artifacts, not the original environment or its deployment status.
 
 ## Site packaging and navigation
 
@@ -31,29 +33,45 @@ The narrowly scoped image-inlining step accepts only lowercase, hyphen-separated
 | `lab.html` browser demo | Illustrative, pre-authored sample responses; real local field edits; reviewer approval; local JSON and Word downloads | Live extraction, live AI editing, connected retrieval, tenant deployment, or delivery through Power Automate |
 | `platform/` blueprints | Prompt contracts, topic routing requirements, source guards, approval state, and configurable document creation | Importable solution packages, configured connectors, deployed topics, or passing tenant acceptance tests |
 
-The fictional scenarios are identified by `workshop`, `library`, and `photos` in [the sample module](../src/samples.mjs). Selecting a scenario replays authored material. It does not ask a model to interpret arbitrary new content. The local demo requires no Power Platform tenant; see the root README for its actual run instructions.
+The browser uses only `DEMO_SAMPLES` in [the sample module](../src/samples.mjs): one monitoring scenario with a required assessment and SOP. It replays authored material, not model interpretation. `SAMPLES` retains the older workshop/library/photos fixtures for regression coverage only. The local demo requires no Power Platform tenant.
 
 | Stable fixture id | Complete fictional source | Expected worksheet |
 | --- | --- | --- |
-| `workshop` | [samples/workshop.txt](../samples/workshop.txt) | [samples/workshop.json](../samples/workshop.json) |
-| `library` | [samples/library.txt](../samples/library.txt) | [samples/library.json](../samples/library.json) |
-| `photos` | [samples/photos.txt](../samples/photos.txt) | [samples/photos.json](../samples/photos.json) |
+| `monitoring` | [assessment](../samples/monitoring-assessment.txt) + [SOP](../samples/monitoring-sop.txt) | [samples/monitoring.json](../samples/monitoring.json) |
 
-Each `.txt` is the full authored guide. Each `.json` is the flat 17-field worksheet itself, not a sample wrapper or a recorded model response. `SAMPLES` in `src/samples.mjs` imports the expected JSON directly and includes matching copies of the complete source text. Those copies must remain identical to the `.txt` files; bundling them avoids runtime source-file fetches.
+`monitoring-sources.json` is the canonical newly authored source pair: titled documents with stable passage ids and complete text. The sample module imports it and the flat 17-field expected guide directly, avoiding runtime fetches. `make-examples.mjs` generates readable `.txt` copies and the Word guide. Tests check source-copy fidelity. Curated connections live outside the worksheet; they are static teaching aids, not generated citations or factual verification.
 
 The browser keeps worksheet state in memory, does not upload entered content, and does not persist drafts in browser storage. Explicit downloads create local files. Both JSON and Word exports require reviewer approval; edits and source changes invalidate that approval. A source failure remains a visible failure with a retry path, not a successful draft or evidence of connected retrieval.
 
 ### Browser walkthrough and applied-value preview
 
-The public demo follows **guide -> readable 17-field worksheet -> optional manual edit/apply -> compare and review -> editable Word or JSON**. **Create example worksheet** loads the selected guide's prepared fixture; it does not call a live AI model. The default draft view is a readable worksheet, not 17 editor panels.
+The case-study pane has **Story** and **Technical outline** tabs. The outline identifies AI prompts, topic-owned automation, human approval, and the Power Automate document flow as described by the public blueprints. Tabs use arrow-key navigation, Home/End, and one selected tab stop. Switching views leaves the guide, pending edits, and approval untouched. Without JavaScript both sections remain readable and the tab controls stay hidden. Direct `#technical-outline` links open that view; legacy `#design` anchors reveal the Story view.
 
-`#worksheet-preview` renders all 17 applied values, identified by `data-preview-key`, with title-page metadata in a secondary disclosure. Its paper/ink colors use the shared `--cp-paper` and `--cp-ink` tokens in both themes. The field editors remain attached under `#fields` but hidden until **Edit worksheet** is enabled.
+The public demo follows **inspect assessment + SOP -> create prepared trainer guide -> compact teaching overview and expandable full guide -> optional edit/apply -> review against BOTH sources -> Word**. JSON and workflow traces are secondary. No model runs. The guide adds teaching structure to requirements and procedural evidence rather than reformatting an existing lesson.
+
+`#worksheet-preview` renders all 17 applied values, identified by `data-preview-key`, with title-page metadata in a secondary disclosure. Its paper/ink colors use the shared `--cp-paper` and `--cp-ink` tokens in both themes. The field editors remain attached under `#fields` but hidden until **Edit trainer guide** is enabled.
 
 Typing stages a pending edit; only **Apply field** changes the validated worksheet and its preview. Pending or invalid edits never alter the applied-value preview or bypass review, including after leaving edit mode. Apply or discard pending changes before approval, and review again after an applied change. Changing the guide or resetting removes the previous preview, pending edits, and approval. Word and JSON export the reviewed, applied worksheet rather than editor buffers.
 
-The complete source text, unavailable-source simulation, and workflow/schema trace remain secondary inspection tools behind disclosures. Reviewers can expand **Read the original guide** to compare content; the failure checkbox is inside **What if the guide is missing?**. These tools explain the safety boundaries without making the technical panels the initial reading experience.
+Distinct source excerpts are visible before creation; expandable full assessment/SOP passages remain available throughout review. Each source has an independent unavailable-source simulation. Either failure clears draft, pending edits, and approval and blocks drafting. Restoring a source requires an explicit retry; reset restores both. Required inputs cannot be removed from this workflow.
+
+`assertTrainerGuide` supplements the unchanged general schema with a required-content check. Required title, audience, instruction, tools, references, steps, validation, and boundary fields cannot be replaced by TBD. Metadata and duration may remain TBD. The fixture's `requiredBoundaries` also requires the first two Notes paragraphs to remain verbatim; fictional trainer notes may be added below them. The browser validates applied edits before committing and again at export. This narrow string guard is not a semantic safety classifier: a human must still review all rewrites against both sources.
 
 The platform path is optional. It requires the builder's own development environment, supported prompt features, and explicitly configured resources. Start with pasted fictional text. A newly created sample library or source reader can be added only after its behavior is verified.
+
+## Is this retrieval-augmented generation (RAG)?
+
+RAG retrieves external reference content and supplies it to a model to ground generation. The public design supports that pattern when an authorized reader retrieves the selected assessment and SOP before `ExtractPA` runs. It also supports complete pasted text, which is source-grounded generation without a retrieval stage.
+
+| Path | Classification | Evidence in this repository |
+| --- | --- | --- |
+| Connected reader -> accepted source bodies -> `ExtractPA` | Retrieval-augmented generation pattern | Optional design; the retrieval adapter explicitly declares `implemented_here: false` |
+| Complete pasted assessment + SOP -> `ExtractPA` | Source-grounded AI generation | Described platform intake route, requiring manual prompt/topic configuration |
+| Bundled fixtures -> prepared guide -> local export | Offline fixture replay, not live RAG or live AI | Implemented browser demo |
+
+These public artifacts do not establish the original internal retrieval implementation or prove a RAG deployment. They specify no embedding pipeline, vector index, or semantic-search implementation; RAG does not inherently require a vector database.
+
+The technical outline also distinguishes **AI calls** (`ExtractPA`, `EditPA`, `FormatPreview`, and the `GeneratePA` document prompt) from **automation** (topic routing, source/schema guards, revision and approval state, and the `GenerateDoc` flow's mappings, storage, and URL resolution). A prompt used for formatting is still an AI call; it is not proof of deterministic content fidelity. The browser's direct rendering and local Word generator are separate implementations.
 
 ## Stable worksheet boundary
 
@@ -122,7 +140,7 @@ A populated `SearchQuery` alone does not prove where retrieved content came from
 
 A short outline can support a useful draft when it states a recognizable activity or learning goal. Missing metadata is not the same as missing source content. Conversely, a long access-denied page is not useful evidence. Do not use a character-count-only guard.
 
-For multiple sources, require every requested read to succeed. A reviewer may explicitly remove a failed source after seeing the error; the application must not silently drop it. Additional material uses the same registration, retrieval, content, and schema checks as the first source.
+Require both an assessment and SOP to be registered, with every requested read successful. A required input cannot be removed to bypass failure. A reviewer may replace it with complete fictional text in an optional platform build; the browser only restores its prepared sources. Optional additional material uses the same guards and may be explicitly removed after a visible failure.
 
 Concatenate complete accepted bodies with clear boundaries while retaining provenance separately. If the configured runtime cannot accommodate the complete selected scope, stop and request a smaller scope instead of truncating it. Do not automatically follow reference URLs embedded in a body.
 

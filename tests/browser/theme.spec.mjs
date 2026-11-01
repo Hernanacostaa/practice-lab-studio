@@ -77,8 +77,10 @@ for (const width of [320, 390, 1440]) {
         await page.locator("#generate").click();
         await expect(page.locator(".field")).toHaveCount(17);
         await expectWorksheetPreview(page);
+        await page.locator("#full-guide > summary").click();
         await page.locator(".worksheet-meta > summary").click();
-        await page.locator(".source-document > summary").click();
+        await page.locator("#source-assessment > summary").click();
+        await page.locator("#source-sop > summary").click();
         await page.locator(".safety-tools > summary").click();
         await expectContrast(page, `demo ${width}px readable worksheet and expanded source tools`);
         await page.locator("#approve").check();
@@ -122,11 +124,9 @@ for (const theme of ["dark", "light"]) {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto(`/lab.html?scoutTheme=${theme}`);
     for (const [selector, kind] of [
-      [".hero-actions .primary", "surface"],
       ["#generate", "surface"],
       ["#reset", "border"],
       ["#theme-toggle", "border"],
-      ["#sample-select", "border"],
     ]) {
       await expectContrast(page, `${selector} normal text`, { selectors: selector });
       await expectContrast(page, `${selector} normal boundary`, { kind, selectors: selector });
@@ -135,13 +135,13 @@ for (const theme of ["dark", "light"]) {
       await expectContrast(page, `${selector} hover boundary`, { kind, selectors: selector });
       await expectKeyboardFocus(page, selector);
     }
-    for (const selector of [".site-header nav a:first-child", ".hero-actions .text-link", ".source-document > summary", ".safety-tools > summary"]) {
+    for (const selector of [".site-header nav a:first-child", ".case-pane .text-link", "#source-assessment > summary", "#source-sop > summary", ".safety-tools > summary"]) {
       await page.locator(selector).hover();
       await expectContrast(page, `${selector} hover`, { selectors: selector });
       await expectKeyboardFocus(page, selector);
     }
 
-    await page.locator(".source-document > summary").click();
+    await page.locator("#source-assessment > summary").click();
     await page.locator(".safety-tools > summary").click();
     await expectContrast(page, "unchecked source checkbox", { kind: "border", selectors: "#retrieval-failure" });
     await page.locator("#retrieval-failure").check();
@@ -156,6 +156,7 @@ for (const theme of ["dark", "light"]) {
     await page.locator("#retrieval-failure").uncheck();
     await page.locator("#generate").click();
     await expectWorksheetPreview(page);
+    await page.locator("#full-guide > summary").click();
     await page.locator(".worksheet-meta > summary").click();
     await expectKeyboardFocus(page, ".worksheet-meta > summary");
     await expectContrast(page, "readable worksheet, title-page details and source guide");
