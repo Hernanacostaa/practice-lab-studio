@@ -25,13 +25,13 @@ test("the demo explains the starting point, author's role, honest example, and W
   await expect(page.locator(".hero-copy")).toContainText("AI combined the source material into a draft");
   await expect(page.locator(".hero-copy")).toContainText("automation assembled the document for review");
   await expect(page.locator("#project-story")).toContainText("I built the workflow in Copilot Studio and Power Automate");
-  await expect(page.locator("#design > p")).toHaveCount(2);
-  await expect(page.locator("#design")).toContainText("download Word");
+  await expect(page.locator("#design > p")).toHaveCount(1);
+  await expect(page.locator(".case-evidence dt")).toHaveText(["Problem", "My contribution", "Design choice", "Delivered"]);
   await expect(page.locator(".design-card")).toHaveCount(0);
   await expect(page.locator(".demo-intro")).toContainText("Try it as the training author");
   await expect(page.locator(".demo-disclosure")).toContainText("No live AI is running here");
   await expect(page.locator("footer")).toHaveCount(0);
-  await expect(page.locator(".demo-disclosure")).toContainText("a prepared example you can edit and download");
+  await expect(page.locator(".demo-disclosure")).toContainText("Editing, review, and local exports are functional");
   await expect(page.getByRole("combobox", { name: "Choose an example" })).toHaveValue("logistics");
   await expect(page.locator("#sample-choice option")).toHaveText(["Logistics", "IT service desk"]);
   await expect(page.locator("#scenario-context")).toContainText("not projects I deployed in these industries");
@@ -49,6 +49,23 @@ test("the demo explains the starting point, author's role, honest example, and W
   await page.locator("#source-sop > summary").click();
   await expect(page.locator("#sop-boundaries p")).toHaveText(SAMPLES[0].sources.sop.sections[3].text);
   expect(requests).toEqual(["http://127.0.0.1:4173/lab.html"]);
+});
+
+test("prepared-output reading shortcut does not create or approve an authoring session", async ({ page }) => {
+  await page.goto("/lab.html");
+  await page.locator(".prepared-output summary").click();
+  const image = page.locator(".prepared-output img");
+  await expect(image).toBeVisible();
+  await image.evaluate((element) => element.decode());
+  expect(await image.evaluate((element) => element.src.startsWith("data:image/") && element.naturalWidth > 0)).toBe(true);
+  await expect(page.locator(".prepared-output figcaption")).toContainText("requires your review before export");
+  await expect(page.locator("#draft-content")).toBeHidden();
+  await expect(page.locator("#approve")).not.toBeChecked();
+  await expect(page.locator("#export-docx")).toBeDisabled();
+  await page.locator("#generate").click();
+  await page.locator("#approve").check();
+  await page.locator(".prepared-output summary").click();
+  await expect(page.locator("#approve")).toBeChecked();
 });
 
 test("desktop keeps the case study beside an independently scrollable demo, with a natural mobile fallback", async ({ page }) => {

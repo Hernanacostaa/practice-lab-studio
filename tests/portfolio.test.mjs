@@ -93,10 +93,33 @@ test("personal styling keeps colors in theme tokens and supports motion and prin
 test("revised portfolio favors a personal greeting, a clear product CTA, and factual company identification", async () => {
   const html = await readFile(path.join(root, "index.html"), "utf8");
   assert.match(html, /Hi! Nice to meet you\./);
-  assert.match(html, /Spotlight Product/);
+  assert.match(html, /Explore my work/);
   assert.match(html, /Two inputs\.<br>One trainer guide/);
   assert.match(html, /microsoft-logo\.webp/);
   assert.match(html, /paypal-logo\.webp/);
   assert.match(html, /amazon-logo\.webp/);
   assert.doesNotMatch(html, /class="through-line"|class="principles"|A problem I knew|I turn complex work<br>/);
+});
+
+test("balanced selected work uses supported scope without publishing uncleared historical figures", async () => {
+  const html = await readFile(path.join(root, "index.html"), "utf8");
+  for (const id of ["amazon", "ai-authoring", "training-delivery"]) {
+    assert.match(html, new RegExp(`id="${id}"`));
+  }
+  assert.ok(html.indexOf('id="amazon"') < html.indexOf('id="ai-authoring"'));
+  assert.ok(html.indexOf('id="ai-authoring"') < html.indexOf('id="training-delivery"'));
+  assert.match(html, /Product development &middot; Technical program delivery/);
+  assert.match(html, /Technical Support Engineer/);
+  assert.match(html, /IT Support Technician II/);
+  assert.match(html, /three major versions/);
+  assert.match(html, /Amazon S3 and CloudFront/);
+  assert.doesNotMatch(html, /40%|300 daily|four minutes|616 learners|20 secondary|10 buildings|eight months|200\+|11 curriculum|five standard operating/);
+  assert.doesNotMatch(html, /Download resume|href="[^"]+\.pdf"/);
+});
+
+test("portfolio social image matches its declared dimensions", async () => {
+  const bytes = await readFile(path.join(root, "assets", "portfolio", "social-preview.png"));
+  assert.equal(bytes.toString("ascii", 12, 16), "IHDR");
+  assert.equal(bytes.readUInt32BE(16), 1200);
+  assert.equal(bytes.readUInt32BE(20), 630);
 });

@@ -108,6 +108,8 @@ html[data-theme="dark"] .theme-moon { display: none; }
 .intro h1 em { color: var(--cp-accent); font-style: italic; }
 .hello-smile { display: inline-block; font: 600 .48em/1.1 Consolas, "Courier New", Courier, monospace; letter-spacing: -4px; color: var(--cp-accent); transform: rotate(-10deg); vertical-align: 12%; }
 .hero-hook { margin-top: 24px; max-width: 580px; font-size: clamp(23px, 2.35vw, 31px); font-weight: 550; line-height: 1.4; letter-spacing: -.6px; }
+.focus-line { margin-top: 24px; font-size: 13px; color: var(--cp-accent); font-weight: 650; }
+.focus-line + .hero-hook { margin-top: 12px; }
 .intro-copy { max-width: 560px; font-size: 16px; line-height: 1.85; color: var(--cp-secondary); margin-top: 24px; }
 .intro-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 28px; margin-top: 32px; }
 .portrait { width: 100%; max-width: 376px; justify-self: end; padding-right: 16px; }
@@ -158,6 +160,18 @@ h2 { font-size: clamp(34px, 3.8vw, 50px); letter-spacing: -1.6px; font-weight: 4
 .feature-footnote { margin-top: 16px; font-size: 12px; color: var(--cp-secondary); line-height: 1.7; max-width: 980px; }
 .work-section { padding-top: 0; }
 .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: start; }
+.delivery-scope { margin-bottom: 32px; border-block: 1px solid var(--cp-border); padding-block: 24px; }
+.delivery-scope h3 { font-size: 16px; margin-bottom: 16px; }
+.delivery-scope ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; list-style: none; padding: 0; margin: 0; }
+.delivery-scope strong, .delivery-scope span { display: block; font-size: 14px; line-height: 1.65; }
+.delivery-scope span { color: var(--cp-secondary); margin-top: 8px; font-size: 13px; }
+.selected-cases { align-items: stretch; }
+.project-head { margin-top: 48px; }
+.supporting-cases { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.supporting-cases .work-card { padding-bottom: 28px; }
+@media (max-width: 720px) {
+  .delivery-scope ul, .supporting-cases { grid-template-columns: minmax(0, 1fr); }
+}
 .work-card { border: 1px solid var(--cp-border); border-top: 4px solid var(--cp-clay); padding: 28px 24px 8px; border-radius: 4px; background: var(--cp-bg-elevated); }
 .work-card:nth-child(2) { border-top-color: var(--cp-sun); }
 .work-card:nth-child(3) { border-top-color: var(--cp-blue); }

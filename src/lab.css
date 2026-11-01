@@ -19,6 +19,15 @@
 .case-pane .eyebrow { margin-bottom: 12px; }
 .case-pane h3 { font-size: 17px; line-height: 1.4; margin: 24px 0 12px; }
 .case-pane .text-link { display: inline-block; font-size: 13px; }
+.case-evidence { margin: 0 0 20px; }
+.case-evidence > div { padding: 10px 0; border-bottom: 1px solid var(--cp-border); }
+.case-evidence dt { font-size: 13px; font-weight: 700; color: var(--cp-text); }
+.case-evidence dd { margin: 4px 0 0; font-size: 13px; line-height: 1.7; color: var(--cp-text-muted); }
+.prepared-output { margin: 20px 0; }
+.prepared-output summary { font-size: 13px; line-height: 1.6; cursor: pointer; font-weight: 650; }
+.prepared-output figure { margin: 12px 0 0; }
+.prepared-output img { display: block; width: 100%; height: auto; border: 1px solid var(--cp-border); border-radius: 8px; }
+.prepared-output figcaption { font-size: 12px; line-height: 1.7; color: var(--cp-text-muted); margin-top: 8px; }
 .case-tabs { display: flex; gap: 8px; position: sticky; top: 0; z-index: 1; background: var(--cp-bg-elevated); border-bottom: 1px solid var(--cp-border-strong); padding: 8px 0 12px; margin-bottom: 16px; }
 .case-tab { min-width: 0; padding: 10px 12px; border: 1px solid var(--cp-border-strong); border-radius: .625rem; background: var(--cp-surface); color: var(--cp-text); font: 600 13px/1.4 "Segoe UI", Aptos, Calibri, sans-serif; cursor: pointer; }
 .case-tab:hover { background: var(--cp-surface-soft); }

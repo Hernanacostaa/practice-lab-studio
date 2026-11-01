@@ -116,7 +116,8 @@ test("public entry points describe a real project without reclassifying its exam
   assert.match(html, /training-needs assessments and operating procedures/);
   assert.match(html, /AI combined the source material into a draft/);
   assert.match(html, /automation assembled the document for review/);
-  assert.match(html, /No live AI is running here\. Each source pair and guide is a prepared example/);
+  assert.match(html, /This public adaptation uses fictional documents and prepared drafts/);
+  assert.match(html, /No live AI is running here/);
   assert.match(html, /Two real industry tasks, with fictional documents and records/);
   assert.match(html, /not projects I deployed in these industries/);
   assert.doesNotMatch(html, /Ready-to-run practice|practical activity worksheet/);

@@ -8,6 +8,8 @@ The project story's numeric pilot thresholds and calculator defaults are newly i
 
 **This case study is based on a real solution I created at Microsoft.** I identified a manual training-authoring problem, built a working version, shared it, presented and demoed the solution, and redesigned the workflow for production needs.
 
+I partnered with learning program managers and engineers on needs, scope, risks, and output quality. My contribution covered the workflow, prompts, fields, review, and document delivery. The primary story includes a compact evidence summary and prepared-output screenshot, so readers do not need to complete the demo to understand the work.
+
 Practice Lab Studio is the public adaptation of that work. Its examples, infrastructure placeholders, browser implementation, and published configuration blueprints are replacements, not original organizational assets. The project history is real; the public scenarios are fictional. This is my personal case study, not an official Microsoft product or endorsement.
 
 ## The problem
@@ -23,8 +25,8 @@ The design question was: **How can I turn learning needs and procedures into a c
 ## What I did
 
 1. **Identified the authoring gap.** Focused on the repeated work between having a reference document and having a training exercise.
-2. **Defined the output.** Made the worksheet's 17 fields a shared contract for drafting, revision, preview, and document generation.
-3. **Built a working version.** Iterated on AI-assisted drafting, field mapping, and document output so supplied source content could become an editable training worksheet.
+2. **Defined the output.** Made the trainer guide's 17 fields a shared contract for drafting, revision, preview, and document generation.
+3. **Built a working version.** Iterated on AI-assisted drafting, field mapping, and document output so supplied source content could become an editable trainer guide.
 4. **Shared, presented, and demoed it.** Put the working solution and its approach in front of others after creating the first working version.
 5. **Redesigned for production needs.** Focused on clearer responsibilities, consistent structure, source checks, review, failure handling, and document delivery.
 6. **Created the public adaptation.** Replaced internal content and infrastructure with original examples and a disconnected browser walkthrough.

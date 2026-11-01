@@ -82,7 +82,7 @@ test("calculator shows labeled illustrative economics and honestly handles negat
 
 test("invalid calculator inputs hide stale results and can be corrected", async ({ page }) => {
   await page.goto("/case-study.html");
-  const baseline = page.getByLabel("Manual time per worksheet", { exact: true });
+  const baseline = page.getByLabel("Manual time per trainer guide", { exact: true });
   await baseline.fill("0");
   await expect(page.locator("#model-error")).toBeVisible();
   await expect(baseline).toHaveAttribute("aria-invalid", "true");
@@ -116,7 +116,7 @@ test("the narrative remains readable without JavaScript", async ({ browser }) =>
   try {
     const page = await context.newPage();
     await page.goto("http://127.0.0.1:4173/case-study.html");
-    await expect(page.getByRole("heading", { name: "What I would measure in a pilot" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "How I would evaluate broader use" })).toBeVisible();
     await expect(page.locator("#calculator-unavailable")).toBeVisible();
     await expect(page.locator("#calculator-unavailable")).toContainText("The calculator requires JavaScript");
     await expect(page.locator("#interactive-model")).toBeHidden();

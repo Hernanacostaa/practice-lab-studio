@@ -8,11 +8,13 @@ The public site has three entry points: `index.html` is the personal portfolio, 
 
 The case-study pane has **Story** and **Technical outline** tabs. The outline connects two source-document nodes to five stages, each with a short explanation and an AI, automation, or human label. It explains the optional retrieval-augmented generation (RAG) path without claiming that these files prove retrieval in the original system. Architecture sources remain in the repository documentation rather than a disclosure in the pane. Changing tabs does not reset a draft or its review.
 
-The homepage includes a permanent headshot, selected Microsoft and ASU experience, selected projects, and LinkedIn contact. Its accessible photo carousel is manually controlled, with no autoplay. **Save a one-page profile** opens the browser's print dialog, including Save as PDF where available; the profile summarizes selected work, not a full resume.
+The homepage gives three kinds of work comparable prominence: Amazon's internal tool and rollout (`index.html#amazon`), Microsoft's AI-assisted authoring (`lab.html`), and reusable training delivery (`index.html#training-delivery`). Compact PayPal and cross-region community accounts support the cases. Its permanent portrait, career chronology, personal sections, and manually controlled photo carousel remain intact. **Save a one-page profile** opens the browser's print dialog, including Save as PDF where available; the profile summarizes selected work, not a full resume.
+
+The primary lab story includes a no-interaction evidence summary and an expandable, clearly labelled prepared-output screenshot. Neither opens an approved demo session or bypasses review. Historical figures requiring scope or publication clearance are omitted from this content draft; proposed pilot targets remain confined to the optional secondary planning page.
 
 ## Voice and visual direction
 
-The personal homepage is a friendly introduction, not a project abstract. A conversational greeting and **Spotlight Product** action lead into concrete work, with a more prominent current/previous-company strip. The decorative principle cards were removed in favor of the actual stories.
+The personal homepage is a friendly introduction, not a project abstract. A conversational greeting and **Explore my work** action lead into product development, technical program delivery, and hands-on building. Formal employment titles and the current/previous-company distinction remain separate from this positioning.
 
 The author-requested Mexican-architecture direction uses cobalt, terracotta, marigold, and warm plaster, with arched portraits and flat architectural color blocks. The [supplied reference](https://paintit.ai/styles/mexican-style-interior-design/img/step3.jpg) informed the palette; it is not copied into the site. This is an art direction, not a claim about the author's identity. All UI colors remain in `--cp-*` tokens, and fonts are local. The homepage defaults to dark even on a light-system preference; the theme button and `scoutTheme=light` remain explicit overrides.
 

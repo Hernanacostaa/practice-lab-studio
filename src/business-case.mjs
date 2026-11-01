@@ -1,8 +1,8 @@
 export const ASSUMPTIONS = Object.freeze([
-  { key: "attempts", label: "Assisted attempts per month", unit: "worksheets", default: 80, min: 0, max: 100000, step: 1, integer: true, note: "Attempts using the workflow, including unsuccessful ones." },
-  { key: "manualMinutes", label: "Manual time per worksheet", unit: "minutes", default: 45, min: 1, max: 480, step: 1, note: "Baseline authoring, review, and corrections to an accepted worksheet." },
+  { key: "attempts", label: "Assisted attempts per month", unit: "trainer guides", default: 80, min: 0, max: 100000, step: 1, integer: true, note: "Attempts using the workflow, including unsuccessful ones." },
+  { key: "manualMinutes", label: "Manual time per trainer guide", unit: "minutes", default: 45, min: 1, max: 480, step: 1, note: "Baseline authoring, review, and corrections to an accepted trainer guide." },
   { key: "assistedMinutes", label: "Time spent per assisted attempt", unit: "minutes", default: 20, min: 0, max: 480, step: 1, note: "Includes review and normal corrections; also spent on failed attempts." },
-  { key: "successPercent", label: "Assisted completion rate", unit: "%", default: 90, min: 0, max: 100, step: 1, note: "Share producing a reviewed usable worksheet without a full manual restart." },
+  { key: "successPercent", label: "Assisted completion rate", unit: "%", default: 90, min: 0, max: 100, step: 1, note: "Share producing a reviewed usable trainer guide without a full manual restart." },
   { key: "hourlyRate", label: "Loaded labor value", unit: "USD / hour", default: 50, min: 0, max: 1000, step: 1, note: "An assumed value for reusable time, not a promised cash saving." },
   { key: "variableCost", label: "Usage cost per attempt", unit: "USD", default: 1, min: 0, max: 1000, step: 0.01, note: "Charged on every attempt. This is not an actual platform price." },
   { key: "fixedCost", label: "Fixed monthly running cost", unit: "USD", default: 200, min: 0, max: 1000000, step: 1, note: "Assumed licensing and recurring support; avoid double-counting review." },

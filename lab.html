@@ -45,13 +45,20 @@
         <button id="technical-tab" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="technical-outline" tabindex="-1">Technical outline</button>
       </div>
       <section id="case-story" data-case-panel>
-      <p>Datacenter trainers needed to prepare staff for new technologies. The assessments explained what people needed to learn. Engineering and execution teams&rsquo; procedures explained the work. Someone still had to bring those documents together and write a guide another trainer could follow.</p>
-      <p><strong>I built the workflow in Copilot Studio and Power Automate.</strong> AI used the combined source data to draft the topics, safety callouts, tooling, practice, and training completion checks. Automation assembled the document. I shared and demonstrated the working version, then redesigned the workflow for production needs.</p>
+      <dl class="case-evidence" aria-label="Project evidence summary">
+        <div><dt>Problem</dt><dd>Training needs and operating procedures still needed someone to turn them into a guide another trainer could follow.</dd></div>
+        <div><dt>My contribution</dt><dd>I built the workflow, prompts, and document fields, working with learning program managers and engineers on needs, scope, risks, and output quality.</dd></div>
+        <div><dt>Design choice</dt><dd>A source-grounded, editable document with review and controlled delivery, rather than an unrestricted chat response.</dd></div>
+        <div><dt>Delivered</dt><dd>A working version I shared and demonstrated, then a production-oriented redesign. This public adaptation makes editing, review, and export inspectable; it does not measure the internal system&rsquo;s results.</dd></div>
+      </dl>
+      <p><strong>I built the workflow in Copilot Studio and Power Automate.</strong> AI used the combined source data to draft the topics, safety callouts, tooling, practice, and training completion checks. Automation assembled the document for review.</p>
       <section id="design" aria-labelledby="design-title">
         <h3 id="design-title">Why consistency mattered</h3>
-        <p>The guide was a global standard document for training across hundreds of datacenters. Trainers needed consistent topics, safety callouts, tools, and completion checks. I worked on the prompts, document fields, review, and delivery as well as the workflow. That scope describes the document, not a rollout of the tool to every site.</p>
-        <p>The demo beside this story uses fictional documents and a prepared draft so you can try the workflow without internal access. You can edit the guide, check it against both inputs, and download Word. It doesn&rsquo;t run live AI or connect to a datacenter.</p>
+        <p>The guide was a global standard document for training across hundreds of datacenters. A shared structure helped keep topics, safety callouts, tools, and completion checks together. That scope describes the document, not a rollout of the tool to every site or measured learning outcomes.</p>
       </section>
+      <details class="prepared-output"><summary>See a prepared output without running the demo</summary>
+        <figure><img src="assets/portfolio/lab-preview.webp" width="1120" height="761" alt="Prepared fictional logistics trainer guide showing audience, tools, trainer demonstration, and learner practice" loading="lazy" decoding="async"><figcaption>Prepared public output, not an internal screenshot or a reviewed authoring session. The interactive demo still requires your review before export.</figcaption></figure>
+      </details>
       <a class="text-link" href="case-study.html" data-site-link target="_blank" rel="noopener noreferrer">Project details and optional planning model <span aria-hidden="true">&#8599;</span></a>
       </section>
       <section id="technical-outline" data-case-panel>
@@ -96,7 +103,7 @@
       <div class="scenario-picker"><label for="sample-choice">Choose an example</label><select id="sample-choice" aria-describedby="scenario-context" disabled><option value="logistics">Logistics</option><option value="service-desk">IT service desk</option></select></div>
       <p id="scenario-context" class="scenario-context">Two real industry tasks, with fictional documents and records. They illustrate the workflow from my datacenter project, not projects I deployed in these industries.</p>
       <p class="demo-intro"><strong>Try it as the training author.</strong> Read the two fictional documents, create the prepared guide, and make any changes before reviewing and downloading Word.</p>
-      <p class="demo-disclosure"><strong>About this demo.</strong> No live AI is running here. Each source pair and guide is a prepared example you can edit and download. Nothing is uploaded or stored in your browser. Use fictional records only&mdash;no goods handling, live systems, account access, or real messages.</p>
+      <p class="demo-disclosure"><strong>About this demo.</strong> This public adaptation uses fictional documents and prepared drafts. Editing, review, and local exports are functional. No live AI is running here, and it doesn&rsquo;t connect to internal systems. Nothing is uploaded or stored in your browser. Use fictional records only&mdash;no goods handling, live systems, account access, or real messages.</p>
       <noscript><p class="alert">Enable JavaScript to use the demo. The GitHub repository contains readable sample sources, outputs, and setup documentation.</p></noscript>
       <div class="workflow-progress" aria-label="Workflow progress">
         <span id="progress-source" class="active" aria-current="step">1 <b>Inspect inputs</b></span>

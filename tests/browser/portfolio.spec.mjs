@@ -12,7 +12,7 @@ test("the homepage explains Hernan's work and decodes every self-contained photo
   await page.goto("/");
   await expect(page).toHaveTitle(/Hernan Acosta/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("I\u2019m Hernan! :D");
-  await expect(page.locator(".hero-hook")).toContainText("I build AI tools.");
+  await expect(page.locator(".hero-hook")).toHaveText("I turn complex workflows into tools and programs people can use.");
   await expect(page.locator(".portrait")).toContainText("IT Technical Trainer");
   await expect(page.locator(".company-list img")).toHaveCount(3);
   expect(await page.locator(".company-list img").evaluateAll((images) => images.map((image) => image.alt))).toEqual(["Microsoft", "PayPal", "Amazon"]);
@@ -105,9 +105,9 @@ test("manual photo carousel supports buttons, keyboard, natural scroll and reduc
   expect(await page.locator("html").evaluate((element) => getComputedStyle(element).scrollBehavior)).toBe("auto");
 });
 
-test("Microsoft stories expand independently with useful contribution and judgment detail", async ({ page }) => {
-  await page.goto("/#microsoft");
-  const details = page.locator(".work-card details");
+test("selected cases expand independently with contribution and delivery detail", async ({ page }) => {
+  await page.goto("/#work");
+  const details = page.locator(".selected-cases details");
   await expect(details).toHaveCount(3);
   await details.nth(0).locator("summary").click();
   await expect(details.nth(0)).toHaveAttribute("open", "");
@@ -116,6 +116,22 @@ test("Microsoft stories expand independently with useful contribution and judgme
   await expect(details.nth(0)).toHaveAttribute("open", "");
   await expect(details.nth(1)).toHaveAttribute("open", "");
   await expect(details.nth(2)).not.toHaveAttribute("open", "");
+  await expect(page.locator("#amazon .work-detail")).toContainText("Amazon S3 and CloudFront");
+  await expect(page.locator("#ai-authoring .work-detail")).toContainText("learning program managers and engineers");
+});
+
+test("selected case links and delivery scope remain readable without claiming measured impact", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator(".selected-cases > article")).toHaveCount(3);
+  await expect(page.locator(".delivery-scope")).toContainText("Selected results and delivery scope");
+  await expect(page.locator(".delivery-scope")).not.toContainText("40%");
+  for (const id of ["amazon", "training-delivery"]) {
+    await page.goto(`/#${id}`);
+    await expect(page.locator(`#${id} h3`)).toBeVisible();
+    await page.locator(`#${id} summary`).click();
+    await expect(page.locator(`#${id} .work-detail`)).toBeVisible();
+  }
+  await expect(page.locator(".career-role")).toHaveText(["IT Technical Trainer", "Technical Support Engineer", "IT Support Technician II"]);
 });
 
 test("homepage reflows from 320 to 1440 CSS pixels in both themes", async ({ page }) => {
