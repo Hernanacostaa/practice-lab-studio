@@ -20,7 +20,7 @@ test("the homepage explains Hernan's work and decodes every self-contained photo
   for (const id of ["work", "microsoft", "about", "community", "life", "contact"]) {
     await expect(page.locator(`#${id}`)).toBeAttached();
   }
-  await expect(page.locator(".feature-footnote")).toContainText("No live AI");
+  await expect(page.locator("#work > .feature-footnote")).toHaveCount(0);
   await expect(page.locator(".feature-description")).toHaveText("I built a tool that uses AI to turn training-needs assessments and operating procedures into a guide for datacenter trainers.");
   await expect(page.locator(".print-profile .project-classification")).toContainText("AI-assisted document generation and workflow automation.");
   expect(await page.locator("main img").count()).toBe(11);
@@ -33,6 +33,17 @@ test("the homepage explains Hernan's work and decodes every self-contained photo
   expect(errors).toEqual([]);
   expect(await page.evaluate(() => [Object.keys(localStorage), Object.keys(sessionStorage)])).toEqual([[], []]);
   expect((await stat(resolve("dist", "index.html"))).size).toBeLessThan(1_500_000);
+});
+
+test("homepage omits the removed supporting blocks and captions without removing photos or contact links", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator(".feature-path, .community-portrait figcaption, .gallery-hint, .footer-note")).toHaveCount(0);
+  await expect(page.locator("body")).not.toContainText("Real project. Public adaptation.");
+  await expect(page.locator("#life")).not.toContainText("Mountains, a very necessary rain poncho");
+  await expect(page.locator("#contact")).not.toContainText("I’m interested in product opportunities");
+  await expect(page.locator("#photo-gallery")).toBeAttached();
+  await expect(page.locator(".community-portrait img")).toBeAttached();
+  await expect(page.locator("#contact").getByRole("link", { name: /Connect on LinkedIn/ })).toBeAttached();
 });
 
 test("project routes retain the chosen theme and the actual review-and-export experience", async ({ page }) => {

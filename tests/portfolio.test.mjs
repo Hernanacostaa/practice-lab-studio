@@ -17,14 +17,14 @@ test("personal portfolio identifies the person without inventing a product title
   assert.match(html, /PayPal/);
   assert.match(html, /Amazon/);
   assert.doesNotMatch(html, /Principal Product Manager|Senior Product Manager|40%|160 hours|616 learners|9,977|eight.team rollout/);
-  assert.match(html, /not an official Microsoft/);
+  assert.match(await readFile(path.join(root, "lab.html"), "utf8"), /not an official Microsoft/i);
   assert.match(html, /pre-authored/);
   assert.match(html, /fictional/);
 });
 
 test("portfolio links preserve real project evidence and provide a verified contact destination", async () => {
   const html = await readFile(path.join(root, "index.html"), "utf8");
-  for (const target of ["lab.html#demo", "case-study.html", "https://www.linkedin.com/in/hernanacostajr/"]) {
+  for (const target of ["lab.html#demo", "case-study.html#decisions", "https://www.linkedin.com/in/hernanacostajr/"]) {
     assert.ok(html.includes(`href="${target}"`), `Missing ${target}`);
   }
   assert.match(html, /rel="canonical" href="https:\/\/hernanacostaa\.github\.io\/practice-lab-studio\/"/);
