@@ -57,7 +57,9 @@ The preview shows only **applied** values. Pending edits never change it or bypa
 
 Distinct source excerpts are visible immediately; each document also has expandable full text. Open **What if either input is missing?** and simulate an unavailable assessment or SOP. Either failure clears the draft and stops drafting, with no fallback. Restore the input and retry, or reset to restore both. The workflow trace is secondary.
 
-The example is a read-only monitoring alert identification and practice escalation handoff simulation. It uses fictional records and role cards, not real monitoring systems, hardware work, electrical work, privileged access, diagnosis, or real escalation. Completion concerns the exercise only, not staff qualification. Metadata and duration can remain `TBD`; required instructional and boundary fields cannot be replaced with `TBD`. The first two Notes paragraphs are fixed simulation boundaries: edits may add fictional notes but must preserve those paragraphs verbatim. This narrow guard does not certify a manual rewrite's accuracy; human review against both sources remains essential.
+Choose **Logistics** to compare fictional receiving records with advance shipment information, or **IT service desk** to classify fictional incident reports and prepare a routing handoff. Each has its own L&D assessment, engineering SOP, prepared guide, trainer edit, and Word download. These are public illustrations of established industry tasks, not additional projects the author deployed. [Research and example provenance](docs/CASE_STUDY.md#public-examples) distinguish the published guidance from the invented local policies and records.
+
+Switching starts fresh; a confirmation protects pending/applied edits and approval. Cancelling preserves the current session. Reset restores both inputs for the selected example. No goods handling, live systems, real accounts, or messages are involved. Completion concerns the exercise only, not staff qualification. Metadata and duration can remain `TBD`; required instructional and boundary fields cannot be replaced with `TBD`. The first two Notes paragraphs are fixed simulation boundaries: edits may add fictional notes but must preserve those paragraphs verbatim. This narrow guard does not certify a manual rewrite's accuracy; human review against both sources remains essential.
 
 **Demo disclosure:** creating an example loads a prepared, pre-authored fixture, not a live AI response. Editing, validation, approval gates, and document exports are functional. There is no sign-in, API key, cloud connection, telemetry, browser storage, or upload of field contents. Use fictional material only.
 
@@ -126,7 +128,7 @@ Update only curated, metadata-sanitized WebP derivatives under `assets/portfolio
 | `assets/portfolio/` | Curated, metadata-sanitized portfolio derivatives and the social preview; no originals |
 | `lab.html` | Practice Lab Studio's interactive, offline project page |
 | `src/core.mjs` | Worksheet contract and deterministic demo domain logic |
-| `src/samples.mjs` | `DEMO_SAMPLES`: two-input monitoring scenario; `SAMPLES`: preserved legacy fixtures for regression coverage, not browser choices |
+| `src/samples.mjs` | `DEMO_SAMPLES`: logistics and service-desk source pairs; `SAMPLES` and `LEGACY_MONITORING_SAMPLE`: regression assets, not browser choices |
 | `src/app.mjs` | Browser state, review, editing, and local downloads |
 | `case-study.html` | Anonymized product-manager story, decisions, metrics, and evidence limits |
 | `src/business-case.mjs` | Tested illustrative capacity/cost model; no real business data |
@@ -145,7 +147,7 @@ To regenerate the Word examples and template from the public fixtures:
 node scripts/make-examples.mjs
 ```
 
-The script generates `samples/monitoring-trainer-guide.docx`, `monitoring-assessment.txt`, `monitoring-sop.txt`, and the template. Source text copies come from `samples/monitoring-sources.json`, which is bundled locally alongside the expected `monitoring.json`. Three older workshop/library/photos fixtures and Word examples remain as clearly separate legacy regression assets; they are not the current demo.
+The script generates `samples/logistics-trainer-guide.docx`, `service-desk-trainer-guide.docx`, both examples' assessment/SOP text copies, and the template. The canonical inputs are `logistics-sources.json` and `service-desk-sources.json`; prepared outputs are `logistics.json` and `service-desk.json`. Four older workshop/library/photos/monitoring Word examples remain unchanged legacy regression assets, not browser choices. There are seven Word packages in total, including the template.
 
 Optional package/XML verification of all five documents uses Python 3 and no additional packages: `python scripts/validate-documents.py`.
 

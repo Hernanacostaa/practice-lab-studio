@@ -1,0 +1,17 @@
+A1 / Audience, ownership, and learning need
+FICTIONAL L&D TRAINING-NEEDS ASSESSMENT: SERVICE-DESK INTAKE
+Original public portfolio example, not an internal document or an actual learner study.
+Owner: Fictional L&D lead. Course reference: DEMO-IT-101. Source-set date: 2026-11-01. Revision: 1.0. Training allocation: 30 minutes (a fictional session design, not a measured result).
+Requested trainer-guide metadata: author Fictional L&D lead; contributor Fictional service-platform engineer; last updated 2026-11-01. Public example research: docs/CASE_STUDY.md; it informs the example, not local operational policy.
+Audience: New service-desk agents learning a shared intake process. Prerequisite: read an employee issue report and complete a record.
+This example assumes that new agents need practice separating a symptom from a diagnosis, distinguishing impact from urgency, and finding the correct support queue. The learning gaps are scenario premises, not findings from interviews or observed ticket errors. Consistent intake matters when many agents handle repeated reports of service disruption.
+
+A2 / Required knowledge and skills
+Learners must capture the ticket ID, reporter alias, reported time, service, symptom, affected group, workaround availability, and work-blocked statement.
+They must use reported scope to identify impact and use the supplied workaround/work-blocked rules to identify urgency. They then apply the engineering SOP's matrix, classify the record as an Application incident, and choose the service's designated practice queue.
+Missing information is a reason to ask a specific question, not to invent a priority, cause, affected-user count, or recipient. Intake and routing are separate from troubleshooting and resolution.
+
+A3 / Observable completion requirements
+Each learner must correctly handle all three reports in the engineering SOP. Their intake card preserves supplied facts, states the category, impact, urgency, matrix-derived priority, and practice destination when those are supported.
+For the incomplete report, they must identify the missing affected group and workaround/work-blocked information, ask for it, and leave priority and destination unassigned. They must explain that a queue assignment does not mean an incident is resolved.
+The trainer observes individual performance and requests another attempt after any missed requirement. Completion is for the fictional exercise only, not agent certification, operational approval, or proof of incident-management competence.

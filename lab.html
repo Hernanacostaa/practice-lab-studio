@@ -10,7 +10,7 @@
     })();
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="I built an AI-assisted workflow at Microsoft that combined training-needs assessments and operating procedures into a guide for datacenter trainers. Read the story and try a prepared public example.">
+  <meta name="description" content="I built an AI-assisted workflow at Microsoft that combined training-needs assessments and operating procedures into a guide for datacenter trainers. Read the story and try two fictional industry examples.">
   <meta name="referrer" content="no-referrer">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <title>Practice Lab Studio | AI-assisted training guides</title>
@@ -92,9 +92,11 @@
       </section>
     </section>
     <section id="demo" class="demo-section demo-pane pane-scroll" aria-labelledby="demo-title" tabindex="0">
-      <div class="section-heading"><div><p class="eyebrow">Try the public example</p><h2 id="demo-title">The demo</h2></div><span class="pill">Prepared public example</span></div>
+      <div class="section-heading"><div><p class="eyebrow">Try the public examples</p><h2 id="demo-title">The demo</h2></div><span class="pill">Prepared public examples</span></div>
+      <div class="scenario-picker"><label for="sample-choice">Choose an example</label><select id="sample-choice" aria-describedby="scenario-context" disabled><option value="logistics">Logistics</option><option value="service-desk">IT service desk</option></select></div>
+      <p id="scenario-context" class="scenario-context">Two real industry tasks, with fictional documents and records. They illustrate the workflow from my datacenter project, not projects I deployed in these industries.</p>
       <p class="demo-intro"><strong>Try it as the training author.</strong> Read the two fictional documents, create the prepared guide, and make any changes before reviewing and downloading Word.</p>
-      <p class="demo-disclosure"><strong>About this demo.</strong> No live AI is running here. The sources and guide are a prepared example you can edit and download. Nothing is uploaded or stored in your browser. The exercise uses a paper monitoring record&mdash;no live equipment, privileged access, hardware work, or real escalation.</p>
+      <p class="demo-disclosure"><strong>About this demo.</strong> No live AI is running here. Each source pair and guide is a prepared example you can edit and download. Nothing is uploaded or stored in your browser. Use fictional records only&mdash;no goods handling, live systems, account access, or real messages.</p>
       <noscript><p class="alert">Enable JavaScript to use the demo. The GitHub repository contains readable sample sources, outputs, and setup documentation.</p></noscript>
       <div class="workflow-progress" aria-label="Workflow progress">
         <span id="progress-source" class="active" aria-current="step">1 <b>Inspect inputs</b></span>
@@ -131,7 +133,7 @@
           <div id="draft-content" hidden>
             <div class="draft-controls"><label class="edit-toggle"><input type="checkbox" id="edit-mode"> Edit trainer guide</label><a class="text-link" href="#review-and-download">Review &amp; download <span aria-hidden="true">&#8595;</span></a></div>
             <div class="draft-facts"><span id="field-count" class="tiny-label"></span><span id="revision-count" class="tiny-label">No manual edits</span></div>
-            <p id="edit-help" class="edit-help" hidden>Optional trainer edit: add a question to <strong>Trainer guidelines</strong>, such as &ldquo;Which words in your handoff describe an observation rather than a cause?&rdquo; Change a field, then choose <strong>Apply field</strong>. Turn editing off to see the applied guide. Manual changes require a new review. The first two <strong>Notes</strong> paragraphs are required simulation boundaries: keep them unchanged and add fictional trainer notes below them.</p>
+            <p id="edit-help" class="edit-help" hidden>Optional trainer edit: add this question to <strong>Trainer guidelines</strong>: <span id="suggested-edit"></span> Change a field, then choose <strong>Apply field</strong>. Turn editing off to see the applied guide. Manual changes require a new review. The first two <strong>Notes</strong> paragraphs are required simulation boundaries: keep them unchanged and add fictional trainer notes below them.</p>
             <p id="pending-warning" class="pending-warning" hidden></p>
             <article id="worksheet-preview" class="worksheet-preview" aria-labelledby="worksheet-title">
               <header class="worksheet-cover"><p class="worksheet-kicker">Trainer guide / Fictional prepared example</p><h4 id="worksheet-title" data-preview-key="PATitle"></h4><p id="worksheet-subtitle" data-preview-key="PASubtitle"></p><div id="worksheet-facts"></div></header>

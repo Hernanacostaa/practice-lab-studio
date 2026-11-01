@@ -3,7 +3,56 @@ import libraryFields from "../samples/library.json" with { type: "json" };
 import photosFields from "../samples/photos.json" with { type: "json" };
 import monitoringFields from "../samples/monitoring.json" with { type: "json" };
 import monitoringSources from "../samples/monitoring-sources.json" with { type: "json" };
+import logisticsFields from "../samples/logistics.json" with { type: "json" };
+import logisticsSources from "../samples/logistics-sources.json" with { type: "json" };
+import serviceDeskFields from "../samples/service-desk.json" with { type: "json" };
+import serviceDeskSources from "../samples/service-desk-sources.json" with { type: "json" };
 import { assertWorksheet } from "./core.mjs";
+
+function prepareTrainerGuide({ sources: documents, fields, ...sample }) {
+  const sources = Object.freeze(Object.fromEntries(Object.entries(documents).map(([key, source]) => [
+    key, Object.freeze({
+      ...source,
+      sections: Object.freeze(source.sections.map((section) => Object.freeze(section))),
+      text: source.sections.map(({ label, text }) => `${label}\n${text}`).join("\n\n") + "\n",
+    }),
+  ])));
+  return Object.freeze({
+    ...sample,
+    kind: "two-input-trainer-guide",
+    sources,
+    source: Object.values(sources).map(({ title, text }) => `${title}\n${text}`).join("\n"),
+    fields: Object.freeze(assertWorksheet(fields)),
+    requiredBoundaries: Object.freeze(fields.Notes.split("\n").slice(0, 2)),
+    connections: Object.freeze([
+      { source: "assessment-skills", field: "SkillsBasedLearningObjectives", reason: "L&D identifies the skills the trainer needs to teach." },
+      { source: "assessment-success", field: "Validation", reason: "L&D defines what each learner must demonstrate, not just what to discuss." },
+      { source: "sop-record", field: "Validation", reason: "The engineer's practice records supply the facts for the expected answers." },
+      { source: "sop-roles", field: "ActivitySteps", reason: "The engineer's decision rules become practice cases and feedback prompts." },
+      { source: "sop-preparation", field: "WhatIsNeeded", reason: "The procedure supplies the materials and record controls." },
+      { source: "sop-boundaries", field: "Notes", reason: "The procedure sets the limits of this fictional exercise." },
+    ].map((connection) => Object.freeze(connection))),
+  });
+}
+
+export const DEMO_SAMPLES = Object.freeze([
+  prepareTrainerGuide({
+    id: "logistics",
+    name: "Logistics",
+    summary: "Receiving clerks compare reported shipment records with an advance ship notice. A correct result may be a match, a discrepancy, or a request for missing information.",
+    sources: logisticsSources,
+    fields: logisticsFields,
+    suggestedEdit: "Ask: Why can't 48 each be treated as 4 cases without an approved conversion?",
+  }),
+  prepareTrainerGuide({
+    id: "service-desk",
+    name: "IT service desk",
+    summary: "New agents turn software issue reports into complete intake cards, apply a supplied priority matrix, and choose a practice support queue without guessing missing facts.",
+    sources: serviceDeskSources,
+    fields: serviceDeskFields,
+    suggestedEdit: "Ask: Why isn't knowing the service enough to route an incomplete report?",
+  }),
+]);
 
 // Legacy fixtures remain for regression coverage, not as alternative browser demos.
 const sources = Object.freeze(Object.fromEntries(Object.entries(monitoringSources).map(([key, source]) => [
@@ -13,8 +62,9 @@ const sources = Object.freeze(Object.fromEntries(Object.entries(monitoringSource
     text: source.sections.map(({ label, text }) => `${label}\n${text}`).join("\n\n") + "\n",
   }),
 ])));
-export const DEMO_SAMPLES = Object.freeze([Object.freeze({
+export const LEGACY_MONITORING_SAMPLE = Object.freeze({
   id: "monitoring",
+  kind: "two-input-trainer-guide",
   name: "Fictional monitoring alert / practice handoff",
   summary: "This example covers identifying a monitoring alert and writing a practice handoff. The assessment and procedure are both fictional.",
   sources,
@@ -27,7 +77,7 @@ export const DEMO_SAMPLES = Object.freeze([Object.freeze({
     Object.freeze({ source: "sop-boundaries", field: "Notes", reason: "The procedure sets the limits of the fictional exercise." }),
     Object.freeze({ source: "assessment-success", field: "Validation", reason: "The assessment defines what each participant must demonstrate." }),
   ]),
-})]);
+});
 
 // JSON is the single source of expected fields; tests keep these browser-ready
 // source strings byte-for-byte aligned with the downloadable text fixtures.

@@ -1,0 +1,31 @@
+S1 / Record definitions and practice data
+FICTIONAL ENGINEERING SOP: RECEIVING-RECORD COMPARISON
+Original public portfolio example. Owner: Fictional logistics systems engineer. Document: SOP-DEMO-LOG-01. Revision: 1.0. Source-set date: 2026-11-01.
+Scope: compare record data before a receipt proceeds. This paper exercise does not authorize receipt, stock movement, or a system update.
+SSCC means Serial Shipping Container Code: it identifies a logistics unit, not a product. The 18-digit practice numbers below are synthetic values, not issued GS1 keys; no barcode is supplied. Product IDs are separate fictional item codes. ASN means advance ship notice; it carries the expected shipment details.
+ASN-DEMO-01 contains:
+Unit 987654321000000012 | product KIT-A | expected 12 cases.
+Unit 987654321000000029 | product KIT-B | expected 8 cases.
+Unit 987654321000000036 | product KIT-C | expected 4 cases.
+Reported receipt records:
+R1 | unit 987654321000000012 | product KIT-A | reported 12 cases.
+R2 | unit 987654321000000029 | product KIT-B | reported 7 cases.
+R3 | unit 987654321000000036 | product KIT-C | reported 48 each.
+R4 | unit 987654321000000043 | product KIT-D | reported 2 cases.
+No each-to-case conversion or additional ASN entry is supplied. These are reported practice values, not physical counts.
+
+S2 / Comparison rules and exception route
+The practice clerk first confirms that the ASN is available, then looks up the exact unit ID. A product ID is not a substitute lookup key.
+If no matching unit entry exists, record Needs clarification and ask whether the unit belongs on this ASN. If an entry exists but the unit of measure differs and no conversion is supplied, record Needs clarification and ask for the approved conversion. Do not infer one from the numbers.
+For matching units of measure, compare product ID and quantity. If either differs, record Discrepancy with both expected and reported values. If the unit ID, product ID, quantity, and unit of measure all match, record Matched in exercise.
+Send discrepancy and clarification cards only to the fictional Receiving Review role, by handing the practice card to the trainer. A card includes receipt ID, unit ID, ASN ID, expected values or No matching entry, reported values, outcome, and the discrepancy or question. If the ASN itself is absent, pause and request it; do not invent expected values.
+These comparison outcomes and routing rules are fictional company policy, not universal GS1 requirements. Matched in exercise does not mean goods are accepted.
+
+S3 / Materials and record controls
+Use printed or locally displayed copies of ASN-DEMO-01 and R1-R4, a blank comparison card with the fields in S2, a Receiving Review role card, and a pencil or local text editor. Keep expected and reported records unchanged. Do not calculate a conversion unless an approved conversion is actually supplied.
+No accounts, barcode scanners, stock systems, vendor labels, or external messages are needed. Use only the synthetic values in S1. The training allocation and learner requirements are supplied separately by the L&D assessment.
+
+S4 / Exercise boundaries
+Simulation only: compare fictional records. No goods handling, equipment use, barcode issuance, real receipt acceptance, inventory changes, or messages.
+Stop if live systems, real shipment data, or physical handling are introduced; return to fictional materials.
+No actual warehouse policy, trading-partner agreement, or operational authorization is represented. Record comparison is the entire scope of this exercise.

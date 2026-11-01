@@ -1,0 +1,47 @@
+{
+  "assessment": {
+    "title": "L&D assessment: receiving-record checks",
+    "sections": [
+      {
+        "id": "assessment-context",
+        "label": "A1 / Audience, ownership, and learning need",
+        "text": "FICTIONAL L&D TRAINING-NEEDS ASSESSMENT: RECEIVING-RECORD CHECKS\nOriginal public portfolio example, not an internal document or an actual learner study.\nOwner: Fictional L&D lead. Course reference: DEMO-LOG-101. Source-set date: 2026-11-01. Revision: 1.0. Training allocation: 30 minutes (a fictional session design, not a measured result).\nRequested trainer-guide metadata: author Fictional L&D lead; contributor Fictional logistics systems engineer; last updated 2026-11-01. Public example research: docs/CASE_STUDY.md; it informs the example, not local operational policy.\nAudience: New receiving clerks moving from paper summaries to a consistent shipment-record workflow. Prerequisite: read a record and compare identifiers and quantities.\nThis example assumes that learners can read labels but have not learned the distinction between a logistics-unit ID and a product ID, or what to do when shipment records disagree. It does not claim interviews, observed errors, or adoption results. Repeated receipt processing across sites makes a common checking method useful."
+      },
+      {
+        "id": "assessment-skills",
+        "label": "A2 / Required knowledge and skills",
+        "text": "Learners need to explain that an SSCC identifies a logistics unit, while a product ID identifies its contents. An advance ship notice (ASN) describes the expected shipment before receipt.\nThey must locate the ASN entry by the exact unit ID, compare the product ID, quantity, and unit of measure, and distinguish an actual match from a discrepancy or insufficient information.\nThey must record the supplied facts and use the designated exception route instead of assuming a conversion, changing the expected record, or accepting a shipment. These are data-comparison skills, not goods-handling skills."
+      },
+      {
+        "id": "assessment-success",
+        "label": "A3 / Observable completion requirements",
+        "text": "Each learner must correctly handle all four records supplied by the engineering SOP: a match, a quantity discrepancy, a unit-of-measure ambiguity, and an identifier absent from the ASN. Their comparison card must show both expected and reported values, the exercise outcome, and any required practice recipient or clarification question.\nThey must explain why a product ID cannot replace the unit ID and why a flagged exception can be the correct result. The trainer observes individual performance; a missed requirement means feedback and another attempt. Completion applies only to this fictional exercise, not warehouse qualification or real receipt approval."
+      }
+    ]
+  },
+  "sop": {
+    "title": "Engineering SOP: compare a receipt with its ASN",
+    "sections": [
+      {
+        "id": "sop-record",
+        "label": "S1 / Record definitions and practice data",
+        "text": "FICTIONAL ENGINEERING SOP: RECEIVING-RECORD COMPARISON\nOriginal public portfolio example. Owner: Fictional logistics systems engineer. Document: SOP-DEMO-LOG-01. Revision: 1.0. Source-set date: 2026-11-01.\nScope: compare record data before a receipt proceeds. This paper exercise does not authorize receipt, stock movement, or a system update.\nSSCC means Serial Shipping Container Code: it identifies a logistics unit, not a product. The 18-digit practice numbers below are synthetic values, not issued GS1 keys; no barcode is supplied. Product IDs are separate fictional item codes. ASN means advance ship notice; it carries the expected shipment details.\nASN-DEMO-01 contains:\nUnit 987654321000000012 | product KIT-A | expected 12 cases.\nUnit 987654321000000029 | product KIT-B | expected 8 cases.\nUnit 987654321000000036 | product KIT-C | expected 4 cases.\nReported receipt records:\nR1 | unit 987654321000000012 | product KIT-A | reported 12 cases.\nR2 | unit 987654321000000029 | product KIT-B | reported 7 cases.\nR3 | unit 987654321000000036 | product KIT-C | reported 48 each.\nR4 | unit 987654321000000043 | product KIT-D | reported 2 cases.\nNo each-to-case conversion or additional ASN entry is supplied. These are reported practice values, not physical counts."
+      },
+      {
+        "id": "sop-roles",
+        "label": "S2 / Comparison rules and exception route",
+        "text": "The practice clerk first confirms that the ASN is available, then looks up the exact unit ID. A product ID is not a substitute lookup key.\nIf no matching unit entry exists, record Needs clarification and ask whether the unit belongs on this ASN. If an entry exists but the unit of measure differs and no conversion is supplied, record Needs clarification and ask for the approved conversion. Do not infer one from the numbers.\nFor matching units of measure, compare product ID and quantity. If either differs, record Discrepancy with both expected and reported values. If the unit ID, product ID, quantity, and unit of measure all match, record Matched in exercise.\nSend discrepancy and clarification cards only to the fictional Receiving Review role, by handing the practice card to the trainer. A card includes receipt ID, unit ID, ASN ID, expected values or No matching entry, reported values, outcome, and the discrepancy or question. If the ASN itself is absent, pause and request it; do not invent expected values.\nThese comparison outcomes and routing rules are fictional company policy, not universal GS1 requirements. Matched in exercise does not mean goods are accepted."
+      },
+      {
+        "id": "sop-preparation",
+        "label": "S3 / Materials and record controls",
+        "text": "Use printed or locally displayed copies of ASN-DEMO-01 and R1-R4, a blank comparison card with the fields in S2, a Receiving Review role card, and a pencil or local text editor. Keep expected and reported records unchanged. Do not calculate a conversion unless an approved conversion is actually supplied.\nNo accounts, barcode scanners, stock systems, vendor labels, or external messages are needed. Use only the synthetic values in S1. The training allocation and learner requirements are supplied separately by the L&D assessment."
+      },
+      {
+        "id": "sop-boundaries",
+        "label": "S4 / Exercise boundaries",
+        "text": "Simulation only: compare fictional records. No goods handling, equipment use, barcode issuance, real receipt acceptance, inventory changes, or messages.\nStop if live systems, real shipment data, or physical handling are introduced; return to fictional materials.\nNo actual warehouse policy, trading-partner agreement, or operational authorization is represented. Record comparison is the entire scope of this exercise."
+      }
+    ]
+  }
+}

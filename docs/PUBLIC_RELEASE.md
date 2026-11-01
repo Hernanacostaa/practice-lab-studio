@@ -10,7 +10,7 @@ The adaptation preserves reusable concepts: source grounding, a 17-field contrac
 
 The public release uses:
 
-- A newly invented monitoring alert / handoff simulation with a training-needs assessment and fictional SOP; older workshop assets are legacy regression fixtures.
+- Two newly authored logistics receiving-check and IT service-desk intake simulations, each with a fictional L&D assessment, engineering SOP, and prepared guide. Public research supports the tasks, not the invented findings, records, priority/exception policies, or additional project history. Older workshop/library/photos/monitoring assets are legacy regression fixtures.
 - Pre-authored sample outputs, explicitly labeled as an illustrative replay.
 - An original Word layout and template.
 - Descriptive low-code blueprints with unbound configuration placeholders.

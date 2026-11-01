@@ -45,6 +45,9 @@
 .technical-role { grid-column: 2; color: var(--cp-text-muted); font-size: 12px; line-height: 1.5; }
 .technical-steps p { font-size: 13px; line-height: 1.65; margin: 8px 0 0; }
 .lab-page .section-heading { gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.scenario-picker { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 12px; margin-bottom: 8px; }
+.scenario-picker label { font-size: 13px; font-weight: 650; }
+.scenario-context { color: var(--cp-text-muted); font-size: 12px; line-height: 1.65; margin-bottom: 16px; }
 .demo-intro { color: var(--cp-text-muted); font-size: 14px; margin-bottom: 12px; }
 .demo-intro strong { color: var(--cp-text); }
 .lab-page .demo-disclosure { max-width: none; border-left: 3px solid var(--cp-clay); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: 13px; line-height: 1.65; }
@@ -156,6 +159,7 @@
   .pane-scroll { height: auto; overflow: visible; overscroll-behavior-y: auto; scrollbar-gutter: auto; }
 }
 @media (max-width: 720px) {
+  .scenario-picker { grid-template-columns: minmax(0, 1fr); gap: 6px; }
   .lab-hero { padding-block: 24px; }
   .lab-hero h1 { font-size: 34px; letter-spacing: -1px; }
   .lab-hero .hero-copy { font-size: 16px; }

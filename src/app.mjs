@@ -5,7 +5,7 @@ import { initializeThemeControls } from "./theme.mjs";
 
 const byId = (id) => document.getElementById(id);
 const controls = Object.fromEntries([
-  "sample-summary", "generate", "reset",
+  "sample-summary", "sample-choice", "suggested-edit", "generate", "reset",
   "retrieval-failure", "status", "error", "empty-state", "draft-content", "fields",
   "worksheet-title", "worksheet-subtitle", "field-count", "draft-state", "edit-mode",
   "edit-help", "revision-count", "approve", "review-note", "export-docx", "export-json",
@@ -23,6 +23,7 @@ let exportedEpoch = null;
 const editedKeys = new Set();
 const pendingKeys = new Set();
 let events = [];
+let selectedSample = SAMPLES[0];
 
 function log(message) {
   events.push(message);
@@ -42,7 +43,7 @@ function message(text, isError = false) {
 }
 
 function currentSample() {
-  return SAMPLES[0];
+  return selectedSample;
 }
 
 function initializeCaseTabs() {
@@ -96,6 +97,7 @@ function syncReview() {
   const dirty = pendingKeys.size > 0;
   const approved = worksheet !== null && controls.approve.checked && !dirty;
   controls.approve.disabled = !worksheet || dirty || exporting;
+  controls["sample-choice"].disabled = exporting;
   controls["export-docx"].disabled = !approved || exporting;
   controls["export-json"].disabled = !approved || exporting;
   controls["review-note"].textContent = dirty
@@ -150,8 +152,18 @@ function selectSample() {
   clearDraft();
   const sample = currentSample();
   controls["sample-summary"].textContent = sample.summary;
+  controls["suggested-edit"].textContent = sample.suggestedEdit;
   renderSources();
-  message("Inspect the assessment and SOP, then create the prepared trainer guide.");
+  message(`${sample.name} selected. Inspect the assessment and SOP, then create the prepared trainer guide.`);
+}
+
+function resetSample() {
+  controls["retrieval-failure"].checked = false;
+  controls["sop-failure"].checked = false;
+  events = [];
+  selectSample();
+  controls.trace.replaceChildren();
+  controls["trace-count"].textContent = "0 events";
 }
 
 function renderSources() {
@@ -410,6 +422,7 @@ async function exportDocument(format) {
     return;
   }
   const exportEpoch = epoch;
+  const sample = currentSample();
   const operation = Symbol("export");
   exportToken = operation;
   const snapshot = structuredClone(worksheet);
@@ -417,13 +430,13 @@ async function exportDocument(format) {
   syncReview();
   try {
     assertWorksheet(snapshot);
-    assertTrainerGuide(snapshot, currentSample().requiredBoundaries);
+    assertTrainerGuide(snapshot, sample.requiredBoundaries);
     const bytes = format === "docx" ? await createWorksheetDocx(snapshot) : JSON.stringify(snapshot, null, 2);
-    if (epoch !== exportEpoch || !controls.approve.checked || pendingKeys.size) {
+    if (epoch !== exportEpoch || currentSample() !== sample || !controls.approve.checked || pendingKeys.size) {
       message("The draft changed during export. Review it again before downloading.", true);
       return;
     }
-    download(bytes, format === "docx" ? "application/vnd.openxmlformats-officedocument.wordprocessingml.document" : "application/json", `practice-lab-${currentSample().id}.${format}`);
+    download(bytes, format === "docx" ? "application/vnd.openxmlformats-officedocument.wordprocessingml.document" : "application/json", `practice-lab-${sample.id}.${format}`);
     exportedEpoch = epoch;
     controls["download-result"].textContent = format === "docx"
       ? "Word download prepared from the current reviewed trainer guide. Fictional simulation only, not approved operational instruction."
@@ -476,11 +489,35 @@ for (const id of ["retrieval-failure", "sop-failure"]) controls[id].addEventList
     : "Both inputs are available again. Retry Create prepared trainer guide to continue.", unavailable);
 });
 controls.reset.addEventListener("click", () => {
-  controls["retrieval-failure"].checked = false;
-  controls["sop-failure"].checked = false;
-  events = [];
-  selectSample();
+  resetSample();
   log("Demo reset. All manual edits and approval removed from memory.");
+});
+controls["sample-choice"].replaceChildren(...SAMPLES.map((sample) => {
+  const option = previewText("option", sample.name);
+  option.value = sample.id;
+  return option;
+}));
+controls["sample-choice"].addEventListener("change", () => {
+  const next = SAMPLES.find((sample) => sample.id === controls["sample-choice"].value);
+  controls["sample-choice"].value = selectedSample.id;
+  if (!next) {
+    message("The selected example is unavailable. Choose Logistics or IT service desk; your current draft is unchanged.", true);
+    return;
+  }
+  if (exporting) {
+    message("An export is in progress. Wait for it to finish before switching examples.", true);
+    return;
+  }
+  if (next === selectedSample) return;
+  if ((pendingKeys.size || editedKeys.size || controls.approve.checked) &&
+      !window.confirm(`Switch to ${next.name}? This discards the current draft, pending and applied edits, and approval.`)) {
+    message(`Stayed on ${selectedSample.name}. Your draft, edits, and review are unchanged.`);
+    return;
+  }
+  selectedSample = next;
+  controls["sample-choice"].value = next.id;
+  resetSample();
+  log(`${next.name} selected. Previous example state removed; both sources restored.`);
 });
 controls["edit-mode"].addEventListener("change", () => setEditing(controls["edit-mode"].checked));
 controls.approve.addEventListener("change", () => {

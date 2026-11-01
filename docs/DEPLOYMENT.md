@@ -8,15 +8,16 @@
 
 Use the commands in the [root README](../README.md) to run the browser demo locally. No Power Platform account, cloud credentials, or connected content source is needed for this path.
 
-The primary combined case study and demo use `DEMO_SAMPLES` in [src/samples.mjs](../src/samples.mjs): one monitoring scenario with a required fictional assessment and SOP. Drafting is prepared fixture replay, not live AI. Field edits and JSON/Word downloads are local browser operations. The demo is not a general document reader or a deployed Copilot Studio client.
+The primary combined case study and demo use `DEMO_SAMPLES` in [src/samples.mjs](../src/samples.mjs): logistics and IT service-desk examples, each with a required fictional assessment and SOP. Drafting is prepared fixture replay, not live AI. Field edits and JSON/Word downloads are local browser operations. Switching starts fresh after confirmation if edits or approval exist; reset retains the selected example. The demo is not a general document reader or a deployed Copilot Studio client.
 
 Use these paired public fixtures when inspecting the demo or preparing optional platform tests:
 
 | Fixture | Full source text | Expected flat worksheet JSON |
 | --- | --- | --- |
-| `monitoring` | [assessment](../samples/monitoring-assessment.txt) + [SOP](../samples/monitoring-sop.txt) | [trainer guide](../samples/monitoring.json) |
+| `logistics` | [assessment](../samples/logistics-assessment.txt) + [SOP](../samples/logistics-sop.txt) | [trainer guide](../samples/logistics.json) |
+| `service-desk` | [assessment](../samples/service-desk-assessment.txt) + [SOP](../samples/service-desk-sop.txt) | [trainer guide](../samples/service-desk.json) |
 
-Each source file is a complete fictional input document, not an existing trainer guide. `monitoring-sources.json` is the canonical pair; the example script generates matching text copies. The browser bundles the sources and expected 17-field guide without runtime fetches. The old workshop/library/photos assets remain only as legacy regression examples.
+Each source file is a complete fictional input document, not an existing trainer guide. The corresponding `*-sources.json` files are canonical; the example script generates matching text copies. The browser bundles both pairs and expected 17-field guides without runtime fetches. The old workshop/library/photos/monitoring assets remain only as legacy regression examples. Public research supports the industry tasks, not a deployment in either industry; see [example provenance](CASE_STUDY.md#public-examples).
 
 Inspect the displayed fields, make a local edit, review the revised worksheet, and confirm it before downloading JSON or Word. Edits and source changes clear approval, so the revised worksheet needs a new confirmation. If the demo reports a source failure, use its retry path; the failed attempt must not be treated as a completed draft.
 

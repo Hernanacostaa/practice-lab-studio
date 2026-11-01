@@ -108,7 +108,7 @@ export function createSampleDraft(sample, { retrievalAvailable = true, sourceAva
   if (sample === null || typeof sample !== "object" || Array.isArray(sample)) {
     throw new Error("A sample fixture with source text and worksheet fields is required.");
   }
-  if (sample.id === "monitoring" || Object.hasOwn(sample, "sources")) {
+  if (sample.kind === "two-input-trainer-guide" || Object.hasOwn(sample, "sources")) {
     for (const key of ["assessment", "sop"]) {
       if ((Object.hasOwn(sourceAvailability, key) && sourceAvailability[key] !== true) || !hasUsableSource(sample.sources?.[key]?.text)) {
         throw new Error(`Required ${key === "assessment" ? "training-needs assessment" : "SOP"} is unavailable or missing usable text. Restore this source and retry. No guide was created.`);

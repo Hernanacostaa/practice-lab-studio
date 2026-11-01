@@ -1,0 +1,32 @@
+S1 / Intake fields and practice reports
+FICTIONAL ENGINEERING SOP: APPLICATION-INCIDENT INTAKE
+Original public portfolio example. Owner: Fictional service-platform engineer. Document: SOP-DEMO-IT-01. Revision: 1.0. Source-set date: 2026-11-01.
+Scope: document and route a software issue report. The exercise does not include diagnosis, repair, or closure.
+Required supplied facts: ticket ID, reporter alias, reported time, service, symptom, affected group, workaround availability, and whether work is blocked. All aliases, services, queues, reports, and times below are synthetic.
+T1 | reporter Cedar | time 09:10 exercise time | service ScheduleBoard | symptom: the schedule page will not open | affected group: one team | workaround: none | work blocked: yes.
+T2 | reporter Indigo | time 09:20 exercise time | service FileShelf | symptom: the upload button is unavailable | affected group: one user | workaround: an alternative upload path is available | work blocked: no.
+T3 | reporter Amber | time 09:30 exercise time | service ScheduleBoard | symptom: the schedule page is slow | affected group: not supplied | workaround: not supplied | work blocked: not supplied.
+No root cause, actual employee details, account data, service restoration, or resolution is supplied.
+
+S2 / Classification, priority matrix, and queues
+All reports in S1 belong to the fictional category Application incident. Preserve the reported symptom without adding a diagnosis.
+Impact: one team is Team; one user is Individual. Other or missing scope needs clarification.
+Urgency: no workaround AND work blocked is High; a workaround available AND work not blocked is Normal. Other or missing combinations need clarification.
+Fictional priority matrix:
+Team + High = P1.
+Team + Normal = P2.
+Individual + High = P2.
+Individual + Normal = P3.
+Service-to-queue mapping: ScheduleBoard -> Schedule Support; FileShelf -> File Support. These are fictional practice queues, not real destinations.
+When all required facts and rules are supported, record Ready for practice routing with category, impact, urgency, priority, and the mapped queue. Hand the intake card to the trainer, not a real service desk.
+When required facts are missing, record Needs clarification, preserve known facts, and write the specific follow-up question. Leave priority and destination unassigned until clarification, even when a service-to-queue mapping is known. Do not infer unknown values.
+The matrix and completeness gate are fictional local policy, not a universal ITIL or Atlassian rule. No response-time SLA or recovery steps are specified.
+
+S3 / Materials and record controls
+Use printed or locally displayed T1-T3 reports, the S2 matrix and queue map, a blank intake card covering the required facts and derived decisions, and a pencil or local text editor. Include spaces for outcome and clarification questions.
+Keep original reports unchanged. All activity ends with a card handed to the trainer. No ticketing account, service login, terminal, external messaging, or personal data is needed. The training allocation and learner requirements are supplied separately by the L&D assessment.
+
+S4 / Exercise boundaries
+Simulation only: use fictional tickets and queues. No real personal data, accounts, credentials, technical commands, production changes, or messages.
+Stop if live services, real tickets, or operational actions are introduced; return to fictional materials.
+Do not troubleshoot, reset an account, diagnose a cause, send a real escalation, or mark a service restored. A completed intake card is not incident resolution.

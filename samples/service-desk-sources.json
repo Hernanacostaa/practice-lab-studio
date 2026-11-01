@@ -1,0 +1,47 @@
+{
+  "assessment": {
+    "title": "L&D assessment: service-desk intake",
+    "sections": [
+      {
+        "id": "assessment-context",
+        "label": "A1 / Audience, ownership, and learning need",
+        "text": "FICTIONAL L&D TRAINING-NEEDS ASSESSMENT: SERVICE-DESK INTAKE\nOriginal public portfolio example, not an internal document or an actual learner study.\nOwner: Fictional L&D lead. Course reference: DEMO-IT-101. Source-set date: 2026-11-01. Revision: 1.0. Training allocation: 30 minutes (a fictional session design, not a measured result).\nRequested trainer-guide metadata: author Fictional L&D lead; contributor Fictional service-platform engineer; last updated 2026-11-01. Public example research: docs/CASE_STUDY.md; it informs the example, not local operational policy.\nAudience: New service-desk agents learning a shared intake process. Prerequisite: read an employee issue report and complete a record.\nThis example assumes that new agents need practice separating a symptom from a diagnosis, distinguishing impact from urgency, and finding the correct support queue. The learning gaps are scenario premises, not findings from interviews or observed ticket errors. Consistent intake matters when many agents handle repeated reports of service disruption."
+      },
+      {
+        "id": "assessment-skills",
+        "label": "A2 / Required knowledge and skills",
+        "text": "Learners must capture the ticket ID, reporter alias, reported time, service, symptom, affected group, workaround availability, and work-blocked statement.\nThey must use reported scope to identify impact and use the supplied workaround/work-blocked rules to identify urgency. They then apply the engineering SOP's matrix, classify the record as an Application incident, and choose the service's designated practice queue.\nMissing information is a reason to ask a specific question, not to invent a priority, cause, affected-user count, or recipient. Intake and routing are separate from troubleshooting and resolution."
+      },
+      {
+        "id": "assessment-success",
+        "label": "A3 / Observable completion requirements",
+        "text": "Each learner must correctly handle all three reports in the engineering SOP. Their intake card preserves supplied facts, states the category, impact, urgency, matrix-derived priority, and practice destination when those are supported.\nFor the incomplete report, they must identify the missing affected group and workaround/work-blocked information, ask for it, and leave priority and destination unassigned. They must explain that a queue assignment does not mean an incident is resolved.\nThe trainer observes individual performance and requests another attempt after any missed requirement. Completion is for the fictional exercise only, not agent certification, operational approval, or proof of incident-management competence."
+      }
+    ]
+  },
+  "sop": {
+    "title": "Engineering SOP: classify and route an issue report",
+    "sections": [
+      {
+        "id": "sop-record",
+        "label": "S1 / Intake fields and practice reports",
+        "text": "FICTIONAL ENGINEERING SOP: APPLICATION-INCIDENT INTAKE\nOriginal public portfolio example. Owner: Fictional service-platform engineer. Document: SOP-DEMO-IT-01. Revision: 1.0. Source-set date: 2026-11-01.\nScope: document and route a software issue report. The exercise does not include diagnosis, repair, or closure.\nRequired supplied facts: ticket ID, reporter alias, reported time, service, symptom, affected group, workaround availability, and whether work is blocked. All aliases, services, queues, reports, and times below are synthetic.\nT1 | reporter Cedar | time 09:10 exercise time | service ScheduleBoard | symptom: the schedule page will not open | affected group: one team | workaround: none | work blocked: yes.\nT2 | reporter Indigo | time 09:20 exercise time | service FileShelf | symptom: the upload button is unavailable | affected group: one user | workaround: an alternative upload path is available | work blocked: no.\nT3 | reporter Amber | time 09:30 exercise time | service ScheduleBoard | symptom: the schedule page is slow | affected group: not supplied | workaround: not supplied | work blocked: not supplied.\nNo root cause, actual employee details, account data, service restoration, or resolution is supplied."
+      },
+      {
+        "id": "sop-roles",
+        "label": "S2 / Classification, priority matrix, and queues",
+        "text": "All reports in S1 belong to the fictional category Application incident. Preserve the reported symptom without adding a diagnosis.\nImpact: one team is Team; one user is Individual. Other or missing scope needs clarification.\nUrgency: no workaround AND work blocked is High; a workaround available AND work not blocked is Normal. Other or missing combinations need clarification.\nFictional priority matrix:\nTeam + High = P1.\nTeam + Normal = P2.\nIndividual + High = P2.\nIndividual + Normal = P3.\nService-to-queue mapping: ScheduleBoard -> Schedule Support; FileShelf -> File Support. These are fictional practice queues, not real destinations.\nWhen all required facts and rules are supported, record Ready for practice routing with category, impact, urgency, priority, and the mapped queue. Hand the intake card to the trainer, not a real service desk.\nWhen required facts are missing, record Needs clarification, preserve known facts, and write the specific follow-up question. Leave priority and destination unassigned until clarification, even when a service-to-queue mapping is known. Do not infer unknown values.\nThe matrix and completeness gate are fictional local policy, not a universal ITIL or Atlassian rule. No response-time SLA or recovery steps are specified."
+      },
+      {
+        "id": "sop-preparation",
+        "label": "S3 / Materials and record controls",
+        "text": "Use printed or locally displayed T1-T3 reports, the S2 matrix and queue map, a blank intake card covering the required facts and derived decisions, and a pencil or local text editor. Include spaces for outcome and clarification questions.\nKeep original reports unchanged. All activity ends with a card handed to the trainer. No ticketing account, service login, terminal, external messaging, or personal data is needed. The training allocation and learner requirements are supplied separately by the L&D assessment."
+      },
+      {
+        "id": "sop-boundaries",
+        "label": "S4 / Exercise boundaries",
+        "text": "Simulation only: use fictional tickets and queues. No real personal data, accounts, credentials, technical commands, production changes, or messages.\nStop if live services, real tickets, or operational actions are introduced; return to fictional materials.\nDo not troubleshoot, reset an account, diagnose a cause, send a real escalation, or mark a service restored. A completed intake card is not incident resolution."
+      }
+    ]
+  }
+}

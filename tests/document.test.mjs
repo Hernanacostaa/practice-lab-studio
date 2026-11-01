@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import { strFromU8, unzipSync } from "fflate";
 import { FIELD_KEYS, FIELD_LABELS, createSampleDraft, updateField } from "../src/core.mjs";
 import { createWorksheetDocx } from "../src/document.mjs";
-import { SAMPLES as LEGACY_SAMPLES, DEMO_SAMPLES } from "../src/samples.mjs";
-const SAMPLES = [...DEMO_SAMPLES, ...LEGACY_SAMPLES];
+import { SAMPLES as LEGACY_SAMPLES, DEMO_SAMPLES, LEGACY_MONITORING_SAMPLE } from "../src/samples.mjs";
+const SAMPLES = [...DEMO_SAMPLES, ...LEGACY_SAMPLES, LEGACY_MONITORING_SAMPLE];
 
 function decodeXml(text) {
   const entities = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'" };

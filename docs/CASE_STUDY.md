@@ -31,11 +31,31 @@ The design question was: **How can I turn learning needs and procedures into a c
 
 ## Public examples
 
-The primary example is a newly authored read-only monitoring alert / practice escalation handoff simulation. Inspect the [two source documents](../samples/monitoring-sources.json) and [expected trainer guide](../samples/monitoring.json). The assessment defines audience, skill gaps, competencies, and success requirements. The fictional SOP defines record details, roles, materials, and operating boundaries. Neither is already a lesson; the prepared guide adds trainer briefing, demonstration, learner practice, and individual checks.
+Two examples show the same authoring workflow in different industries. Neither is a claim that I built a logistics or service-desk system; the underlying project was datacenter training documentation.
 
-The [Word guide](../samples/monitoring-trainer-guide.docx) contains the same 17 values. Curated browser source connections are manual fixture annotations, not model-generated citations or proof of the internal implementation. Older `workshop`, `library`, and `photos` assets remain only as legacy regression examples, not browser choices.
+| Example | What the learner needs to do | Sources and prepared output |
+| --- | --- | --- |
+| Logistics receiving checks | Compare unit identity, product, quantity, and unit of measure with advance shipment information; record discrepancies and questions without guessing | [L&D assessment + engineering SOP](../samples/logistics-sources.json), [17-field guide](../samples/logistics.json), [Word](../samples/logistics-trainer-guide.docx) |
+| IT service-desk intake | Record the report, determine impact and urgency from supplied facts, and choose a practice queue; pause when required information is missing | [L&D assessment + engineering SOP](../samples/service-desk-sources.json), [17-field guide](../samples/service-desk.json), [Word](../samples/service-desk-trainer-guide.docx) |
 
-No real infrastructure, hardware manipulation, electrical work, privileged access, control bypass, diagnosis, or escalation is involved. The output is not approved operational instruction or proof of staff qualification.
+The assessment states the audience, skill gaps, competencies, and observable success requirements. The engineer's SOP supplies task rules, records, responsibilities, preparation, and boundaries. Neither source is already a lesson. The prepared guide adds a trainer briefing, demonstration, learner practice, feedback/retry, and individual completion checks. Each Word guide contains the same 17 values shown in its preview and JSON.
+
+### Research behind the tasks
+
+These primary sources support the training-design pattern and the underlying tasks. They do not establish a universal requirement for two separately owned L&D/engineering documents, or an AI pipeline.
+
+| Public source | What it supports here | What remains fictional |
+| --- | --- | --- |
+| [CDC Quality Training Standards](https://www.cdc.gov/training-development/php/qts/index.html), standards 1-4 and 7 | Needs assessment, learning objectives, subject-matter review, practice, and learner assessment | Both assessments, their findings, role owners, and session allocations |
+| [NIST Training Within Industry](https://www.nist.gov/mep/training-within-industry-twi), Job Instruction | Prepare, demonstrate, let the learner try, and follow up | These authored trainer sequences; no claim of measured TWI benefits |
+| [GS1 US logistics-label guidance](https://www.gs1us.org/industries-and-insights/by-industry/retail-grocery/implementation-resources-for-standards/logistics-label-guidance) and [food-industry guidance, pages 1-2](https://documents.gs1us.org/adobe/assets/deliver/urn:aaid:aem:975237a3-9515-4be5-8759-9fdb79a3a56d/Food-Industry-Guidance-for-Streamlining-Your-Logistics-Labels1.pdf) | Logistics-unit identification, advance shipment information, and receiving context | The comparison/exception policy, quantities, products, review queue, and synthetic identifiers; these are not issued GS1 keys |
+| [Atlassian incident management](https://www.atlassian.com/incident-management/itsm) | Incident intake, recording, categorization, impact/urgency prioritization, and routing | The completeness gate, priority matrix, service names, reports, and queues; not a universal ITIL or Atlassian policy |
+
+The public materials were newly authored, not copied company SOPs, vendor manuals, or recorded AI responses. Source titles, references, authorship, and dates in the guides are explicitly supplied fictional fixture metadata. Completion criteria apply only to these exercises; they do not certify staff or predict operational results. No vendor endorsement is implied.
+
+Curated browser connections are manual fixture annotations, not generated citations or proof of the internal implementation. Users can switch between examples; accepting the warning discards edits and approval, while cancelling preserves them. Older `workshop`, `library`, `photos`, and `monitoring` assets remain regression examples, not browser choices.
+
+Both exercises use fictional records only. There is no goods handling, barcode issuance, inventory update, live ticket routing, personal data, account access, command execution, diagnosis, or real messaging. The outputs are not approved operational instruction or proof of staff qualification.
 
 ## People the workflow serves
 

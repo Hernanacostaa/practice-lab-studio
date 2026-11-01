@@ -1,0 +1,16 @@
+A1 / Audience, ownership, and learning need
+FICTIONAL L&D TRAINING-NEEDS ASSESSMENT: RECEIVING-RECORD CHECKS
+Original public portfolio example, not an internal document or an actual learner study.
+Owner: Fictional L&D lead. Course reference: DEMO-LOG-101. Source-set date: 2026-11-01. Revision: 1.0. Training allocation: 30 minutes (a fictional session design, not a measured result).
+Requested trainer-guide metadata: author Fictional L&D lead; contributor Fictional logistics systems engineer; last updated 2026-11-01. Public example research: docs/CASE_STUDY.md; it informs the example, not local operational policy.
+Audience: New receiving clerks moving from paper summaries to a consistent shipment-record workflow. Prerequisite: read a record and compare identifiers and quantities.
+This example assumes that learners can read labels but have not learned the distinction between a logistics-unit ID and a product ID, or what to do when shipment records disagree. It does not claim interviews, observed errors, or adoption results. Repeated receipt processing across sites makes a common checking method useful.
+
+A2 / Required knowledge and skills
+Learners need to explain that an SSCC identifies a logistics unit, while a product ID identifies its contents. An advance ship notice (ASN) describes the expected shipment before receipt.
+They must locate the ASN entry by the exact unit ID, compare the product ID, quantity, and unit of measure, and distinguish an actual match from a discrepancy or insufficient information.
+They must record the supplied facts and use the designated exception route instead of assuming a conversion, changing the expected record, or accepting a shipment. These are data-comparison skills, not goods-handling skills.
+
+A3 / Observable completion requirements
+Each learner must correctly handle all four records supplied by the engineering SOP: a match, a quantity discrepancy, a unit-of-measure ambiguity, and an identifier absent from the ASN. Their comparison card must show both expected and reported values, the exercise outcome, and any required practice recipient or clarification question.
+They must explain why a product ID cannot replace the unit ID and why a flagged exception can be the correct result. The trainer observes individual performance; a missed requirement means feedback and another attempt. Completion applies only to this fictional exercise, not warehouse qualification or real receipt approval.

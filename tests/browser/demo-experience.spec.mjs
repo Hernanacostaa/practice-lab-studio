@@ -31,6 +31,9 @@ test("the demo explains the starting point, author's role, honest example, and W
   await expect(page.locator(".demo-intro")).toContainText("Try it as the training author");
   await expect(page.locator(".demo-disclosure")).toContainText("No live AI is running here");
   await expect(page.locator(".demo-disclosure")).toContainText("a prepared example you can edit and download");
+  await expect(page.getByRole("combobox", { name: "Choose an example" })).toHaveValue("logistics");
+  await expect(page.locator("#sample-choice option")).toHaveText(["Logistics", "IT service desk"]);
+  await expect(page.locator("#scenario-context")).toContainText("not projects I deployed in these industries");
   await expect(page.getByRole("button", { name: "Create prepared trainer guide", exact: true })).toBeEnabled();
   await expect(page.locator("#draft-content")).toBeHidden();
   await expect(page.locator("#source-assessment")).not.toHaveAttribute("open", "");
@@ -124,7 +127,7 @@ test("technical tabs identify AI, automation and RAG scope without changing draf
   await story.click();
   await page.locator("#edit-mode").check();
   const field = page.locator('.field[data-key="ActivityDescription"]');
-  const edit = "Practise reading the fictional monitoring record before writing the handoff.";
+  const edit = "Practise comparing each fictional receipt against its ASN before writing a review card.";
   await field.locator("textarea").fill(edit);
   await technical.click();
   await expect(field.locator("textarea")).toHaveValue(edit);
@@ -152,6 +155,7 @@ test("technical outline supports offline deep links, legacy anchors, narrow them
       await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
       await expect(page.locator("#technical-tab")).toHaveAttribute("aria-selected", "true");
       await expect(page.locator("#technical-outline")).toBeVisible();
+      await expect(page.locator("#sample-choice")).toBeEnabled();
       await expectContrast(page, `${theme} technical outline (${width}px)`);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
       const geometry = await page.locator(".architecture-flow").evaluate((flow) => {
@@ -184,6 +188,7 @@ test("technical outline supports offline deep links, legacy anchors, narrow them
     await expect(page.locator("#case-tabs")).toBeHidden();
     await expect(page.locator("#case-story")).toBeVisible();
     await expect(page.locator("#technical-outline")).toBeVisible();
+    await expect(page.locator("#sample-choice")).toBeDisabled();
     await expect(page.getByRole("figure", { name: "Two source documents become one reviewed guide." })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Is it RAG?", exact: true })).toBeVisible();
   } finally {
@@ -195,6 +200,7 @@ test("every scenario renders all 17 exact fixture values as a readable worksheet
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/lab.html");
   for (const sample of SAMPLES) {
+    await page.locator("#sample-choice").selectOption(sample.id);
     await page.locator("#generate").click();
     await expect(page.locator("#worksheet-preview")).toBeVisible();
     await expect(page.locator("#fields")).toBeHidden();

@@ -42,16 +42,21 @@
     "topic_count": 1,
     "sample_fixtures": {
       "path_base": "repository_root",
-      "source_contract": "monitoring-assessment.txt and monitoring-sop.txt are the two complete required fictional input documents, generated from monitoring-sources.json.",
+      "source_contract": "Each case requires its full fictional L&D assessment and engineering SOP, generated from the corresponding *-sources.json.",
       "expected_contract": "Each .json file is the expected flat 17-field worksheet, with string values and no sample wrapper. These are authored expectations, not recorded model responses.",
       "browser_module": "src/samples.mjs",
-      "browser_behavior": "DEMO_SAMPLES imports the monitoring source pair and expected JSON directly for a bundled runtime without fetches. It replays a prepared guide, not arbitrary extraction or an LLM. SAMPLES retains legacy regression cases only.",
-      "platform_usage": "Use the full .txt as source input and the .json for review expectations. Never substitute an expected fixture for a failed retrieval or prompt result.",
+      "browser_behavior": "DEMO_SAMPLES imports both logistics and service-desk pairs and expected JSON directly for a bundled runtime without fetches. Selection resets state with a warning before discarding edits or approval. It replays authored guides, not arbitrary extraction or an LLM. Older fixtures are regression assets only.",
+      "platform_usage": "Combine both complete .txt bodies as SourceContent and use the .json for review expectations. Never substitute an expected fixture for a failed retrieval or prompt result.",
       "cases": [
         {
-          "id": "monitoring",
-          "source_text": ["samples/monitoring-assessment.txt", "samples/monitoring-sop.txt"],
-          "expected_worksheet": "samples/monitoring.json"
+          "id": "logistics",
+          "source_text": ["samples/logistics-assessment.txt", "samples/logistics-sop.txt"],
+          "expected_worksheet": "samples/logistics.json"
+        },
+        {
+          "id": "service-desk",
+          "source_text": ["samples/service-desk-assessment.txt", "samples/service-desk-sop.txt"],
+          "expected_worksheet": "samples/service-desk.json"
         }
       ]
     },
