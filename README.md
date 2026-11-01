@@ -14,6 +14,8 @@ The primary lab story includes a no-interaction evidence summary and an expandab
 
 ## Voice and visual direction
 
+All three pages share the author-supplied smiling-face-and-wave artwork in `assets/favicon.png`. The build embeds the same PNG data URL in every page, so the favicon needs no network asset or emoji font.
+
 The personal homepage is a friendly introduction, not a project abstract. A conversational greeting and **Explore my work** action lead into product development, technical program delivery, and hands-on building. Formal employment titles and the current/previous-company distinction remain separate from this positioning.
 
 The author-requested Mexican-architecture direction uses cobalt, terracotta, marigold, and warm plaster, with arched portraits and flat architectural color blocks. The [supplied reference](https://paintit.ai/styles/mexican-style-interior-design/img/step3.jpg) informed the palette; it is not copied into the site. This is an art direction, not a claim about the author's identity. All UI colors remain in `--cp-*` tokens, and fonts are local. The homepage defaults to dark even on a light-system preference; the theme button and `scoutTheme=light` remain explicit overrides.

@@ -22,6 +22,10 @@ The homepage uses locally bundled WebP renderings of the following public SVG ma
 
 The marks are not the portfolio's own branding. Their inclusion does not imply sponsorship, approval, or endorsement by Microsoft, PayPal, or Amazon and grants no trademark rights. They are embedded as static local images; no third-party asset service is contacted by the page. Brand colors and proportions are preserved.
 
+## Author-supplied favicon artwork
+
+The author-supplied smiling-face-and-wave artwork in `assets/favicon.png` was cropped from the supplied image, its surrounding flat background removed, and resized for the browser tab icon. It is not offered under the repository's MIT code license, including when embedded in built HTML. No original creator, license, or public-use clearance is inferred from the upload; the author must confirm the applicable rights before publication.
+
 ## Personal photograph rights
 
 The following personal-photo derivatives under `assets/portfolio/` are **not offered under the repository's MIT code license**: `headshot.webp`, `community-speaker.webp`, `community-group.webp`, `mountains.webp`, `campus.webp`, `waterfall.webp`, and `friends.webp`.

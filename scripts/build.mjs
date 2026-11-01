@@ -39,7 +39,7 @@ async function inlinePortfolioImages(html) {
   return html.replace(pattern, (_, prefix, quote, name, extension) => `${prefix}${quote}${images.get(`${name}.${extension}`)}${quote}`);
 }
 
-const [palette, css, labCss, storyCss, portfolioCss, licenses, socialPreview] = await Promise.all([
+const [palette, css, labCss, storyCss, portfolioCss, licenses, socialPreview, favicon] = await Promise.all([
   readFile(path.join(root, "src", "palette.css"), "utf8"),
   readFile(path.join(root, "src", "style.css"), "utf8"),
   readFile(path.join(root, "src", "lab.css"), "utf8"),
@@ -47,6 +47,7 @@ const [palette, css, labCss, storyCss, portfolioCss, licenses, socialPreview] = 
   readFile(path.join(root, "src", "portfolio.css"), "utf8"),
   runtimeLicenses(),
   readFile(path.join(root, "assets", "portfolio", "social-preview.png")),
+  readFile(path.join(root, "assets", "favicon.png")),
 ]);
 const pages = [
   { filename: "index.html", entry: "src/portfolio.mjs", styles: `${palette}\n${portfolioCss}`, includeLicenses: false },
@@ -72,7 +73,10 @@ const results = await Promise.all(pages.map(async (page) => {
   for (const marker of ["/* INLINE_STYLES */", "/* INLINE_APP */"]) {
     if (html.split(marker).length !== 2) throw new Error(`Expected exactly one build marker in ${page.filename}: ${marker}`);
   }
+  const faviconLink = '<link rel="icon" type="image/png" sizes="128x128" href="assets/favicon.png">';
+  if (html.split(faviconLink).length !== 2) throw new Error(`Expected exactly one shared favicon in ${page.filename}.`);
   let content = (await inlinePortfolioImages(html))
+    .replace(faviconLink, () => `<link rel="icon" type="image/png" sizes="128x128" href="data:image/png;base64,${favicon.toString("base64")}">`)
     .replace("/* INLINE_STYLES */", () => page.styles)
     .replace("/* INLINE_APP */", () => bundle.outputFiles[0].text.replace(/<\/script/gi, "<\\/script"));
   if (page.includeLicenses) {

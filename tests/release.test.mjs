@@ -10,6 +10,21 @@ import { inspectImageMetadata } from "../scripts/check-public.mjs";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 
+test("every portfolio page shares the supplied smiling-face-and-wave PNG favicon", async () => {
+  const icons = await Promise.all(["index.html", "lab.html", "case-study.html"].map(async (filename) => {
+    const html = await readFile(path.join(root, filename), "utf8");
+    const links = [...html.matchAll(/<link rel="icon" type="image\/png" sizes="128x128" href="([^"]+)">/g)];
+    assert.equal(links.length, 1, `${filename} must declare one PNG favicon`);
+    assert.equal(links[0][1], "assets/favicon.png");
+    return links[0][1];
+  }));
+  assert.equal(new Set(icons).size, 1);
+  const bytes = await readFile(path.join(root, icons[0]));
+  assert.equal(bytes.toString("ascii", 12, 16), "IHDR");
+  assert.equal(bytes.readUInt32BE(16), 128);
+  assert.equal(bytes.readUInt32BE(20), 128);
+});
+
 test("public schema describes exactly the runtime keys with string values", async () => {
   const schema = JSON.parse(await readFile(path.join(root, "schemas", "worksheet.schema.json"), "utf8"));
   assert.deepEqual(Object.keys(schema.properties).sort(), [...FIELD_KEYS].sort());
