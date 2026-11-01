@@ -93,6 +93,13 @@ test("technical tabs identify AI, automation and RAG scope without changing draf
   await expect(page.locator("#technical-outline > h3").first()).toHaveText("Source-grounded generative AI workflow");
   await expect(page.locator("#case-story")).toBeHidden();
   await expect(page.locator(".technical-steps > li")).toHaveCount(5);
+  const flow = page.getByRole("figure", { name: "Two source documents become one reviewed guide." });
+  await expect(flow).toBeVisible();
+  await expect(flow.getByRole("list", { name: "Required source documents" }).locator("h4")).toHaveText(["Training needs", "Operating procedures"]);
+  await expect(flow.getByRole("list", { name: "Trainer-guide workflow" }).locator("h4")).toHaveText(["Check both inputs", "Draft the guide", "Check and revise", "Approve this version", "Create Word"]);
+  await expect(flow.locator(".technical-role")).toHaveText(["Automation", "AI", "AI + automation", "Human + automation", "AI + automation"]);
+  await expect(flow.locator(".technical-steps > li").first()).toContainText("If either document is missing, drafting stops");
+  await expect(flow.locator(".technical-steps > li").nth(3)).toContainText("Any edit clears approval");
   for (const name of ["Copilot Studio", "ExtractPA", "EditPA", "FormatPreview", "GenerateDoc", "GeneratePA", "Power Automate"]) {
     await expect(page.locator("#technical-outline")).toContainText(name);
   }
@@ -136,7 +143,7 @@ test("technical outline supports offline deep links, legacy anchors, narrow them
   const context = await browser.newContext({ offline: true, reducedMotion: "reduce" });
   try {
     const page = await context.newPage();
-    for (const [width, theme] of [[320, "light"], [1440, "dark"]]) {
+    for (const [width, theme] of [[320, "light"], [320, "dark"], [768, "light"], [1440, "dark"]]) {
       await page.setViewportSize({ width, height: 900 });
       const url = pathToFileURL(resolve("dist", "lab.html"));
       url.search = `?scoutTheme=${theme}`;
@@ -147,9 +154,22 @@ test("technical outline supports offline deep links, legacy anchors, narrow them
       await expect(page.locator("#technical-outline")).toBeVisible();
       await expectContrast(page, `${theme} technical outline (${width}px)`);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-      await page.locator(".technical-references > summary").click();
-      await expect(page.locator(".technical-references a")).toHaveCount(4);
-      expect(await page.locator(".technical-references a").evaluateAll((links) => links.every((link) => link.target === "_blank" && link.rel === "noopener noreferrer"))).toBe(true);
+      const geometry = await page.locator(".architecture-flow").evaluate((flow) => {
+        const bounds = flow.getBoundingClientRect();
+        const inputs = [...flow.querySelectorAll(".flow-inputs > li")].map((node) => node.getBoundingClientRect());
+        const nodes = [...flow.querySelectorAll(".technical-steps > li")];
+        const boxes = nodes.map((node) => node.getBoundingClientRect());
+        return {
+          sourcesAboveDrafting: inputs.every((box) => box.bottom < boxes[0].top),
+          nodesStayInsideFlow: [...inputs, ...boxes].every((box) => box.left >= bounds.left && box.right <= bounds.right),
+          stagesFollowInOrder: boxes.every((box, index) => index === 0 || box.top > boxes[index - 1].bottom),
+          connectingLines: nodes.slice(0, -1).every((node) => getComputedStyle(node, "::after").borderLeftWidth === "2px" && getComputedStyle(node, "::before").transform !== "none"),
+          inputsConverge: getComputedStyle(flow.querySelector(".flow-inputs"), "::after").borderTopWidth === "2px",
+        };
+      });
+      expect(geometry).toEqual({ sourcesAboveDrafting: true, nodesStayInsideFlow: true, stagesFollowInOrder: true, connectingLines: true, inputsConverge: true });
+      await expect(page.locator(".technical-references")).toHaveCount(0);
+      await expect(page.locator("#technical-outline")).not.toContainText("Architecture sources in this repo");
       await page.evaluate(() => { window.location.hash = "design"; });
       await expect(page.locator("#story-tab")).toHaveAttribute("aria-selected", "true");
       await expect(page.locator("#design")).toBeVisible();
@@ -164,6 +184,7 @@ test("technical outline supports offline deep links, legacy anchors, narrow them
     await expect(page.locator("#case-tabs")).toBeHidden();
     await expect(page.locator("#case-story")).toBeVisible();
     await expect(page.locator("#technical-outline")).toBeVisible();
+    await expect(page.getByRole("figure", { name: "Two source documents become one reviewed guide." })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Is it RAG?", exact: true })).toBeVisible();
   } finally {
     await noScript.close();

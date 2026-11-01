@@ -57,25 +57,38 @@
       <section id="technical-outline" data-case-panel>
         <h3>Source-grounded generative AI workflow</h3>
         <p>This outline follows the public architecture and blueprints. It describes the redesign, not an export of the original internal system.</p>
-        <ol class="technical-steps">
-          <li><span class="technical-role">Automation / Copilot Studio</span><h4>Collect the two inputs</h4><p>Accept the assessment and SOP as complete text, or retrieve them with a configured reader. Stop if either required source is unavailable.</p></li>
-          <li><span class="technical-role">AI / ExtractPA</span><h4>Draft the guide</h4><p>The prompt uses the combined source text to produce the guide as 17 string fields.</p></li>
-          <li><span class="technical-role">AI + automation</span><h4>Check and revise</h4><p>The topic validates the fields. <strong>FormatPreview</strong> is a prompt for displaying them; <strong>EditPA</strong> uses the sources, current draft, and requested change to revise selected fields.</p></li>
-          <li><span class="technical-role">Human review + automation</span><h4>Approve this version</h4><p>The author reviews the guide. The topic records the exact approved draft and revision; edits clear approval.</p></li>
-          <li><span class="technical-role">AI + automation / Power Automate</span><h4>Create and deliver Word</h4><p>The <strong>GenerateDoc</strong> flow checks approval, passes the 17 fields to the <strong>GeneratePA</strong> document prompt and Word layout, then saves the output and resolves its file URL.</p></li>
-        </ol>
+        <figure class="architecture-flow" aria-labelledby="architecture-flow-title">
+          <figcaption id="architecture-flow-title">Two source documents become one reviewed guide.</figcaption>
+          <ul class="flow-inputs" role="list" aria-label="Required source documents">
+            <li><h4>Training needs</h4><p>What staff need to learn.</p></li>
+            <li><h4>Operating procedures</h4><p>How the work is done.</p></li>
+          </ul>
+          <ol class="technical-steps" role="list" aria-label="Trainer-guide workflow">
+            <li>
+              <div class="flow-node-heading"><span class="flow-number" aria-hidden="true">1</span><h4>Check both inputs</h4><span class="technical-role">Automation</span></div>
+              <p>Copilot Studio collects the complete source text, pasted or retrieved by a configured reader. If either document is missing, drafting stops.</p>
+            </li>
+            <li>
+              <div class="flow-node-heading"><span class="flow-number" aria-hidden="true">2</span><h4>Draft the guide</h4><span class="technical-role">AI</span></div>
+              <p><strong>ExtractPA</strong> uses both sources to draft topics, preparation, practice, and completion checks in 17 string fields.</p>
+            </li>
+            <li>
+              <div class="flow-node-heading"><span class="flow-number" aria-hidden="true">3</span><h4>Check and revise</h4><span class="technical-role">AI + automation</span></div>
+              <p>Automation validates the fields. <strong>FormatPreview</strong> displays the draft; <strong>EditPA</strong> uses the sources to revise only the requested parts.</p>
+            </li>
+            <li>
+              <div class="flow-node-heading"><span class="flow-number" aria-hidden="true">4</span><h4>Approve this version</h4><span class="technical-role">Human + automation</span></div>
+              <p>The author checks the guide against both sources. Automation records that exact approved version. Any edit clears approval.</p>
+            </li>
+            <li>
+              <div class="flow-node-heading"><span class="flow-number" aria-hidden="true">5</span><h4>Create Word</h4><span class="technical-role">AI + automation</span></div>
+              <p>Power Automate&rsquo;s <strong>GenerateDoc</strong> checks approval. <strong>GeneratePA</strong> formats the 17 approved fields into Word; the flow saves it and returns the file link.</p>
+            </li>
+          </ol>
+        </figure>
         <h3>Is it RAG?</h3>
         <p><strong>With connected source retrieval, it follows the RAG pattern:</strong> retrieve reference material, then use it to ground the AI&rsquo;s draft. This repo leaves the reader unconfigured and also supports pasted text, so these files don&rsquo;t confirm retrieval in the original system. No vector index or semantic-search implementation is specified here.</p>
         <p>The browser demo is separate: bundled fictional sources, a prepared guide, and a local Word generator. It doesn&rsquo;t run these prompts or flows, or perform live RAG.</p>
-        <details class="technical-references">
-          <summary>Architecture sources in this repo</summary>
-          <ul>
-            <li><a href="https://github.com/Hernanacostaa/practice-lab-studio/blob/main/docs/ARCHITECTURE.md" target="_blank" rel="noopener noreferrer">docs/ARCHITECTURE.md</a></li>
-            <li><a href="https://github.com/Hernanacostaa/practice-lab-studio/blob/main/docs/DEPLOYMENT.md" target="_blank" rel="noopener noreferrer">docs/DEPLOYMENT.md</a></li>
-            <li><a href="https://github.com/Hernanacostaa/practice-lab-studio/blob/main/platform/topic-blueprint.json" target="_blank" rel="noopener noreferrer">platform/topic-blueprint.json</a></li>
-            <li><a href="https://github.com/Hernanacostaa/practice-lab-studio/blob/main/platform/flow-blueprint.json" target="_blank" rel="noopener noreferrer">platform/flow-blueprint.json</a></li>
-          </ul>
-        </details>
       </section>
     </section>
     <section id="demo" class="demo-section demo-pane pane-scroll" aria-labelledby="demo-title" tabindex="0">

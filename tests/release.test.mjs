@@ -69,7 +69,9 @@ test("technical outline follows the public prompt and retrieval contracts withou
   const documentPrompt = flow.configuration.actions.find(({ id }) => id === "run_generate_prompt");
   assert.ok(html.includes(documentPrompt.prompt_name));
   assert.equal(documentPrompt.output_mode, "Document (preview)");
-  assert.match(html, /AI \+ automation \/ Power Automate/);
+  assert.match(html, /<figure class="architecture-flow"/);
+  assert.match(html, /<ol class="technical-steps" role="list" aria-label="Trainer-guide workflow">/);
+  assert.match(html, /GeneratePA<\/strong> formats the 17 approved fields into Word/);
   assert.match(html, /With connected source retrieval, it follows the RAG pattern/);
   assert.match(html, /repo leaves the reader unconfigured/);
   assert.match(html, /not an export of the original internal system/);

@@ -6,7 +6,7 @@ A personal portfolio of product thinking, hands-on building, and creative work. 
 
 The public site has three entry points: `index.html` is the personal portfolio, `lab.html` puts the concise case study beside the two-input demo on wider screens, and `case-study.html` is a secondary evidence deep dive with optional planning tools. The case-study and demo panes scroll independently on desktop and stack naturally on mobile. The technical project documentation and local build instructions follow below.
 
-The case-study pane has **Story** and **Technical outline** tabs. The outline shows where AI prompts, automation, and human review fit, with links to the public architecture and blueprints. It explains the optional retrieval-augmented generation (RAG) path without claiming that these files prove retrieval in the original system. Changing tabs does not reset a draft or its review.
+The case-study pane has **Story** and **Technical outline** tabs. The outline connects two source-document nodes to five stages, each with a short explanation and an AI, automation, or human label. It explains the optional retrieval-augmented generation (RAG) path without claiming that these files prove retrieval in the original system. Architecture sources remain in the repository documentation rather than a disclosure in the pane. Changing tabs does not reset a draft or its review.
 
 The homepage includes a permanent headshot, selected Microsoft and ASU experience, selected projects, and LinkedIn contact. Its accessible photo carousel is manually controlled, with no autoplay. **Save a one-page profile** opens the browser's print dialog, including Save as PDF where available; the profile summarizes selected work, not a full resume.
 
