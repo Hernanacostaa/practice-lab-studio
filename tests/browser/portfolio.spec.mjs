@@ -37,8 +37,9 @@ test("the homepage explains Hernan's work and decodes every self-contained photo
 
 test("homepage omits the removed supporting blocks and captions without removing photos or contact links", async ({ page }) => {
   await page.goto("/");
-  await expect(page.locator(".feature-path, .community-portrait figcaption, .gallery-hint, .footer-note")).toHaveCount(0);
+  await expect(page.locator(".feature-path, .section-index, .community-portrait figcaption, .gallery-hint, .footer-note")).toHaveCount(0);
   await expect(page.locator("body")).not.toContainText("Real project. Public adaptation.");
+  await expect(page.locator("body")).not.toContainText("Built it. Shared it. Made it better.");
   await expect(page.locator("#life")).not.toContainText("Mountains, a very necessary rain poncho");
   await expect(page.locator("#contact")).not.toContainText("I’m interested in product opportunities");
   await expect(page.locator("#photo-gallery")).toBeAttached();

@@ -23,7 +23,7 @@ h1, h2 { font-family: Georgia, "Times New Roman", serif; }
 button svg, a svg { width: 20px; height: 20px; flex: 0 0 auto; }
 button svg { pointer-events: none; }
 .wrap { width: min(1248px, calc(100% - 96px)); margin-inline: auto; }
-.eyebrow, .section-number, .small-label {
+.eyebrow, .small-label {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 1.8px;
@@ -31,7 +31,6 @@ button svg { pointer-events: none; }
 }
 .eyebrow { color: var(--cp-accent); letter-spacing: 1.4px; font-size: 12px; }
 .small-label { color: var(--cp-secondary); font-size: 10px; letter-spacing: 1.2px; }
-.section-number { color: var(--cp-secondary); font: 12px/1.5 Consolas, "Courier New", Courier, monospace; }
 .text-link { font-size: 14px; font-weight: 650; }
 .arrow-link { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
 .arrow-link span:first-child { border-bottom: 1px solid var(--cp-border-strong); }
@@ -134,8 +133,6 @@ html[data-theme="dark"] .theme-moon { display: none; }
 .section-head .eyebrow { margin-bottom: 14px; }
 h2 { font-size: clamp(34px, 3.8vw, 50px); letter-spacing: -1.6px; font-weight: 400; }
 .section-head > p { max-width: 360px; font-size: 14px; color: var(--cp-secondary); }
-.section-index { display: flex; gap: 12px; align-items: center; }
-.section-index::before { content: ""; width: 32px; height: 3px; background: var(--cp-clay); }
 .feature {
   overflow: hidden;
   border: 1px solid var(--cp-border);
@@ -362,7 +359,6 @@ h2 { font-size: clamp(34px, 3.8vw, 50px); letter-spacing: -1.6px; font-weight: 4
   .section { padding-block: 48px; }
   .section-head { display: block; margin-bottom: 24px; }
   .section-head > p { margin-top: 16px; max-width: 420px; }
-  .section-index { display: none; }
   h2 { font-size: 36px; letter-spacing: -1px; }
   .feature-copy { padding: 24px; }
   .feature-kicker { font-size: 10px; }
