@@ -8,6 +8,7 @@ const routes = new Map([
   ["/lab.html", "lab.html"],
   ["/case-study.html", "case-study.html"],
   ["/social-preview.png", "social-preview.png"],
+  ["/assets/hernan-acosta-resume.pdf", "assets/hernan-acosta-resume.pdf"],
 ]);
 const port = Number(process.env.PORT || 4173);
 if (!Number.isInteger(port) || port < 1024 || port > 65535) throw new Error("PORT must be an integer between 1024 and 65535.");
@@ -22,7 +23,7 @@ const server = createServer(async (req, res) => {
     const filename = routes.get(pathname);
     const file = fileURLToPath(new URL(`../dist/${filename}`, import.meta.url));
     const content = await readFile(file);
-    const contentType = filename.endsWith(".png") ? "image/png" : "text/html; charset=utf-8";
+    const contentType = filename.endsWith(".png") ? "image/png" : filename.endsWith(".pdf") ? "application/pdf" : "text/html; charset=utf-8";
     res.writeHead(200, { "Content-Type": contentType, "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" });
     res.end(content);
   } catch (error) {

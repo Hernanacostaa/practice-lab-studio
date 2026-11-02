@@ -39,7 +39,7 @@ async function inlinePortfolioImages(html) {
   return html.replace(pattern, (_, prefix, quote, name, extension) => `${prefix}${quote}${images.get(`${name}.${extension}`)}${quote}`);
 }
 
-const [palette, css, labCss, storyCss, portfolioCss, licenses, socialPreview, favicon] = await Promise.all([
+const [palette, css, labCss, storyCss, portfolioCss, licenses, socialPreview, favicon, resume] = await Promise.all([
   readFile(path.join(root, "src", "palette.css"), "utf8"),
   readFile(path.join(root, "src", "style.css"), "utf8"),
   readFile(path.join(root, "src", "lab.css"), "utf8"),
@@ -48,6 +48,7 @@ const [palette, css, labCss, storyCss, portfolioCss, licenses, socialPreview, fa
   runtimeLicenses(),
   readFile(path.join(root, "assets", "portfolio", "social-preview.png")),
   readFile(path.join(root, "assets", "favicon.png")),
+  readFile(path.join(root, "assets", "hernan-acosta-resume.pdf")),
 ]);
 const pages = [
   { filename: "index.html", entry: "src/portfolio.mjs", styles: `${palette}\n${portfolioCss}`, includeLicenses: false },
@@ -96,3 +97,5 @@ for (const { filename, content } of results) {
 await writeFile(path.join(output, ".nojekyll"), "");
 await writeFile(path.join(output, "third-party-licenses.txt"), licenses.replaceAll("\r\n", "\n"));
 await writeFile(path.join(output, "social-preview.png"), socialPreview);
+await mkdir(path.join(output, "assets"), { recursive: true });
+await writeFile(path.join(output, "assets", "hernan-acosta-resume.pdf"), resume);

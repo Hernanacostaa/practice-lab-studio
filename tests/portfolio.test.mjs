@@ -114,7 +114,7 @@ test("balanced selected work uses supported scope without publishing uncleared h
   assert.match(html, /three major versions/);
   assert.match(html, /Amazon S3 and CloudFront/);
   assert.doesNotMatch(html, /40%|300 daily|four minutes|616 learners|20 secondary|10 buildings|eight months|200\+|11 curriculum|five standard operating/);
-  assert.doesNotMatch(html, /Download resume|href="[^"]+\.pdf"/);
+  assert.match(html, /href="assets\/hernan-acosta-resume\.pdf"[^>]*>Resume<\/a>/);
 });
 
 test("portfolio social image matches its declared dimensions", async () => {

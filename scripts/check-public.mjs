@@ -2,11 +2,18 @@ import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { unzipSync, strFromU8 } from "fflate";
+import { createHash } from "node:crypto";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const excluded = new Set([".git", "node_modules", "test-results", "playwright-report"]);
 const textExtensions = new Set([".md", ".txt", ".json", ".mjs", ".py", ".css", ".html", ".yml", ".yaml", ".svg"]);
 const imageExtensions = new Set([".png", ".webp"]);
+const approvedResumeHash = "76559603dbf5aabd54627bca09e4bd6c38160c71c4d7126a4fd9b268a6256475";
+
+export function isApprovedResume(bytes, name) {
+  return /^(?:dist[\\/])?assets[\\/]hernan-acosta-resume\.pdf$/.test(name)
+    && createHash("sha256").update(bytes).digest("hex") === approvedResumeHash;
+}
 const patterns = [
   ["corporate SharePoint hostname", /https?:\/\/(?!contoso\.sharepoint\.com)[a-z0-9-]+\.sharepoint\.com/gi],
   ["corporate email address", /[a-z0-9._%+-]+@microsoft\.com/gi],
@@ -80,6 +87,10 @@ async function walk(directory) {
     const name = path.relative(root, file);
     if (entry.isSymbolicLink()) { findings.push(`${name}: symlinks are not accepted in the release`); continue; }
     if (entry.isDirectory()) { await walk(file); continue; }
+    if (path.extname(file).toLowerCase() === ".pdf" && isApprovedResume(await readFile(file), name)) {
+      inspected++;
+      continue;
+    }
     if (entry.name.startsWith(".env") || /\.(?:zip|mp4|mov|pdf|har|pfx|p12|pem)$/i.test(entry.name)) {
       findings.push(`${name}: non-allowlisted archive, recording, diagnostic, or credential file`);
       continue;

@@ -14,6 +14,8 @@ The primary lab story includes a no-interaction evidence summary and an expandab
 
 ## Voice and visual direction
 
+**Resume** in every page's navigation opens the author-supplied general resume PDF in a new tab at `assets/hernan-acosta-resume.pdf`. The build copies it unchanged into the Pages artifact; the printable one-page profile remains a separate summary. The public-release checker permits only this inspected PDF at its source/build paths and exact SHA-256, not arbitrary PDFs. A replacement needs content/metadata review and an updated approval hash.
+
 All three pages share the author-supplied smiling-face-and-wave artwork in `assets/favicon.png`. The build embeds the same PNG data URL in every page, so the favicon needs no network asset or emoji font.
 
 The personal homepage is a friendly introduction, not a project abstract. A conversational greeting and **Explore my work** action lead into product development, technical program delivery, and hands-on building. Formal employment titles and the current/previous-company distinction remain separate from this positioning.

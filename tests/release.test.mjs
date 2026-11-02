@@ -6,9 +6,22 @@ import { fileURLToPath } from "node:url";
 import { runInNewContext } from "node:vm";
 import { FIELD_KEYS } from "../src/core.mjs";
 import { SAMPLES } from "../src/samples.mjs";
-import { inspectImageMetadata } from "../scripts/check-public.mjs";
+import { inspectImageMetadata, isApprovedResume } from "../scripts/check-public.mjs";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
+
+test("only the user-supplied resume is allowlisted for PDF publication", async () => {
+  const bytes = await readFile(path.join(root, "assets", "hernan-acosta-resume.pdf"));
+  assert.equal(bytes.toString("ascii", 0, 5), "%PDF-");
+  assert.ok(isApprovedResume(bytes, "assets/hernan-acosta-resume.pdf"));
+  assert.ok(isApprovedResume(bytes, "dist/assets/hernan-acosta-resume.pdf"));
+  assert.equal(isApprovedResume(bytes, "assets/other.pdf"), false);
+  assert.equal(isApprovedResume(Buffer.concat([bytes, Buffer.from("changed")]), "assets/hernan-acosta-resume.pdf"), false);
+  for (const filename of ["index.html", "lab.html", "case-study.html"]) {
+    const html = await readFile(path.join(root, filename), "utf8");
+    assert.match(html, /href="assets\/hernan-acosta-resume\.pdf" target="_blank" rel="noopener noreferrer">Resume<\/a>/);
+  }
+});
 
 test("every portfolio page shares the supplied smiling-face-and-wave PNG favicon", async () => {
   const icons = await Promise.all(["index.html", "lab.html", "case-study.html"].map(async (filename) => {
